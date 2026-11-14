@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0-beta",
-  "date": "2026-11-12",
-  "url": "https://github.com/joeybarton6om-sudo/AssistantFM/releases/download/v1.0.0-beta/AssistantFM-27-Setup.exe",
-  "changelog": "- Version initiale beta\n- Auto-update intégré\n- Don PayPal optionnel\n- Système de licence retiré"
+  "version": "1.0.7-beta",
+  "date": "2026-11-14",
+  "url": "https://github.com/joeybarton6om-sudo/AssistantFM/releases/download/v1.0.7-beta/AssistantFM-27-Setup.exe",
+  "changelog": "- Tactiques FM27 : 4 vues (combinée, avec ballon, sans ballon, les deux)\n- Correction positions inconnues (unknown) avec/sans ballon\n- Assignations manuelles de joueurs par slot et rôles de tactique\n- Suppression import .fmf (format non lisible)\n- Retrait message dossier tactiques inutile"
 }
