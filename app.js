@@ -47,8 +47,6 @@ function sauvegarderJoueurAffectes(tacticId) {
         localStorage.setItem(`assistantfm-tactic-joueurs-${tacticId}`, JSON.stringify(tacticJoueurAffectes[tacticId] || {}));
     } catch (e) {}
 }
-// Version de l'application (doit correspondre à APP_VERSION dans assistant_desktop.py)
-const APP_VERSION = "1.0.6-beta";
 // URL du fichier version.json (repo releases dédié)
 const UPDATE_CHECK_URL = "https://raw.githubusercontent.com/joeybarton6om-sudo/releases/main/version.json";
 
@@ -3928,11 +3926,6 @@ function noteRole(player, role, positionKey) {
 configEnTetes();
 chargerIndexVisages();
 chargerNomsCompetitions();
-// Afficher la version dans le footer
-if (typeof APP_VERSION !== 'undefined') {
-    const versionEl = document.getElementById('app-version-display');
-    if (versionEl) versionEl.textContent = APP_VERSION;
-}
 // Afficher le compteur de téléchargements
 async function chargerCompteurTelechargements() {
     const el = document.getElementById('download-count');
@@ -3956,15 +3949,9 @@ document.getElementById("club-colors-reset").addEventListener("click", reinitial
 
 // --- Auto-update ---
 async function checkForUpdate() {
-    const debugEl = document.getElementById("update-debug");
-    if (!window.pywebview?.api?.check_for_update) {
-        if (debugEl) debugEl.textContent = "Update: API not available";
-        return;
-    }
+    if (!window.pywebview?.api?.check_for_update) return;
     try {
-        if (debugEl) debugEl.textContent = "Update: checking...";
         const result = await window.pywebview.api.check_for_update();
-        if (debugEl) debugEl.textContent = `Update: ${result?.available ? 'v' + result.latest + ' available' : 'up to date'} (${result?.current || APP_VERSION})`;
         if (result?.available && result?.url) {
             const btn = document.getElementById("update-btn");
             if (btn) {
@@ -3977,7 +3964,6 @@ async function checkForUpdate() {
             }
         }
     } catch (e) {
-        if (debugEl) debugEl.textContent = "Update: error - " + e.message;
         console.warn("Update check failed:", e);
     }
 }

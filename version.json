@@ -1,6 +1,6 @@
 {
-  "version": "1.0.9-beta",
+  "version": "1.0.10-beta",
   "date": "2026-11-14",
-  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.9-beta/AssistantFM-setup.exe",
-  "changelog": "- CORRECTIF : Assistant FM ne démarrait plus après une installation neuve (message « La configuration initiale des dossiers est invalide »)\n- L'application accepte désormais un fichier de configuration à 3 lignes (dossier tactiques laissé vide) au lieu de refuser de démarrer\n- L'installeur écrit maintenant les 4 dossiers attendus (logos, visages, sauvegardes, tactiques)"
+  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.10-beta/AssistantFM-setup.exe",
+  "changelog": "- CORRECTIF D'AFFICHAGE : la version affichée en bas à droite était figée à 1.0.6-beta (constante figée dans app.js) ; elle suit désormais le numéro réel de l'application\n- LISIBILITÉ : le bandeau de version en bas à droite ne se superpose plus au message de vérification de mise à jour (texte placé au même endroit, 10 px gris) ; contraste et taille de police augmentés\n- Le message de débogage de mise à jour est supprimé de l'interface"
 }
