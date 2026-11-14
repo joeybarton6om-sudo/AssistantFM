@@ -1,0 +1,3718 @@
+database_id,name
+1,Jupiler Pro League
+2,Challenger Pro League
+3,Derde Klasse A
+4,Derde Klasse B
+6,3F Superliga
+11,Premier League
+12,Sky Bet Championship
+13,Sky Bet League One
+14,Sky Bet League Two
+16,Ligue 1 McDonald's
+17,Ligue 2 BKT
+18,Ligue 3 Betclic
+19,Championnat National 1 Groupe A
+20,Ligues régionales
+22,Bundesliga
+23,2. Bundesliga
+26,Regionalliga Nord
+27,Regionalliga Südwest
+30,Keuken Kampioen Divisie
+32,Serie A Enilive
+33,Serie BKT
+34,Lega Pro Prima Divisione Girone A
+35,Lega Pro Prima Divisione Girone B
+36,Lega Pro Seconda Divisione Girone A
+37,Lega Pro Seconda Divisione Girone B
+38,Lega Pro Seconda Divisione Girone C
+40,Major League Soccer
+42,North American Soccer League
+43,USL Championship
+45,William Hill Premiership
+46,William Hill Championship
+47,William Hill League One
+48,William Hill League Two
+50,Allsvenskan
+52,Superettan
+53,Division 2 Södra Götaland
+54,Division 2 Norrland
+55,Division 2 Södra Svealand
+56,Division 2 Norra Götaland
+57,Division 2 Norra Svealand
+58,Division 2 Västra Götaland
+60,Liga Portugal Betclic
+61,Liga Portugal 2 Meu Super
+62,Campeonato Nacional da Segunda Divisão Série A
+63,Campeonato Nacional da Segunda Divisão Série B
+64,Campeonato Nacional da Segunda Divisão Série C
+65,Campeonato Nacional da Terceira Divisão
+67,LALIGA EA SPORTS
+68,LALIGA HYPERMOTION
+69,Segunda División B Grupo I
+70,Segunda División B Grupo II
+71,Segunda División B Grupo III
+72,Segunda División B Grupo IV
+74,Liga Profesional Torneo Apertura
+75,Liga Profesional Torneo Clausura
+76,Liga BetPlay Dimayor Torneo Apertura
+77,Liga BetPlay Dimayor Torneo Finalización
+78,Torneo BetPlay Dimayor Torneo Apertura
+79,Torneo BetPlay Dimayor Torneo Finalización
+80,Liga AUF Uruguaya Torneo Apertura
+81,Liga AUF Uruguaya Torneo Clausura
+82,Campeonato Nacional Apertura
+83,Campeonato Nacional Clausura
+84,Liga BBVA MX Torneo Apertura
+85,Liga BBVA MX Torneo Clausura
+86,Copa MX Apertura
+87,Copa MX Clausura
+88,Liga BBVA Expansión MX Torneo Apertura
+89,Liga BBVA Expansión MX Torneo Clausura
+90,UEFA Nations League
+91,UEFA Nations League A
+92,UEFA Nations League B
+93,UEFA Nations League C
+94,UEFA Nations League D
+95,UEFA European Qualifiers Play-offs
+96,Campeonato Carioca Sub-20
+97,Campeonato Paulista Sub-20
+98,Campeonato Alagoano Sub-20
+99,Campeonato Acreano Sub-20
+100,Campeonato Gaúcho Sub-20
+101,Campeonato Amazonense Sub-20
+102,Campeonato Baiano Sub-20
+103,Campeonato Goiano Sub-20
+104,Campeonato Mineiro Sub-20
+105,Campeonato Pernambucano Sub-20
+106,Campeonato Paranaense Sub-20
+107,Campeonato Catarinense Sub-20
+108,Campeonato Amapaense Sub-20
+109,Campeonato Cearense Sub-20
+110,Campeonato Candango Sub-20
+111,Campeonato Capixaba Sub-20
+112,Campeonato Maranhense Sub-20
+113,Campeonato Sul-Mato-Grossense Sub-20
+114,Campeonato Mato-Grossense Sub-20
+115,Campeonato Paraibano Sub-20
+116,Campeonato Piauiense Sub-20
+117,Campeonato Potiguar Sub-20
+118,Campeonato Rondoniense Sub-20
+119,Campeonato Roraimense Sub-20
+120,Campeonato Sergipano Sub-20
+121,Campeonato Tocantinense Sub-20
+122,Campeonato Paraense Sub-20
+102412,AFC Asian Cup Qualifiers
+102415,CONMEBOL Libertadores
+102416,Supercopa Libertadores
+102417,Copa CONMEBOL
+102418,CONMEBOL Recopa
+102421,Liga Profesional de Fútbol
+102422,Primera Nacional
+102423,Brasileirão Série A
+102424,Campeonato Carioca Superbet
+102426,Campeonato Paulista Casas Bahia
+102427,Copa do Brasil
+102428,Meiji Yasuda J1 League
+102429,JFA Emperor's Cup
+102430,J.League Yamazaki Biscuits Levain Cup
+107185,Campeonato Alagoano
+107191,Brasileirão Série B
+107192,Brasileirão Série C
+107255,FUJIFILM Super Cup
+107256,Japan Football League
+107317,University League Division One
+107318,National Prefecture Leagues
+108508,Primera B Metropolitana
+108509,Torneo Federal A
+108573,Primera B Metropolitana/Torneo Argentino A
+108890,Copa Merconorte
+109134,Major League Soccer All-Star Game
+109200,Copa Mercosur
+109201,Enterprise National League
+109202,The Isuzu FA Trophy
+115065,Supertaça Cândido de Oliveira
+115424,Meiji Yasuda J2 League
+120861,Johan Cruijff Schaal
+121091,Segunda Federación
+121092,FIFA Club World Cup
+126964,Campeonato Nacional da Segunda Divisão
+126966,Division 2
+127286,AFC Champions League Elite
+129119,Suomen Cup
+129120,Veikkausliiga
+129131,Ykkönen
+129372,SSE Airtricity Men's Premier Division
+129373,SSE Airtricity Men's First Division
+129374,EA SPORTS Cup
+129375,Club Orange FAI Cup
+129377,Leinster Senior League Senior Division
+129387,Ulster Senior League Senior Division
+129388,Munster Senior League Senior Premier Division
+129559,Betclic I liga
+129560,III Liga
+129561,Puchar Ekstraklasy
+129562,STS Puchar Polski
+129645,SuperSport Hrvatska nogometna liga
+129646,SuperSport Prva nogometna liga
+129648,SuperSport Hrvatski nogometni kup
+129649,Superbet Kypello Ellados
+129650,Stoiximan Super League
+129651,Superbet League 2
+129652,Topika Protathlimata EPS
+129755,Treća hrvatska nogometna liga Sjever
+129756,Treća hrvatska nogometna liga Jug
+129757,Treća hrvatska nogometna liga Istok
+129758,Treća hrvatska nogometna liga Zapad
+129759,Treća hrvatska nogometna liga Središte
+129985,Isuzu UTE A-League
+129987,Druga hrvatska liga - Sjever
+129988,Druga hrvatska liga - Jug
+130025,Northern Amateur League
+130026,Clearer Water Irish Cup
+130027,BetMcLean Cup
+130028,County Antrim Shield
+130185,National Premier Leagues NSW Men's
+130187,FFSA Super League
+130188,National Premier Leagues Victoria Men's
+130189,New Balance NPL WA Men's
+130277,Nesine 3. Lig
+130284,Ziraat Türkiye Kupası
+130286,Trendyol Süper Lig
+130485,Commonwealth of Independent States Cup
+130486,Alfa-Bank RPL
+130487,Liga PARI
+130488,PFL - Zapadnyj Okrug
+130489,PFL - Tsentralnyj Okrug
+130490,PFL - Yuzhnyj Okrug
+130491,PFL - Vostochnyj Okrug
+130674,JD Welsh Cup
+130675,Nathaniel MG Cup
+130694,Fonbet Kubok Rossii
+130906,Supercoppa di Lega di Prima Divisione
+130930,Superbet Super Cup
+130931,C'estbon Chinese Football Super League
+130932,C'estbon Chinese Football League 2
+130934,SuperSport Hrvatski nogometni superkup
+130937,Superpuchar Polski
+130968,Copa Interamericana
+131126,C'estbon China League One
+131234,Betway Premiership
+131235,Motsepe Foundation Championship
+131244,CAF Cup
+131287,Chance Liga
+131288,Chance Národní Liga
+131306,FIFA Confederations Cup
+132321,Mozzart Bet SuperLiga
+132323,NiŽe lige Srbije
+135941,Chinese FA Cup
+135942,Snow Beer CFA Super Cup
+135973,Liga BBVA MX
+135974,Liga BBVA Expansión MX
+135975,Segunda División de México
+135977,InterLiga
+136040,MOL Cup
+136041,3. česká fotbalová liga Skupina A
+136042,Moravskoslezská fotbalová liga
+136043,Divize A
+136044,Divize B
+136045,Divize C
+136046,Divize D
+136047,Divize E
+136408,Hana Bank Korea Cup
+136409,Korean League Cup
+136411,K-League All-Star Game
+136499,Kup Srbije
+136513,National First Division - Inland
+136514,National First Division - Coastal
+136515,Telkom Charity Cup
+136516,MTN 8
+136517,Carling Knockout
+136519,Hollywoodbets Regional League
+136543,ADMIRAL Bundesliga
+136544,Admiral 2. Liga
+136546,Fußball-Regionalliga Ost
+136547,UNIQA ÖFB Cup
+137889,Brack.ch Super League
+137890,Dieci Challenge League
+137892,Helvetia Schweizer Cup
+145234,AFC/OFC Challenge Cup
+145428,2. divisjon
+145429,Lega Pro Prima Divisione
+145430,Lega Pro Seconda Divisione
+145431,Division 3
+145433,Česká fotbalová liga / Moravskoslezská fotbalová liga
+145434,Divize
+145435,4. Divizión - Moskovskaya oblast'
+145436,SuperSport Druga nogometna liga
+145438,Championnat National 1
+145450,Kakkonen
+146957,Regionalliga
+146958,Nedbank Cup
+146961,Vierde Klasse of Bevordering of Promotie
+147006,Srpska liga
+147023,NIFL Premier Intermediate League
+147027,Kup Kvalifikaciona Grupa Srbija
+147028,Kup Crne Gore
+147031,Russkiy regional'nym Kubka
+147032,TotalEnergies CAF Africa Cup of Nations Qualifiers
+147062,Hong Kong Season Play-off
+148289,Vodacom Challenge
+149216,Druha Liha
+149300,1. Liga Classic
+150912,ELITBET Treta liga
+150913,Liga 2 Casa Pariurilor
+150990,Enterprise National League North/South
+150995,Isuzu UTE A-League (Finals Series)
+151986,Fußball-Regionalliga
+151987,Regional Premier Divisions
+152045,Merkantil Bank Liga
+152046,Ettan
+152048,Vierde Divisie
+155007,Turkcell Süper Kupa
+155008,Tretja slovenska nogometna liga
+156003,Fußball-Landesliga
+157149,CONCACAF Under-20 Championship
+157155,Liga III
+157293,Division One
+157425,Copa BetPlay DIMAYOR
+158186,Regional Premier Divisions
+162380,Carling Nations Cup
+162435,Liga IV
+162450,County Leagues
+162504,Betclic II liga
+164021,USL League Two Great Lakes Division
+164022,USL League Two Heartland Division
+164023,USL League Two Mid Atlantic Division
+164024,USL League Two Northeast Division
+164025,USL League Two Mid South Division
+164026,USL League Two Southeast Division
+164027,USL League Two Southwest Division
+164028,USL League Two Northwest Division
+167279,TotalEnergies U-20 Africa Cup of Nations Qualifiers
+167768,Topklasse
+208926,Festival international espoirs – Tournoi Maurice Revello
+208999,FIFA World Cup Play-Off Tournament
+209000,Tournoi Espoirs de Toulon
+209137,NextGen Series
+209944,Major League Soccer Rivalry Cups
+214404,UEFA Youth League
+214717,Scotiabank CONCACAF Cup
+215363,Isuzu UTE A-League (Regular Season)
+215440,Copa Movistar Torneo del Inca
+215441,Copa Movistar Torneo Descentralizado
+215561,Oberliga
+215831,Liga AUF Uruguaya Torneo Intermedio
+215852,Liga 1 Te Apuesto Torneo Apertura
+215853,Liga 1 Te Apuesto Torneo Clausura
+215854,Liga 1 Te Apuesto Acumulada
+216346,Liguilla Pre-Sudamericana
+216347,Liguilla Pre-Libertadores
+217951,Division 2
+217952,Division 3
+217965,Campeonato Nacional Transición
+219424,U18 Youth Alliance League
+219704,K League Junior U-18
+219715,U18 Premier League Cup
+219732,The Football League Youth Alliance South
+219740,Scotiabank CONCACAF League
+222981,CONCACAF Nations League
+222983,CONCACAF Nations League A
+222984,CONCACAF Nations League B
+222985,CONCACAF Nations League C
+222986,4. divisjon
+223470,Copa de la Liga Profesional
+302205,Campeonato Gaúcho Superbet
+302206,Campeonato Gaúcho Série A2
+302207,Campeonato Amazonense
+309678,Campeonato Baiano Mansão Green
+309680,Campeonato Goiano
+309682,Campeonato Mineiro Sicoob - Módulo I
+309683,Campeonato Mineiro - Módulo II
+309684,Campeonato Pernambucano Série A1
+309686,Campeonato Paranaense
+309687,Campeonato Paranaense 2ª Divisão
+309688,Campeonato Catarinense
+309690,Copa dos Campeões
+309691,Copa Norte
+309697,Copa do Nordeste
+309703,Copa Centro-Oeste
+309707,Copa Sul-Minas
+309710,Torneio Rio-São Paulo
+311872,Taça Brasil
+313192,Campeonato Amapaense Sicredi Série A
+313194,Campeonato Cearense SuperBet Série A
+313196,Campeonato Brasiliense
+313198,Campeonato Capixaba
+313200,Campeonato Maranhense
+313204,Campeonato Mato-Grossense Martinello Sicredi
+313206,Campeonato Paraibano
+313210,Campeonato Potiguar 1ª Divisão
+313216,Campeonato Sergipano SuperBet
+313220,Campeonato Paraense
+314731,Campeonato Carioca Série A2
+314732,Campeonato Paulista Série A2
+317567,CONMEBOL Sudamericana
+319191,Torneio Roberto Gomes Pedrosa
+320383,Campeonato Fluminense
+353078,MacWhirter Welsh League First Division
+416327,Steel & Sons Cup
+417858,Mid-Ulster Cup
+417859,North West Senior Cup
+418017,Irish Intermediate Cup
+418018,Bob Radcliffe Cup
+418021,Mid-Ulster Football League Intermediate A
+418870,Setanta Sports Cup
+419047,Ballymena & Provincial League Intermediate Division A
+432083,OPC National Premier Leagues Men's
+432262,Dettol National League
+432263,Canterbury Premier League
+432264,Capital Premier League
+432265,Capital League First Division
+432266,Northern Premier League
+463479,Trendyol 1. Lig
+463481,Nesine 2. Lig
+463485,Nesine 2. Lig Beyaz Grup
+463486,Nesine 2. Lig Kırmızı Grup
+553378,Leinster Senior League Senior 1
+558118,Munster Senior Cup
+558119,Leinster Senior Cup
+612799,Division 4
+661363,Prva B hrvatska nogometna liga
+661546,Druga hrvatska liga - Zapad
+661719,Druga hrvatska liga - Istok
+661720,Druga hrvatska liga - Središte
+661721,Treća nogometna liga Istok
+661722,Treća nogometna liga Zapad
+661723,Četvrta hrvatska liga - Sjever A
+661724,Treća nogometna liga Jug
+661725,Četvrta hrvatska liga - Središte B
+690094,G Ethniki
+692430,Cyprus League by Stoiximan
+692431,B' Katigoria
+694364,Football League Voreios Omilos
+694365,Football League Notios Omilos
+786418,Japanese National Regional League
+788824,Hokkaido Soccer League
+788825,Tohoku Senior League Division One
+788826,Kanto Soccer League Division One
+788827,Hokushin'etsu Football League Division One
+788828,Tokai Senior League Division One
+788829,Kansai Soccer League Division One
+788830,Chugoku Soccer League
+788831,Shikoku Senior League
+788832,Kyushu Soccer League
+788833,Kanto Soccer League Division Two
+788834,Kansai Soccer League Division Two
+788837,Tokai Senior League Division Two
+788839,Tohoku Senior League Division Two - North
+790071,Hokushin'etsu Football League Division Two
+791180,Meiji Yasuda J3 League
+792200,J League 3 Eastern Block
+792312,J League 3 Western Block
+831597,Serie D
+862765,Vierde Divisie A
+862766,Vierde Divisie B
+862767,Hoofdklasse Zaterdag C
+862768,Vierde Divisie C
+862769,Vierde Divisie D
+862770,Hoofdklasse Zondag C
+914522,Championnat National 1 Groupe B
+914523,Championnat National 1 Groupe C
+914524,Championnat National 2 Groupe D
+930953,Danske Super Cuppen
+981733,USL League Two
+981781,United States Adult Soccer Association
+1001959,AFC Cup
+1001960,AFC President's Cup
+1001961,CFA Super League Cup
+1002136,Liga Premier Kumpulan A
+1002137,Liga Premier Kumpulan B
+1002872,C'estbon Chinese Football League 2 - North
+1002873,C'estbon Chinese Football League 2 - South
+1009934,AFC U17 Asian Cup Qualifiers
+1013060,Liga A3 Community
+1016197,Malaysia FAM League
+1018789,Persian Gulf Pro League
+1018790,Azadegan League
+1039313,Nasser Bin Hamad Premier League
+1039314,2nd Division
+1300397,Eliteserien
+1300398,OBOS-ligaen
+1300580,National Soccer League
+1300603,2. divisjon avdeling 1
+1300604,2. divisjon avdeling 2
+1300605,2. divisjon avdeling 3
+1300606,2. divisjon avdeling 4
+1300607,2. divisjon avdeling 5
+1300608,2. divisjon avdeling 6
+1300609,2. divisjon avdeling 7
+1300610,2. divisjon avdeling 8
+1301385,FIFA World Cup
+1301389,Campeonato Sudamericano Copa América
+1301390,TotalEnergies CAF Africa Cup of Nations
+1301394,UEFA Champions League
+1301395,UEFA Cup Winners' Cup
+1301396,UEFA Europa League
+1301397,UEFA Super Cup
+1301398,UEFA Intertoto Cup
+1301403,Volkswagen Supercup
+1301404,Croky Cup
+1301405,Coupe de la Ligue Pro
+1301406,Betano Pokalen
+1301407,Coupe de France Crédit Agricole
+1301408,Coupe de la Ligue BKT
+1301410,DFB-Pokal
+1301411,Eurojackpot KNVB Beker
+1301412,Coppa Italia Frecciarossa
+1301413,Coppa Italia Serie C
+1301414,EA SPORTS FC Supercup
+1301415,Lamar Hunt U.S. Open Cup
+1301418,CONCACAF Cup Winners Cup
+1301419,NM i fotball
+1301420,Norsk Tipping-ligaen
+1301421,Taça de Portugal Generali Tranquilidade
+1301422,Copa de Su Majestad el Rey
+1301423,Supercopa de España
+1301424,Svenska Cupen
+1301426,The Emirates FA Cup
+1301427,Carabao Cup
+1301428,FA Community Shield
+1301429,Vertu Trophy
+1301430,Scottish Gas Men's Scottish Cup
+1301431,Premier Sports Cup
+1400400,Serie D Girone A
+1400401,Serie D Girone B
+1400402,Serie D Girone C
+1400403,Serie D Girone D
+1400404,Serie D Girone E
+1400405,Serie D Girone F
+1400406,Serie D Girone G
+1400407,Serie D Girone H
+1400408,Serie D Girone I
+1701138,2. division øst
+1701139,2. division vest
+1702406,Danmarksserien
+1802928,Kýpello E.P.A.E.
+1803481,All Star Game Elládos
+1900171,Canadian Soccer League
+1900173,Open Canada Cup
+1900708,Northern Ireland Intermediate League
+2300047,Pirma Lyga
+2300050,VBET Malta Premier League
+2300051,BOV Challenge League
+5103714,Pitching In Isthmian League Premier Division
+5103715,Evo-Stik League Southern Premier Division
+5103716,Northern Premier League Premier Division
+5111904,Southern Football League Division One South
+5111905,Southern Football League Division One Central
+5123054,Enterprise National League North
+5123055,Enterprise National League South
+5250792,Liga de Primera Mercado Libre
+5250793,Liga de Ascenso Caixun
+5250794,Tercera División de Chile
+5251645,Copa Chile Coca-Cola Zero Azúcar
+5260948,Liga BetPlay DIMAYOR
+5260949,Categoría Primera C
+5260950,Torneo BetPlay DIMAYOR
+5290551,Liga 1 Te Apuesto
+5290552,Copa Perú
+5290553,Liga 2
+5314301,VBET Ukrainian Premier League
+5314302,Persha Liha
+5314303,Druha Liha A
+5314304,Druha Liha B
+5314305,Druha Liha C
+5314307,BETON Kubok Ukraïny
+5320807,Super Kubok Ukraïny
+5321456,Vyshcha Liha A
+5321457,Vyshcha Liha B
+5340000,BGL Ligue
+5340010,Loterie Nationale Coupe de Luxembourg
+5340022,Éierepromotioun
+5385513,Divisi Utama
+5385703,Divisi Satu Liga Indonesia
+5385746,Liga Djarum Indonesia Wilayah Timur
+5385747,Liga Djarum Indonesia Wilayah Barat
+5395850,AIA Singapore Premier League
+5395864,Prime League
+5512770,Liga AUF Uruguaya
+5512771,Segunda División Profesional
+5512772,Segunda B Amateur
+5607687,Fußball-Regionalliga Mitte
+5607688,Fußball-Regionalliga West
+5623025,GFF Gulf Club Champions League
+5623042,UAFA Arab Club Champions Cup
+5623059,UAFA Arab Cup Winners' Cup
+5623071,UAFA Arab Super Cup
+5624449,BOC Life Hong Kong Premier League
+5624450,Hong Kong First Division League
+5624451,Hong Kong FA Cup
+5624452,HKFA League Cup
+5624453,Viceroy Cup
+5624454,Hong Kong Senior Challenge Shield
+5624455,Junior Challenge Shield
+5624525,Indian Football League
+5624532,Federation Cup
+5624533,Kalinga Super Cup
+5624536,Unifi Liga Super
+5624537,Liga Premier Malaysia
+5624920,BYD Sealion 6 League I
+5624972,Piala Malaysia
+5624989,Sultan Haji Ahmad Shah Cup
+5624996,Piala FA Malaysia
+5626560,ASEAN Hyundai Cup
+5626587,Gulf Cup of Nations
+5626772,AFC U20 Asian Cup
+5626804,AFC U17 Asian Cup
+5626828,AFC U20 Asian Cup Qualifiers
+5626836,EAFF E-1 Football Championship
+5626865,FIFA Arab Cup
+5627647,EAFF E-1 Football Championship Qualifiers
+5627655,CFA Member Association Champions League
+5627764,Arab Cup Winners' Cup
+5628525,Guangdong-Hong Kong Cup
+5629005,A3 Champions Cup
+5629931,Pakistan National Football Challenge Cup
+5629952,Lebanese Premier League
+5629966,Lebanese FA Cup
+5629986,Lebanese Federation Cup
+5629989,Elite Cup
+5629996,Lebanese Super Cup
+5630004,Pakistan Premier League
+5630062,Grameenphone Bangladesh Premier League
+5630248,Campeonato da 1ª Divisão
+5630268,Campeonato da 2ª Divisão
+5630275,DST Super League
+5631613,Lebanese Second Division
+5632126,Doha Bank Stars League
+5632158,Jetour League
+5632198,Sheikh Jassim Cup
+5632240,ASEAN Club Championship Shopee Cup
+5632916,Guam Men's Soccer League Division 1
+5632917,Budweiser G-League Haya Division
+5632918,Budweiser G-League Lagu Division
+5633774,Dialog Champions League
+5633779,Dialog Premier League Division I
+5633837,Sri Lanka FA Cup
+5634246,Lao Premier League
+5635022,Syrian Premier League
+5635115,Syrian Cup
+5635278,Al-Manaseer Jordanian Pro League 1st Division
+5635279,Jordan Super Cup
+5635280,Jordan FA Shield
+5635281,Jordan FA Cup
+5635282,Al-Manaseer Jordanian Pro League 2nd Division
+5635469,National Football League Division 2
+5637986,BYD Seal 5 League 2
+5638008,Maldives FA Cup
+5638083,Türkmenistanyň Ýokary Ligasy
+5638097,Türkmenistanyň kubogy
+5638317,National Football League Division 3
+5666911,Campeón de Campeones
+5688090,ABC Motsepe League
+5707678,Korea National League
+5724964,1. Liga Classic Gruppe 1
+5724965,1. Liga Classic Gruppe 2
+5724966,1. Liga Classic Gruppe 3
+5745011,Druga Savezna liga Sever
+5745014,Druga Savezna liga Istok
+5745017,Druga Savezna liga Zapad
+5745020,Meridianbet 1.CFL
+5754884,Srpska Liga Vojvodina
+5754885,Srpska Liga Beograd
+5754888,2. CFL
+5770142,Srpska Liga Zapad
+5770143,Srpska Liga Istok
+5776050,Prva liga Srbija
+5792232,Prva savezna nogometna liga SFRJ
+5792233,Druga savezna nogometna liga SFRJ
+5792234,Kup Maršala Tita
+6400089,Division 3 Mellersta Götaland
+6400090,Division 3 Mellersta Norrland
+6400091,Division 3 Norra Norrland
+6400092,Division 3 Norra Svealand
+6400093,Division 3 Nordvästra Götaland
+6400094,Division 3 Nordöstra Götaland
+6400095,Division 3 Södra Götaland
+6400096,Division 3 Södra Norrland
+6400097,Division 3 Sydvästra Götaland
+6400098,Division 3 Sydöstra Götaland
+6400099,Division 3 Mellersta Svealand
+6400100,Division 3 Södra Svealand
+6600088,Vierde Klasse of Bevordering of Promotie A
+6600089,Vierde Klasse of Bevordering of Promotie B
+6600090,Vierde Klasse of Bevordering of Promotie C
+6600091,Vierde Klasse of Bevordering of Promotie D
+7400579,Hong Kong Second Division League
+7401053,Yau Yee Football League Division One
+7401410,Yau Yee Football League Division Four
+7449905,Tercera División
+7460103,Queen's Cup
+7460501,Chang FA Cup
+7483354,Betera Vyšejšaja Liha
+7483366,MAXLINE Pieršaja Liha
+7483369,Druhaja Liha
+7483372,Betera Kubok Belarusi
+7500000,efbet League
+7500078,Sesame Kupa na Bylgarija
+7500118,Vtora Liga
+7500138,Plovdiv V Grupa
+7500139,Sofia V Grupa
+7500140,Varna V Grupa
+7500141,Veliko Tarnovo V Grupa
+7504886,Superkupa na Bylgarija
+7520391,OTP Bank Liga
+7520393,Nemzeti Bajnokság II - Nyugati csoport
+7520395,MOL Magyar Kupa
+7520397,Magyar Szuperkupa
+7522796,Nemzeti Bajnokság II - Keleti csoport
+7540024,SuperLiga
+7540080,Liga II - Seria I
+7540081,Liga II - Seria II
+7540084,Cupa României Betano
+7540085,Supercupa României
+7540206,Liga III - Seria I
+7540207,Liga IV - București
+7542192,Liga II - Seria III
+7560276,Niké liga
+7560277,MONACObet LIGA
+7560279,Slovnaft Cup
+7560280,Slovenský Superpohár
+7580000,PrvaLiga Telemach
+7580001,2. Slovenska Nogometna Liga
+7580014,Pokal Pivovarna Union
+7581079,Tretja slovenska nogometna liga Zahod
+7640059,Durand Cup
+7640505,Indian Football League 2
+7681558,A. Le Coq Premium Liiga
+7681559,Esiliiga
+7681867,Eesti Karikas
+7746535,Divisi Dua Liga Indonesia
+7746536,Piala Indonesia
+7746537,Community Shield Indonesia
+7800373,StarHub League Cup
+7801114,National Football League Division 1
+7840132,Besta deild karla
+7840133,Lengjudeild karla
+7840167,Lengjubikar karla
+7840174,Mjólkurbikarinn
+7840183,Meistarakeppni karla
+7841964,4. deild karla
+7860000,Ligat Toto Winner
+7860001,Liga Leumit
+7860002,Gvia HaMedina
+7860003,Gvia HaToto
+7864595,Ligat Ha'Al Toto Cup
+7864596,Toto Leumit Cup
+7880000,ADNOC Pro League
+7880028,First Division League
+7880030,UAE President's Cup
+7900422,O'zbekiston Birinchi ligasi - G'arb
+7900423,O‘zbekiston Ikkinchi Ligasi
+7900425,O‘zbekiston Kubogi
+7900548,O'zbekiston Birinchi ligasi - Sharq
+7920263,Roshn Saudi League
+7920264,Yelo League
+7920265,Crown Prince Cup
+7920294,Second Division
+7920317,The Custodian of the Two Holy Mosques' Cup
+8050901,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Zolotoye kol'tso
+8050902,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Severo-zapad
+8050903,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Yuzhno
+8050904,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Privolzhskogo
+8050905,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Dal'niy Vostok
+8050906,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Sibiri
+8050907,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Urala i Zapadnoy Sibiri
+8050908,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Chernozemnom regione
+8050940,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Moskva
+8051008,Vtoraya Liga
+8053978,OLIMPBET Superkubok Rossii
+8055759,PFL - Ural-Povolzhskij Okrug
+8055768,Vysshaya Liga SSSR
+8055824,Pervaya Liga SSSR
+8055871,Kubok SSSR
+8074978,4. Divizión - Sibiri
+8114887,Ettan Södra
+8114888,Ettan Norra
+8154769,Provinciaal Brabant
+8154770,Provinciaal Antwerpen
+8154771,Provinciaal West-Vlaanderen
+8154772,Provinciaal Oost-Vlaanderen
+8154773,Provinciaal Henegouwen
+8154774,Provinciaal Namen
+8154775,Provinciaal Luxemburg
+8154776,Provinciaal Limburg
+8154777,Provinciaal Luik
+8154824,Nationale 1
+8300358,Betri deildin menn
+8300362,1. deild
+8300363,2. deild
+8300364,3. deild
+8300370,4. deild
+8300390,Løgmanssteypið
+8350942,Abissnet Superiore
+8351372,Kategoria e Parë
+8351374,Kupa e Shqipërisë
+8351378,Kategoria e Dytë
+8351454,Superkupa e Shqipërisë
+8401070,Prva Makedonska Fudbalska Liga
+8401071,Opštinski ligi
+8401073,WWIN Liga
+8401074,Druga liga Federacije BiH
+8403697,TonyBet Virslīga
+8403699,2. līga
+8403796,Vtora Makedonska Fudbalska Liga
+8403797,LVBET līga
+8407360,Prva nogometna liga Republike Srpske
+8407370,WWIN Prva liga
+8425272,Coupe Gambardella Crédit Agricole
+8431493,Championnat National U-19
+8436980,Championnat de France amateur 2
+8454928,ISPS Handa Chatham Cup
+8457145,Mobil Super Ligue
+8457146,Telekom S-League
+8457147,Ligue 1 Vini
+8457148,Samoa National League
+8457149,Vodafone Premier League
+8459267,Port Vila Premier Division
+8459277,Tonga Major League
+8459307,Cook Islands Cup
+8459333,FFAS Senior League 1
+8459343,Kumul Petroleum National Soccer League
+8550000,LPBank V.League 1
+8550001,Sacombank V.League 2
+8550002,Giải Bóng đá Hạng Nhì Quốc Gia
+8550003,Giải Vô địch Bóng đá Hạng ba Việt Nam
+8550028,Giải Bóng đá Hạng Nhì Quốc Gia Bảng A
+8550030,Giải Bóng đá Hạng Nhì Quốc Gia Bảng B
+8550035,Sacombank National Cup
+8550043,Siêu Cúp Bóng đá Quốc Gia
+8700002,Oberliga Baden-Württemberg
+8700003,Hessenliga
+8700004,Oberliga Rheinland-Pfalz/Saar
+8700005,Oberliga Westfalen
+8700007,NOFV-Oberliga Süd
+8700008,NOFV-Oberliga Nord
+8830770,Juventud de América
+8830792,Campeonato Sudamericano Sub-17
+8830803,CONMEBOL Preolímpico
+8876419,Campeonato Nacional da Segunda Divisão Série D
+11024371,Kategoria e Parë Grupi A
+11024374,Kategoria e Parë Grupi B
+12015290,Ligue Professionnelle 1 Mobilis
+12015344,Coupe d'Algérie Mobilis
+12015393,ORA League
+12016011,EuroMatch Nigeria Premier Football League
+12016048,President Federation Cup
+12019164,Championnat de la Ligue Professionnelle 1
+12019218,Coupe du président de la République
+12019393,Coupe du Trône
+12019395,Botola Pro Inwi
+12031135,Ligue Professionnelle 2
+12034515,Girabola ZAP
+12034548,Taça de Angola
+12034576,SuperTaça de Angola
+12040169,Ligue nationale du football amateur
+12040173,Ligue nationale du football amateur - EST
+12040174,Ligue nationale du football amateur - Ouest
+12040175,Ligue nationale du football amateur - Centre
+12040323,Egyptian Second Division
+12040325,Egyptian Second Division - Lower Egypt
+12040326,Egyptian Second Division - Cairo
+12040338,Championnat de la Ligue Professionnelle 2
+12058772,Botola 2
+12064107,Ligue 3 - Groupe A
+12065937,Ligue Professionelle 2 Group A
+12065938,Ligue Professionelle 2 Group B
+12076263,Ligue 1 Orange Mali - Poule A
+12076264,Ligue 1 Orange Mali - Poule B
+12078511,Ligue 2 - Poule A
+12078512,Ligue 2 - Poule B
+12081948,Ligue 2
+12081971,Ligue 2 Groupe 1
+12081972,Ligue 2 Groupe 2
+12084359,FKF National Super League
+13100123,TotalEnergies African Nations Championship
+13100131,TotalEnergies Under-20 Africa Cup of Nations
+13100132,TotalEnergies U-17 Africa Cup of Nations
+13105499,CECAFA Senior Challenge Cup
+13109924,Ghana Premier League
+13109926,Ligue 1
+13109929,Ghanaian Cup of Four
+13110053,Nigeria Nationwide League Division One
+13110054,MTN FA Cup
+13110090,Coupe de Côte d'Ivoire de football
+13110091,Coupe Houphouët-Boigny
+13117240,Division One League
+13117331,Championnat de la Ligue Professionnelle 3
+13117695,Ligue 3 - Groupe B
+13117696,Ligue 3 - Groupe C
+13117767,TotalEnergies U-23 Africa Cup of Nations
+13135082,MTN Super League
+13135353,Samuel Ndhlovu Charity Shield
+13135368,Mosi Cup
+13135374,Division 1
+13135377,Division 1 - South
+13135378,Division 1 - North
+13147139,Supercoupe d'Algérie
+13148019,TotalEnergies U-23 Africa Cup of Nations Qualifiers
+13160886,TotalEnergies African Nations Championship Qualifiers
+13162593,Ligue 1 Orange Mali
+13170555,LFA First Division
+13172336,MTN Elite One
+13172337,MTN Elite Two
+13172338,Coupe du Cameroun
+13172341,Coupe du Mali Orange
+13190228,Castle Lager Premier Soccer League
+13191166,Moçambola
+13191167,Segunda Divisão
+13191378,Championnat National MTN
+13191380,Coupe du Congo
+13191658,National 1
+13193812,Taça de Moçambique
+13205430,Juegos Centroamericanos y del Caribe
+13211602,Nigeria National League
+13211624,Celtiis Ligue 1
+13211630,National Foot 1
+13211633,GFF League First Division
+13211639,SportPesa Premier League
+13211640,FKF Mozzart Bet Cup
+13211643,Vodacom Premier League
+13211652,FDH Bank Premiership
+13211655,Super D1
+13211659,Botswana Premier League
+13211662,Fasofoot Ligue 1
+13211665,Primus Ligue
+13211677,Championnat National de la Première Division
+13211678,Coupe de Djibouti
+13211681,Linafoot Ligue 1
+13211682,Coupe du Congo
+13211684,Liga de Fútbol de Guinea Ecuatorial
+13211690,Ethiopian Premier League
+13211692,Coupe du Président de la République
+13211694,Mauritian Premier League
+13211695,MFA Cup
+13211697,Namibia Premiership
+13211698,Namibia FA Cup
+13211700,Super Ligue
+13211701,Coupe du Niger
+13211703,Rwanda Premier League
+13211704,Rwanda Peace Cup
+13211710,Seychelles FA Cup
+13211712,Sierra Leone National Premier League
+13211713,Sierra Leone FA Cup
+13211715,Somali National League
+13211716,Somalia Cup
+13211718,South Sudan Premier League
+13211721,MTN Premier League
+13211724,NBC Premier League
+13211725,CRDB Bank Federation Cup
+13211727,Championnat National de Première Division
+13211728,Coupe du Togo
+13211730,Ligi Kuu Zanzibar
+13212429,Campeonato Nacional de Cabo Verde
+13213174,Super Cup
+13219623,Division One League Zone 1
+13219624,Division One League Zone 2
+13219625,Division One League Zone 3
+13224545,Nigeria Professional Football League Group A
+13224546,Nigeria Professional Football League Group B
+13228126,Championnat National Amateur
+14028753,Primera C/Torneo Argentino B
+14028754,Primera D/Torneo Argentino C
+14037258,Primera C
+14037261,Torneo Regional Federal Amateur
+14037262,Primera D
+14037263,Torneo Argentino C
+14043892,Copa Argentina AXION energy
+14063636,Supercopa Argentina
+15038565,McDonald's National Premier Leagues
+15041771,National Premier Leagues Queensland Men's
+15045003,RAA National Premier League
+15049346,National Premier Leagues Men's Finals Series
+15051375,Hahn Australia Cup
+15054404,National Premier Leagues Men's
+15066133,ASEAN U-19 Boys' Championship
+16000658,Vorarlbergliga
+16000659,Landesliga Steiermark
+16000660,Kärntner Liga
+16000661,Wiener Stadtliga
+16000662,1. Niederösterreichische Landesliga
+16000663,Oberösterreich-Liga
+16000665,Tiroler Liga
+16000666,Landesliga Burgenland
+16036167,2. Landesliga West Niederösterreich
+16036168,2. Landesliga Ost Niederösterreich
+16036172,II. Liga Nord Burgenland
+16036173,II. Liga Mitte Burgenland
+16036174,II. Liga Süd Burgenland
+16036178,Oberliga Nord Steiermark
+16036185,Kärntner Unterliga West
+16036186,Kärntner Unterliga Ost
+16036196,Landesliga Ost Oberösterreich
+16036197,Landesliga West Oberösterreich
+16036202,Tiroler Landesliga Ost
+16036203,Tiroler Landesliga West
+16057917,Salzburger 2. Landesliga Nord
+16057918,Salzburger 2. Landesliga Süd
+16057919,1. Salzburger Landesliga
+16057920,1. Salzburger Landesliga
+16068262,Fußball-Landesliga 2
+16068289,Gebietsliga Süd/Süd-Ost (NÖ)
+16068290,Gebietsliga West (NÖ)
+16068291,Gebietsliga Nord-West/Waldviertel (NÖ)
+16068292,Gebietsliga Nord/Nord-West (NÖ)
+16068322,Bezirksliga Nord (OÖ)
+16068323,Bezirksliga Süd (OÖ)
+16068324,Bezirksliga West (OÖ)
+16068325,Bezirksliga Ost (OÖ)
+16068350,Tiroler Gebietsliga Ost
+16068351,Tiroler Gebietsliga West
+16068358,1. Landesklasse Vorarlberg
+16068363,1. Klasse A Kärnten
+16068364,1. Klasse B Kärnten
+16068365,1. Klasse C Kärnten
+16068366,1. Klasse D Kärnten
+16068371,Unterliga Mitte Steiermark
+16068372,Unterliga West Steiermark
+16068373,Unterliga Süd Steiermark
+16068374,Unterliga Ost Steiermark
+16068375,Unterliga Nord A Steiermark
+16068376,Unterliga Nord B Steiermark
+16068395,1. Klasse Nord Burgenland
+16068396,1. Klasse Mitte Burgenland
+16129522,1. Klasse Süd Burgenland
+16154765,Wiener 2. Landesliga
+16154861,Wiener Oberliga A
+16154862,Wiener Oberliga B
+16302524,Regionalliga Tirol
+16302525,Regionalliga Salzburg
+17012177,Betera Supierkubok Belarusi
+18051439,Provinciaal Voetbal
+18097860,Division 2 - VV A
+18097862,Division 2 - VV B
+18097863,Division 2 - FFA
+18097864,Division 3 - VV A
+18097865,Division 3 - VV B
+18097866,Division 3 - FFA A
+18097867,Division 3 - FFA B
+19095789,J. League YBC Levain Cup / CONMEBOL Sudamericana Championship Final
+19106793,Supercopa do Brasil
+19127222,Brasileirão Série D
+19127365,Campeonato Sudamericano de Campeones
+19141470,Torneio dos Campeões
+19143901,Copa Rio
+19143916,Copa Paulista
+19145350,Copa Sul
+19145477,Copa de Oro Nicolás Leoz
+19157275,Copa Pernambuco
+19157292,Copa Governador do Estado da Bahia
+19157295,Recopa Sul-Brasileira
+19157301,Copa Santa Catarina
+19157723,Copa São Paulo de Futebol Júnior
+19158846,CONMEBOL Libertadores Sub-20
+19164481,Copa Paraíba
+19166135,Copa Venezuela
+19166492,Campeonato Nacional de Fútbol de Cuba
+19168653,Superclásico de las Américas – Copa Doctor Nicolás Leoz
+19174258,Sendai Cup International Youth Football Tournament
+19187651,Copa do Brasil Sub-20
+19219045,Copa Piauí
+19222809,Copa Verde
+19272696,Primeira Liga
+19308455,Campeonato Brasileiro Sub-20
+20016870,USL League Two South Atlantic Division
+20017135,Southern Premier Soccer League
+20017552,Digicel/Red Stripe Premier Division
+20017553,Antigua and Barbuda FA Cup
+20017948,USL League Two Midwest Division
+20030685,North American Soccer League Spring Season
+20030686,North American Soccer League Fall Season
+20031727,USL League Two Mountain Division
+20033731,USL Championship Western Conference
+20033732,USL Championship Eastern Conference
+20037253,Ontario Soccer League
+20040487,North American Soccer League
+20040488,North American Soccer League Championship
+20040499,USL Championship Playoffs
+20040518,USL League Two Playoffs
+20046392,USL League Two Central Pacific Division
+20047465,USL League Two South Central Division
+20047508,USL League One
+20047509,USL League One Playoffs
+20500261,Ontario Premier League 1
+22014729,Sultan Qaboos Cup
+22014984,A Oblastnite futbolni grupi
+22073024,Severoiztochna - Varna Zonalna Grupa Under-19
+22073025,Yugoiztochna - Plovdiv Zonalna Grupa Under-19
+22073027,Yugozapadna - Sofia (stolitsa) Zonalna Grupa Under-19
+22073028,Severozapadna - Veliko Tarnovo Zonalna Grupa Under-19
+22073056,Yugoiztochna - Stara Zagora Mezhduoblastna Grupa Under-19
+22073057,Yugoiztochna - Burgas Mezhduoblastna Grupa Under-19
+22073368,Oblastni Grupi Under-19
+22082136,Severozapadna - Lovech Mezhduoblastna Grupa Under-19
+22082280,Severozapadna - Vratsa Mezhduoblastna Grupa Under-19
+22087027,A OFG Varna
+22087028,A OFG Dobrich Iztok
+22087029,A OFG Dobrich Zapad
+22087030,A OFG Shumen Sever
+22087031,A OFG Shumen Yug
+22087032,A OFG Targovishte
+22087033,A OFG Ruse Iztok
+22087034,A OFG Ruse Zapad
+22087035,A OFG Silistra Iztok
+22087036,A OFG Silistra Zapad
+22087037,A OFG Razgrad Iztok
+22087038,A OFG Razgrad Zapad
+22087039,A OFG Veliko Tarnovo
+22087040,A OFG Gabrovo
+22087041,A OFG Pleven
+22087042,A OFG Lovech
+22087043,A OFG Montana
+22087044,A OFG Vidin
+22087045,A OFG Sofia (stolitsa) Sever
+22087046,A OFG Sofia (stolitsa) Yug
+22087047,A OFG Sofia Iztok
+22087048,A OFG Sofia Zapad
+22087049,A OFG Pernik Zapad
+22087050,A OFG Pernik Iztok
+22087051,A OFG Blagoevgrad
+22087052,A OFG Kyustendil Osogovo
+22087053,A OFG Kyustendil Rila
+22087054,A OFG Pazardzhik
+22087055,A OFG Plovdiv
+22087056,A OFG Haskovo
+22087057,A MOFG Kardzhali/Smolyan
+22087058,A OFG Stara Zagora
+22087059,A OFG Sliven
+22087060,A OFG Burgas
+22087061,B OFG Varna
+22087063,A OFG Yambol
+22087066,B OFG Pleven Iztok
+22087067,B OFG Pleven Tsentar
+22087068,B OFG Pleven Zapad
+22087070,B OFG Blagoevgrad Struma 1
+22087071,B OFG Blagoevgrad Struma 2
+22087074,B OFG Pazardzhik Sever
+22087075,B OFG Pazardzhik Yug
+22087076,B OFG Plovdiv Iztok
+22087077,B OFG Plovdiv Sever
+22087078,B OFG Plovdiv Zapad
+22087079,B OFG Plovdiv Yug
+22087080,B OFG Burgas Iztok
+22087081,B OFG Burgas Tsentar
+22087082,B OFG Yambol
+23000095,AFC Challenge Cup
+23023485,ASEAN Hyundai Cup Qualification
+23026234,Guam Men's Soccer League Division 2
+23036284,Martyr's Memorial A-Division League
+23038303,Iraq Stars League
+23057281,Hong Kong–Shanghai Inter Club Championship
+23061000,Azadegan League Group 1
+23061001,Azadegan League Group 2
+23061014,Iran Football's 2nd Division
+23062639,AIS Regional League Division 2
+23063354,Zain Premier League
+23071760,Omantel League
+23077978,Thai Division 2 League North Eastern Region
+23077979,Thai Division 2 League Northern Region
+23077980,Thai Division 2 League Central & Eastern Region
+23077981,Thai Division 2 League Bangkok & field Region
+23077982,Thai Division 2 League Southern Region
+23078031,Giải Bóng đá Hạng Nhì Quốc Gia Bảng C
+23078220,Campeonato da 3ª Divisão
+23078221,Campeonato da 3ª Divisão - Grupo A
+23078222,Campeonato da 3ª Divisão - Grupo B
+23078223,Taça de Macau
+23078275,Kuwaiti Division One
+23078276,Kass el Ameer
+23078277,Kuwait Crown Prince Cup
+23078278,Kuwait Federation Cup
+23078280,Kor Royal Cup
+23084471,Metfone C-League
+23085565,King's Cup
+23085566,Bahraini FA Cup
+23085567,Super Cup
+23085568,Crown Prince Cup
+23086526,DST Group Brunei Premier League
+23086528,DST FA Cup
+23086529,Brunei Super Cup
+23087352,Hazfi Cup
+23087353,Iranian Super Cup
+23090711,Syrian Super Cup
+23090713,Oman Super Cup
+23090714,Omani Federation Cup
+23090900,Yemeni League
+23090902,Yemeni President Cup
+23090903,Yemeni Unity Cup
+23090905,Yemeni Super Cup
+23090919,M*League Division 1
+23090922,Myanmar National League
+23090971,Niislel League
+23090999,Iraq Cup
+23091052,West Bank Premier League
+23092167,Kuwait Super Cup
+23092244,UAE Vice Presidents Cup
+23093031,Milo Charity Shield
+23093045,Dhivehi League
+23098891,Samdech Akkak Moha Sena Pedey Decho Hun Sen Cup
+23099026,TVS Federation Cup
+23099027,Prince Faisal bin Fahd Cup
+23099991,Bhutan Super League
+23100525,DPR Korea League
+23103790,Battle of the Provinces
+23106018,Thai Super Cup
+23106020,Roshan Afghan Premier League
+23114227,Federation Cup
+23121281,Toyota League Cup
+23133206,QSL Cup
+23151832,Super Liga Timorense
+23158777,Oman Second League
+23159013,Gaza Strip League
+23159175,Syrian Second Division
+23159181,Syrian Second Division Group 1
+23159182,Syrian Second Division Group 2
+23159183,Syrian Second Division Group 3
+23159184,Syrian Second Division Group 4
+23159471,President's Trophy
+23159502,Grameenphone Super Cup
+23159604,Silver Cup
+23159611,Dialog Premier League Division I Group A
+23159612,Dialog Premier League Division I Group B
+23160177,Giải Vô địch Bóng đá Hạng ba Việt Nam Bảng A
+23160178,Giải Vô địch Bóng đá Hạng ba Việt Nam Bảng B
+23160179,Giải Vô địch Bóng đá Hạng ba Việt Nam Bảng C
+23160180,Giải Vô địch Bóng đá Hạng ba Việt Nam Bảng D
+23160187,Republican Championship
+23160189,Second Division
+23160302,United Football League Division 2
+23160303,United Football League Cup
+23161442,Dialog Premier League Division II
+23161532,Myanmar National League Cup
+23161539,Dialog Premier League Division II Group A
+23161540,Dialog Premier League Division II Group B
+23162489,MediaTek Chéngshì Zúqiú Liánsài
+23162680,Martyr's Memorial A-Division League
+23162928,Aaha Gold Cup
+23163000,ASEAN U-23 Championship
+23163376,Timorense Liga Pre
+23163853,Brunei League Cup
+23164012,Syrian Premier League Group 1
+23164013,Syrian Premier League Group 2
+23168437,Qatar 2nd Division Cup
+23177174,AFC U23 Asian Cup Qualifiers
+23177175,AFC U23 Asian Cup
+23179126,Hong Kong Third Division League
+23184254,President's Cup
+23184385,TVS Championship League
+23191444,Lebanese Third Division
+23191793,Palestine Cup
+23191795,Palestine Cup
+23193285,Myanmar National League 2
+23193569,Myanmar Football Federation Cup
+23194436,Mongolia Cup
+23194439,Mongolia Super Cup
+23194681,M*League Division 2
+23194697,Northern Mariana Cup
+23195083,Dzongkhag League
+23199309,Second Division Football Tournament
+23201533,Thai Division 2 League Central & Western Region
+23209356,Ligue 2
+23209358,Coupe Tahiti Nui
+23209359,Coupe des Champions
+23209361,Vans Premiership
+23209363,Fiji Senior League
+23209364,Fiji Football Association Cup Tournament
+23209365,Champion versus Champion
+23209366,Kiribati National Championship
+23209369,Coupe de Calédonie
+23209373,Solomon Islands Knockout Championship
+23209377,A-Division
+23209378,B-Division
+23209380,Independence Cup
+23209381,Christmas Cup
+23209382,National Bank of Tuvalu Cup
+23209383,Vanuatu Port Vila FA Shield
+23209384,Port Vila First Division
+23209386,Inter-District Championship
+23209387,ASB Charity Cup
+23209388,White Ribbon Cup
+23209389,Lotto Sport Italia NRFL Premier
+23209397,FFAS President's Cup
+23209398,FFAS Senior League 2
+23209502,New Zealand Regional First Divisions
+23209504,Battle of the Giants
+23209762,OFC U-19 Men's Championship
+23209812,OFC Men's Champions League Qualifying Stage
+23210164,New Zealand Regional Second Divisions
+23210246,Mainland Division One
+23210847,Samoa Cup
+23210915,Bank of Bhutan Premier League
+23211614,Tuvalu Games
+23211674,Port Vila FA Cup
+23211678,VFF Bred Cup Tournament
+23220662,Dialog Champions League Group A
+23220663,Dialog Champions League Group B
+23226054,Malaysia President Cup
+23226177,Beck's GFA Cup
+23237487,Oman First Division League - Group A
+23237488,Oman First Division League - Group B
+23295494,Liga FAM Kumpulan A
+23295495,Liga FAM Kumpulan B
+23366086,BYD Dolphin League III
+23383574,Walton Independence Cup
+23383987,Yau Yee Football League Cup
+23390443,AFC Solidarity Cup
+23395553,CNCC Charity Cup
+23396186,Liga Futebol Timor-Leste Primeira Divisão
+23396187,Liga Futebol Timor-Leste Segunda Divisão
+23397138,Taiwan Football Premier League
+23447243,LFTL Segunda Divisão Grupo A
+23447244,LFTL Segunda Divisão Grupo B
+23447431,Copa Paulino Alcantara
+23465649,MFL Challenge Cup
+23482321,Liga A2 Amateur
+23493567,Liga A1 Semi-Pro
+23500734,Yau Yee Football League Division Two
+23501335,Yau Yee Football League Division Three
+24000256,Četvrta hrvatska nogometna liga - Središte A
+24000257,Četvrta hrvatska nogometna liga - Sjever B
+24000258,ŽNL Zagrebačke županije
+24000259,ŽNL Krapinsko-zagorska
+24000260,ŽNL Sisačko-moslavačka
+24000261,ŽNL Karlovačka
+24000262,ŽNL Varaždinska
+24000263,ŽNL Koprivničko-križevačka
+24000264,ŽNL Bjelovarsko-bilogorska
+24000265,ŽNL Primorsko-goranska
+24000266,ŽNL Ličko-senjska
+24000267,ŽNL Virovitičko-podravska
+24000268,ŽNL Požeško-slavonska
+24000269,ŽNL Brodsko-posavska
+24000270,ŽNL Zadarska
+24000271,ŽNL Osječko-baranjska
+24000272,ŽNL Šibensko-kninska
+24000273,ŽNL Vukovarsko-srijemska
+24000274,ŽNL Splitsko-dalmatinska
+24000275,ŽNL Istarska
+24000276,ŽNL Dubrovačko-neretvanska
+24000277,Međimurska liga
+24000278,Zagrebačka liga
+24008172,Četvrta hrvatska liga - Jug B
+24008173,Četvrta hrvatska liga - Jug A
+24016699,Četvrta hrvatska liga - Jug C
+24055211,Prva nogometna liga Juniori
+25019588,Český Superpohár
+25054613,Česko-slovenský Superpohár
+25060473,3. česká fotbalová liga Skupina B
+25060474,Divize F
+26014948,Coca-Cola Cup
+26031734,G' Katigoria
+26037114,Super Cup
+27001459,Danmarksserie 1
+27001479,Danmarksserie 2
+27001496,Danmarksserie 3
+27065986,Danmarksserie 4
+27136807,Reserveligaen
+29052500,Zenith Data Systems Cup
+29052734,Regional First Divisions
+29138853,Midland Football League Premier Division
+29192582,Under-20 Elite League
+29237059,The Central League Cup
+30004922,Pitching In Isthmian League North Division
+30004923,Pitching In Isthmian League South East Division
+30004924,Dr. Martens League Midland Division
+30004925,Evo-Stik League Southern Division One South & West
+30007231,Combined Counties Football League
+30007232,Thurlow Nunn League
+30007233,Essex Senior Football League
+30007234,Hellenic Football League
+30007235,Southern Counties East Football League
+30007236,Midland Football League Premier Division
+30007237,North West Counties Football League
+30007238,Northern Counties East Football League
+30007239,Northern Football League
+30007240,Spartan South Midlands Football League
+30007241,Premier Sports Southern Combination Football League Premier Division
+30007242,United Counties League
+30007243,Wessex Football League
+30007244,Toolstation League
+31000110,A. Le Coq Superkarikas
+31038501,Isthmian League South Central Division
+31051860,Unite the Union Champions Cup
+32025985,Stórsteypadystur
+33000001,Liigacup
+33000117,Kakkonen Lohko B
+33000118,Kakkonen Lohko A
+33000120,Kakkonen Lohko C
+33021831,Kolmonen
+33044341,Kakkonen Eteläinen
+33044342,Kakkonen Itäinen
+33044343,Kakkonen Läntinen
+33044344,Kakkonen Pohjoinen
+35010926,3. Liga
+35010927,Regionalliga West
+35024472,Bremen-Liga
+35024473,Oberliga Niedersachsen-West
+35024474,Oberliga Niedersachsen-Ost
+35024475,Oberliga Hamburg
+35024476,Schleswig-Holstein-Liga
+35102297,Oberliga Niedersachsen
+36012660,G Ethniki
+36031104,G Ethniki 1os Omilos
+36031105,G Ethniki 2os Omilos
+36031106,G Ethniki 3os Omilos
+36031107,G Ethniki 4os Omilos
+36031108,G Ethniki 5os Omilos
+36031109,G Ethniki 6os Omilos
+36031110,G Ethniki 7os Omilos
+36031111,G Ethniki 8os Omilos
+36031112,G Ethniki 9os Omilos
+36031113,G Ethniki 10os Omilos
+36042397,A' EPS Athinón
+36042398,A1 EPS Makedonías
+36042399,A' EPS Peiraiá
+36042400,A' EPS Anatolikís Attikís
+36042401,A' EPS Dytikís Attikís
+36042402,A' EPS Grevenón
+36042403,A' EPS Kozánis
+36042404,A' EPS Kastoriás
+36042405,A' EPS Flórinas
+36042406,A1 EPS Péllas
+36042407,A1 EPS Kilkís
+36042408,A' EPS Imathías
+36042409,A1 EPS Chalkidikís
+36042410,A1 EPS Serrón
+36042411,A' EPS Drámas
+36042412,A' EPS Kaválas
+36042413,A' EPS Pierías
+36042414,A' EPS Lárisas
+36042415,A' EPS Trikálon
+36042416,A' EPS Kardítsas
+36042417,A' EPS Thessalías
+36042418,A1 EPS Thrákis
+36042419,A' EPS Évrou
+36042420,A' EPS Xánthis
+36042421,A' EPS Voiotías
+36042422,A' EPS Fokídas
+36042423,A' EPS Aitoloakarnanías
+36042424,A' EPS Evrytanías
+36042425,A' EPS Évoias
+36042426,A' EPS Fthiótidas
+36042427,A' EPS Ipeírou
+36042428,A' EPS Thesprotías
+36042429,A' EPS Ártas
+36042430,A' EPS Prévezas & Lefkádas
+36042431,A' EPS Argolídas
+36042432,A' EPS Achaías
+36042433,A' EPS Korinthías
+36042434,A1 EPS Ileías
+36042435,A' EPS Arkadías
+36042436,A' EPS Messinías
+36042437,A' EPS Lakonías
+36042438,A' EPS Zakýnthou
+36042439,A' EPS Kefallinías & Ithákis
+36042440,A1 EPS Kérkyras
+36042441,A' EPS Kykládon
+36042442,A' EPS Dodekanísou
+36042443,A' EPS Sámou
+36042444,A' EPS Chíou
+36042445,A' EPS Lésvou
+36042446,A' EPS Chaníon
+36042447,A' EPS Rethýmnou
+36042448,A1 EPS Irakleíou
+36042449,A' EPS Lasithíou
+36049765,2nd Katigoría EPS
+36086001,Superbet League 2 Voreios Omilos
+36086002,Superbet League 2 Notios Omilos
+36087243,G Ethniki 1os Omilos
+36087244,G Ethniki 2os Omilos
+36087245,G Ethniki 3os Omilos
+36087246,G Ethniki 4os Omilos
+36087247,G Ethniki 5os Omilos
+36087248,G Ethniki 6os Omilos
+36095929,Kýpello G' Ethnikís
+36099822,Kýpello Erasitechnón
+36099859,Super Cup Erasitechnón
+36130671,Super League K19
+36130695,Super League 2 K19 1os Omilos
+36130696,Super League 2 K19 2os Omilos
+36130697,Super League 2 K19 3os Omilos
+36130698,Super League 2 K19 4os Omilos
+36130699,Super League 2 K19
+36139289,G Ethniki 7os Omilos
+36139290,G Ethniki 8os Omilos
+36149286,Kypello EPS Zakýnthou
+36149287,Kypello EPS Xánthis
+36149288,Kypello EPS Dytikís Attikís
+36149289,Kypello EPS Voiotías
+36149290,Kypello EPS Trikálon
+36149291,Kypello EPS Thrákis
+36149292,Kypello EPS Thessalías
+36149293,Kypello EPS Thesprotías
+36149294,Kypello EPS Serrón
+36149295,Kypello EPS Sámou
+36149296,Kypello EPS Rethýmnou
+36149297,Kypello EPS Prévezas & Lefkádas
+36149298,Kypello EPS Peiraiá
+36149299,Kypello EPS Pierías
+36149300,Kypello EPS Péllas
+36149301,Kypello EPS Messinías
+36149302,Kypello EPS Makedonías
+36149649,Kypello EPS Lésvou
+36149651,Kypello EPS Lasithíou
+36149653,Kypello EPS Lárisas
+36149655,Kypello EPS Lakonías
+36149657,Kypello EPS Kykládon
+36149658,Kypello EPS Kozánis
+36149659,Kypello EPS Korinthías
+36149660,Kypello EPS Kilkís
+36149661,Kypello EPS Kérkyras
+36149662,Kypello EPS Kefallinías & Ithákis
+36149663,Kypello EPS Kaválas
+36149664,Kypello EPS Kastoriás
+36149665,Kypello EPS Kardítsas
+36149666,Kypello EPS Irakleíou
+36149667,Kypello EPS Ipeírou
+36149668,Kypello EPS Imathías
+36149669,Kypello EPS Ileías
+36149670,Kypello EPS Grevenón
+36149671,Kypello EPS Fthiótidas
+36149672,Kypello EPS Fokídas
+36149673,Kypello EPS Flórinas
+36149674,Kypello EPS Evrytanías
+36149675,Kypello EPS Évrou
+36149676,Kypello EPS Évoias
+36149677,Kypello EPS Anatolikís Attikís
+36149678,Kypello EPS Drámas
+36149679,Kypello EPS Dodekanísou
+36149680,Kypello EPS Chíou
+36149681,Kypello EPS Chaníon
+36149682,Kypello EPS Chalkidikís
+36149683,Kypello EPS Athinón
+36149684,Kypello EPS Ártas
+36149685,Kypello EPS Arkadías
+36149686,Kypello EPS Argolídas
+36149687,Kypello EPS Aitoloakarnanías
+36149688,Kypello EPS Achaías
+36149785,Super League 2 K19 Voreios Omilos
+36149786,Super League 2 K19 Notios Omilos
+36500021,Primera División
+36500022,Segunda División
+36500023,Liga de reservas
+36500071,Rock Cup
+36500463,Pepe Reyes Cup
+36527043,Intermediate League
+36532636,Football League
+37024268,Topklasse Zaterdag
+37024269,Topklasse Zondag
+37043719,Eerste Klasse B
+37043751,Eerste Klasse C
+37043752,Eerste Klasse D
+37043753,Eerste Klasse Zaterdag D
+37043754,Eerste Klasse H
+37043755,Eerste Klasse A
+37043756,Eerste Klasse E
+37043757,Eerste Klasse F
+37043758,Eerste Klasse G
+37043759,Eerste Klasse J
+37043760,Eerste Klasse Zondag F
+37059991,Tweede Divisie
+37059992,Derde Divisie A
+37059993,Derde Divisie B
+37066029,Onder 19 Derde Divisie C
+37066039,Tweede Klasse B
+37066040,Tweede Klasse K
+37066041,Tweede Klasse C
+37066042,Tweede Klasse D
+37066043,Tweede Klasse E
+37066044,Tweede Klasse F
+37066045,Tweede Klasse L
+37066046,Tweede Klasse M
+37066047,Tweede Klasse N
+37066048,Tweede Klasse Zaterdag J
+37066049,Tweede Klasse A
+37066050,Tweede Klasse Zondag B
+37066051,Tweede Klasse G
+37066052,Tweede Klasse H
+37066053,Tweede Klasse I
+37066054,Tweede Klasse J
+37066055,Tweede Klasse P
+37066056,Tweede Klasse O
+37066057,Tweede Klasse Zondag I
+37066058,Tweede Klasse Zondag J
+37066059,Tweede Klasse Zondag K
+37066060,Tweede Klasse Zondag L
+37073213,Derde Klasse Zaterdag A Noord
+37073214,Derde Klasse C
+37073215,Derde Klasse D
+37073216,Derde Klasse Zaterdag D Noord
+37073217,Derde Klasse Zaterdag A Oost
+37073218,Derde Klasse Zaterdag B Oost
+37073219,Derde Klasse Zaterdag C Oost
+37073220,Derde Klasse Zaterdag D Oost
+37073221,Derde Klasse Zaterdag A West 1
+37073222,Derde Klasse Zaterdag B West 1
+37073223,Derde Klasse Zaterdag C West 1
+37073224,Derde Klasse Zaterdag D West 1
+37073225,Derde Klasse Zaterdag A West 2
+37073226,Derde Klasse Zaterdag B West 2
+37073227,Derde Klasse Zaterdag C West 2
+37073228,Derde Klasse Zaterdag D West 2
+37073229,Derde Klasse Zaterdag A Zuid 1
+37073230,Derde Klasse Zondag A Zuid 2
+37073231,Derde Klasse Zaterdag B Zuid 1
+37073232,Derde Klasse Zondag B Zuid 2
+37073233,Derde Klasse Zaterdag C Zuid 1
+37073234,Derde Klasse Zondag C Zuid 2
+37073235,Derde Klasse Zaterdag D Zuid 1
+37073236,Derde Klasse Zondag D Zuid 2
+37073237,Derde Klasse Zondag A Noord
+37073238,Derde Klasse F
+37073239,Derde Klasse Zondag C Noord
+37073240,Derde Klasse Zondag D Noord
+37073241,Derde Klasse E
+37073242,Derde Klasse Zondag B Oost
+37073243,Derde Klasse A
+37073244,Derde Klasse Zondag D Oost
+37073245,Derde Klasse Zondag A West 1
+37073246,Derde Klasse Zondag A West 2
+37073247,Derde Klasse Zondag B West 1
+37073248,Derde Klasse Zondag B West 2
+37073249,Derde Klasse Zondag C West 1
+37073250,Derde Klasse Zondag C West 2
+37073251,Derde Klasse Zondag D West 1
+37073252,Derde Klasse Zondag D West 2
+37073253,Derde Klasse G
+37073254,Derde Klasse Zondag B Zuid 1
+37073255,Derde Klasse Zondag C Zuid 1
+37073256,Derde Klasse Zondag D Zuid 1
+38005392,Magyar Ligakupa
+38013451,Nemzeti Bajnokság III
+38013452,Nemzeti Bajnokság III - Alföld-csoport
+38013453,Nemzeti Bajnokság III - Bakony-csoport
+38013454,Nemzeti Bajnokság III - Mátra-csoport
+38013455,Nemzeti Bajnokság III - Dráva-csoport
+38013456,Nemzeti Bajnokság III - Tisza-csoport
+38013457,Nemzeti Bajnokság III - Duna-csoport
+38036804,Nemzeti Bajnokság III - Keleti csoport
+38036805,Nemzeti Bajnokság III - Középcsoport
+38036806,Nemzeti Bajnokság III - Nyugati csoport
+39030708,2. deild karla
+39033648,3. deild karla
+39037297,StarTimes Uganda Premier League
+39037298,FUFA Big League
+39037299,Stanbic Uganda Cup
+40000892,I-League 3
+40026565,MG Indian Super League
+41004312,BRI Super League
+41042740,Pegadaian Championship
+41042741,Championship Group A
+41042742,Championship Group B
+41042743,Liga 2 - Grup 3
+41042744,Liga 2 - Grup 4
+41042746,Liga Nusantara
+41053475,EPA One U-20
+41053476,EPA Championship U-20
+41058630,EPA One U-18
+42000527,Aluf HaAlufim
+42016163,Liga Alef North
+42016164,Liga Alef South
+42016165,Liga Alef
+42021438,Liga Bet
+42021439,Liga Bet South A
+42021440,Liga Bet South B
+42021441,Liga Bet North A
+42021442,Liga Bet North B
+42021443,Liga Gimel
+42021444,Liga Gimel Upper Galilee
+42021445,Liga Gimel Jezreel
+42021446,Liga Gimel Centrum
+42021447,Liga Gimel Samaria
+42021448,Liga Gimel Sharon
+42021449,Liga Gimel Tel Aviv
+42021450,Liga Gimel South
+42033240,Toto Cup Artzit
+42057767,Ligat Gimel HaGalil HaTahton
+42085309,Ligat Bet Gvia Darom A
+42085314,Ligat Bet Gvia Darom B
+42085319,Ligat Bet Gvia Tzafon A
+42085478,Avi Ran Youth Cup
+42085854,Ligat Bet Gvia Tzafon B
+42085855,Ligat Gimel Gvia HaGalil HaElyon
+42085856,Ligat Gimel Gvia Jezreel
+42085857,Ligat Gimel Gvia Melkazi
+42085858,Ligat Gimel Gvia Samaria
+42085859,Ligat Gimel Gvia Sharon
+42085860,Ligat Gimel Gvia Tel Aviv
+42085861,Ligat Gimel Gvia HaGalil HaTahton
+42085862,Ligat Gimel Gvia Darom
+43001467,Supercoppa di Lega di Seconda Divisione
+43032015,Campionato Sammarinese di Calcio
+43064519,Eccellenza Abruzzo
+43064520,Eccellenza Basilicata
+43064521,Eccellenza Calabria
+43064522,Eccellenza Campania Girone A
+43064523,Eccellenza Campania Girone B
+43064524,Eccellenza Emilia-Romagna Girone A
+43064525,Eccellenza Emilia-Romagna Girone B
+43064526,Eccellenza Friuli-Venezia Giulia
+43064527,Eccellenza Lazio Girone A
+43064528,Eccellenza Lazio Girone B
+43064529,Eccellenza Liguria
+43064530,Eccellenza Lombardia Girone A
+43064531,Eccellenza Lombardia Girone B
+43064532,Eccellenza Lombardia Girone C
+43064533,Eccellenza Marche
+43064534,Eccellenza Molise
+43064535,Eccellenza Piemonte-Valle d'Aosta Girone A
+43064536,Eccellenza Piemonte-Valle d'Aosta Girone B
+43064537,Eccellenza Puglia
+43064538,Eccellenza Sardegna
+43064539,Eccellenza Sicilia Girone A
+43064540,Eccellenza Sicilia Girone B
+43064541,Eccellenza Toscana Girone A
+43064542,Eccellenza Toscana Girone B
+43064543,Eccellenza Trentino-Alto Adige
+43064544,Eccellenza Umbria
+43064545,Eccellenza Veneto Girone A
+43064546,Eccellenza Veneto Girone B
+43078059,Eccellenza
+43104614,Promozione Abruzzo Girone A
+43104615,Promozione Abruzzo Girone B
+43104616,Promozione Basilicata
+43104617,Promozione Calabria Girone A
+43104618,Promozione Calabria Girone B
+43104619,Promozione Campania Girone A
+43104620,Promozione Campania Girone B
+43104621,Promozione Campania Girone C
+43104622,Promozione Campania Girone D
+43104623,Promozione Emilia-Romagna Girone A
+43104624,Promozione Emilia-Romagna Girone B
+43104625,Promozione Emilia-Romagna Girone C
+43104626,Promozione Emilia-Romagna Girone D
+43104627,Promozione Friuli-Venezia Giulia Girone A
+43104628,Promozione Friuli-Venezia Giulia Girone B
+43104629,Promozione Lazio Girone A
+43104630,Promozione Lazio Girone B
+43104631,Promozione Lazio Girone C
+43104632,Promozione Lazio Girone D
+43104633,Promozione Liguria Girone A
+43104634,Promozione Liguria Girone B
+43104635,Promozione Lombardia Girone A
+43104636,Promozione Lombardia Girone B
+43104637,Promozione Lombardia Girone C
+43104638,Promozione Lombardia Girone D
+43104639,Promozione Lombardia Girone E
+43104640,Promozione Lombardia Girone F
+43104641,Promozione Lombardia Girone G
+43104642,Promozione Marche Girone A
+43104643,Promozione Marche Girone B
+43104644,Promozione Molise
+43104645,Promozione Piemonte-Valle d'Aosta Girone A
+43104646,Promozione Piemonte-Valle d'Aosta Girone B
+43104647,Promozione Piemonte-Valle d'Aosta Girone C
+43104648,Promozione Piemonte-Valle d'Aosta Girone D
+43104649,Promozione Puglia Girone A
+43104650,Promozione Puglia Girone B
+43104651,Promozione Sardegna Girone A
+43104652,Promozione Sardegna Girone B
+43104653,Promozione Sicilia Girone A
+43104654,Promozione Sicilia Girone B
+43104655,Promozione Sicilia Girone C
+43104656,Promozione Sicilia Girone D
+43104657,Promozione Toscana Girone A
+43104658,Promozione Toscana Girone B
+43104659,Promozione Toscana Girone C
+43104661,Promozione Trentino
+43104662,Promozione Umbria Girone A
+43104663,Promozione Umbria Girone B
+43104664,Promozione Veneto Girone A
+43104665,Promozione Veneto Girone B
+43104666,Promozione Veneto Girone C
+43104667,Promozione Veneto Girone D
+43104668,Promozione
+43127171,Serie C Sky Wifi
+43127172,Serie C Sky Wifi Girone A
+43127173,Serie C Sky Wifi Girone B
+43127174,Serie C Sky Wifi Girone C
+43127176,Serie D Girone L
+43127177,Serie D Girone M
+43127178,Serie D Girone N
+43127179,Eccellenza Toscana
+43131832,Viareggio Cup Coppa Carnevale
+43163374,Coppa Italia Dilettanti
+43163375,Coppa Italia Eccellenza Abruzzo
+43163376,Coppa Italia Eccellenza Basilicata
+43163377,Coppa Italia Eccellenza Calabria
+43163378,Coppa Italia Eccellenza Campania
+43163379,Coppa Italia Eccellenza Emilia-Romagna
+43163380,Coppa Italia Eccellenza Friuli-Venezia Giulia
+43163381,Coppa Italia Eccellenza Lazio
+43163383,Coppa Italia Eccellenza Liguria
+43163385,Coppa Italia Eccellenza Marche
+43163386,Coppa Italia Eccellenza Molise
+43163387,Coppa Italia Eccellenza Piemonte-Valle d'Aosta
+43163388,Coppa Italia Eccellenza Puglia
+43163389,Coppa Italia Eccellenza Sardegna
+43163390,Coppa Italia Eccellenza Sicilia
+43163391,Coppa Italia Eccellenza Toscana
+43163392,Coppa Italia Eccellenza Trentino-Alto Adige
+43163393,Coppa Italia Eccellenza Umbria
+43163394,Coppa Italia Eccellenza Veneto
+43163395,Coppa Italia Eccellenza Lombardia
+43223314,Supercoppa Serie C
+43344138,Campionato Primavera 1
+43344139,Campionato Primavera 2
+43344140,Campionato Primavera 2 Girone A
+43344141,Campionato Primavera 2 Girone B
+43344142,Campionato Primavera 3
+43344143,Campionato Under 17 Serie A e B
+43344144,Campionato Primavera 3 Girone A
+43344145,Campionato Primavera 3 Girone B
+43344146,Campionato Primavera 3 Girone C
+43344147,Campionato Primavera 3 Girone D
+43344148,Campionato Primavera 3 Girone E
+43344149,Campionato Primavera 3 Girone F
+43344150,Campionato Under 17 Serie A e B Girone A
+43344151,Campionato Under 17 Serie A e B Girone B
+43344152,Campionato Under 17 Serie A e B Girone C
+43344153,Campionato Under 17 Serie C
+43344154,Campionato Under 17 Serie C Girone A
+43344155,Campionato Under 17 Serie C Girone B
+43344156,Campionato Under 17 Serie C Girone C
+43344157,Campionato Under 17 Serie C Girone D
+43344158,Campionato Under 17 Serie C Girone E
+43344160,Coppa Italia Primavera
+43344161,Supercoppa Primavera
+43411771,Prima Categoria Abruzzo Girone A
+43411772,Campionato Regionale di Prima Categoria
+43411773,Prima Categoria Abruzzo Girone B
+43411774,Prima Categoria Abruzzo Girone C
+43411775,Prima Categoria Abruzzo Girone D
+43411776,Prima Categoria Abruzzo Girone E
+43411777,Prima Categoria Alto Adige Girone A
+43411778,Prima Categoria Alto Adige Girone B
+43411779,Prima Categoria Basilicata Girone A
+43411780,Prima Categoria Basilicata Girone B
+43411781,Prima Categoria Calabria Girone A
+43411782,Prima Categoria Calabria Girone B
+43411783,Prima Categoria Calabria Girone C
+43411784,Prima Categoria Calabria Girone D
+43411785,Prima Categoria Campania Girone A
+43411786,Prima Categoria Campania Girone B
+43411787,Prima Categoria Campania Girone C
+43411788,Prima Categoria Campania Girone D
+43411789,Prima Categoria Campania Girone E
+43411790,Prima Categoria Campania Girone F
+43411791,Prima Categoria Campania Girone G
+43411792,Prima Categoria Emilia-Romagna Girone A
+43411793,Prima Categoria Emilia-Romagna Girone B
+43411794,Prima Categoria Emilia-Romagna Girone C
+43411795,Prima Categoria Emilia-Romagna Girone D
+43411796,Prima Categoria Emilia-Romagna Girone E
+43411797,Prima Categoria Emilia-Romagna Girone F
+43411798,Prima Categoria Emilia-Romagna Girone G
+43411799,Prima Categoria Emilia-Romagna Girone H
+43411800,Prima Categoria Friuli-Venezia Giulia Girone A
+43411801,Prima Categoria Friuli-Venezia Giulia Girone B
+43411802,Prima Categoria Friuli-Venezia Giulia Girone C
+43411803,Prima Categoria Lazio Girone A
+43411804,Prima Categoria Lazio Girone B
+43411805,Prima Categoria Lazio Girone C
+43411806,Prima Categoria Lazio Girone D
+43411807,Prima Categoria Lazio Girone E
+43411808,Prima Categoria Lazio Girone F
+43411809,Prima Categoria Lazio Girone G
+43411810,Prima Categoria Lazio Girone H
+43411811,Prima Categoria Lazio Girone I
+43411812,Prima Categoria Liguria Girone A
+43411813,Prima Categoria Liguria Girone B
+43411814,Prima Categoria Liguria Girone C
+43411815,Prima Categoria Liguria Girone D
+43411816,Prima Categoria Lombardia Girone A
+43411817,Prima Categoria Lombardia Girone B
+43411818,Prima Categoria Lombardia Girone C
+43411819,Prima Categoria Lombardia Girone D
+43411820,Prima Categoria Lombardia Girone E
+43411821,Prima Categoria Lombardia Girone F
+43411823,Prima Categoria Lombardia Girone G
+43411824,Prima Categoria Lombardia Girone H
+43411825,Prima Categoria Lombardia Girone I
+43411826,Prima Categoria Lombardia Girone L
+43411827,Prima Categoria Lombardia Girone M
+43411828,Prima Categoria Lombardia Girone N
+43411829,Prima Categoria Marche Girone A
+43411830,Prima Categoria Marche Girone B
+43411831,Prima Categoria Marche Girone C
+43411832,Prima Categoria Marche Girone D
+43411833,Prima Categoria Molise Girone A
+43411834,Prima Categoria Molise Girone B
+43411835,Prima Categoria Molise Girone C
+43411836,Prima Categoria Piemonte-Valle d'Aosta Girone A
+43411837,Prima Categoria Piemonte-Valle d'Aosta Girone B
+43411838,Prima Categoria Piemonte-Valle d'Aosta Girone C
+43411839,Prima Categoria Piemonte-Valle d'Aosta Girone D
+43411840,Prima Categoria Piemonte-Valle d'Aosta Girone E
+43411841,Prima Categoria Piemonte-Valle d'Aosta Girone F
+43411842,Prima Categoria Piemonte-Valle d'Aosta Girone G
+43411843,Prima Categoria Piemonte-Valle d'Aosta Girone H
+43411844,Prima Categoria Puglia Girone A
+43411845,Prima Categoria Puglia Girone B
+43411846,Prima Categoria Puglia Girone C
+43411847,Prima Categoria Sardegna Girone A
+43411848,Prima Categoria Sardegna Girone B
+43411849,Prima Categoria Sardegna Girone C
+43411850,Prima Categoria Sardegna Girone D
+43411851,Prima Categoria Sardegna Girone E
+43411852,Prima Categoria Sicilia Girone A
+43411853,Prima Categoria Sicilia Girone B
+43411854,Prima Categoria Sicilia Girone C
+43411855,Prima Categoria Sicilia Girone D
+43411856,Prima Categoria Sicilia Girone E
+43411857,Prima Categoria Sicilia Girone F
+43411858,Prima Categoria Sicilia Girone G
+43411859,Prima Categoria Toscana Girone A
+43411860,Prima Categoria Toscana Girone B
+43411861,Prima Categoria Toscana Girone C
+43411862,Prima Categoria Toscana Girone D
+43411863,Prima Categoria Toscana Girone E
+43411864,Prima Categoria Toscana Girone F
+43411865,Prima Categoria Trentino Girone A
+43411866,Prima Categoria Trentino Girone B
+43411867,Prima Categoria Trentino Girone C
+43411868,Prima Categoria Umbria Girone A
+43411869,Prima Categoria Umbria Girone B
+43411870,Prima Categoria Umbria Girone C
+43411871,Prima Categoria Umbria Girone D
+43411872,Seconda Categoria
+43411873,Terza Categoria
+43411874,Prima Categoria Veneto Girone A
+43411875,Prima Categoria Veneto Girone B
+43411876,Prima Categoria Veneto Girone C
+43411877,Prima Categoria Veneto Girone D
+43411878,Prima Categoria Veneto Girone E
+43411879,Prima Categoria Veneto Girone F
+43411880,Prima Categoria Veneto Girone G
+43411881,Prima Categoria Veneto Girone H
+45002926,Tohoku Senior League Division Two - South
+45002927,Hokkaido Block League
+45002928,Hokkaido District League
+45002989,All Japan Senior Football Championship
+45002990,Aomori Prefecture League
+45002991,Akita Prefecture League
+45002992,Fukushima Prefecture League
+45002993,Iwate Prefecture League
+45002994,Miyagi Prefecture League
+45002995,Yamagata Prefecture League
+45002996,Chiba Prefecture League
+45002997,Gunma Prefecture League
+45002998,Ibaraki Prefecture League
+45002999,Kanagawa Prefecture League
+45003000,Saitama Prefecture League
+45003001,Tochigi Prefecture League
+45003002,Tokyo Metropolitan League
+45003003,Yamanashi Prefecture League
+45003004,Aichi Prefecture League
+45003005,Gifu Prefecture League
+45003006,Mie Prefecture League
+45003007,Shizuoka Prefecture League
+45003008,Fukui Prefecture League
+45003009,Ishikawa Prefecture League
+45003010,Nagano Prefecture League
+45003011,Niigata Prefecture League
+45003012,Toyama Prefecture League
+45003013,Hyogo Prefecture League
+45003014,Kyoto Prefecture League
+45003015,Nara Prefecture League
+45003016,Osaka Prefecture League
+45003017,Shiga Prefecture League
+45003018,Wakayama Prefecture League
+45003019,Hiroshima Prefecture League
+45003020,Okayama Prefecture League
+45003021,Shimane Prefecture League
+45003022,Tottori Prefecture League
+45003023,Yamaguchi Prefecture League
+45003024,Ehime Prefecture League
+45003025,Kagawa Prefecture League
+45003026,Kochi Prefecture League
+45003027,Tokushima Prefecture League
+45003028,Fukuoka Prefecture League
+45003029,Kagoshima Prefecture League
+45003030,Kumamoto Prefecture League
+45003031,Miyazaki Prefecture League
+45003032,Nagasaki Prefecture League
+45003033,Oita Prefecture League
+45003034,Saga Prefecture League
+45003035,Okinawa Prefecture League
+45003127,J.League All-Star Soccer
+45003339,Tohoku Senior League Division Two
+45003340,Hokkaido Block League - Dohoku
+45003341,Hokkaido Block League - Do'o
+45003342,Hokkaido Block League - Doto
+45003343,Hokkaido Block League - Donan
+45015072,All Star JOMO Cup
+45021033,Japan Soccer League Division One
+45021034,Japan Soccer League Division Two
+45024430,Trinidad and Tobago Cup
+45024431,First Citizens Cup
+45024432,Digicel Pro Bowl
+45024434,Tobago FA Cup
+45026247,Japan Football League Division Two
+45026248,Japan Soccer League Division Two Eastern Block
+45026249,Japan Soccer League Division Two Western Block
+45031863,Prime Minister's Cup All Japan University Football Tournament
+45031898,Kyushu University League Division One
+45031899,Hokkaido University League Division One
+45031900,Tohoku University League Division One
+45031901,Tokai University League Division One
+45031902,Hokushin'etsu University League Division One
+45031903,Kansai University League Division One
+45031906,Kanto University League Division One
+45032268,Kanto University League Lower Division
+45032269,Kyushu University League Lower Division
+45032270,Tokai University League Lower Division
+45032271,Chugoku University League Lower Division
+45032272,Hokushin'etsu University League Lower Division
+45032273,Hokkaido University League Lower Division
+45032274,Shikoku University League Lower Division
+45032275,Tohoku University League Lower Division
+45032276,Kansai University League Lower Division
+45033356,University Soccer League Lower Division
+45036299,Hokkaido Block League - Sapporo
+45037690,Japanese National Regional League Division Two
+45037719,All Japan University Football Championship
+45037739,All Japan High School Soccer Tournament
+45037740,National Inter High School Championship
+45037741,J.League Youth Championship
+45037742,Japan Club Youth U-18 Football Championship
+45076923,Hokkaido Soccer League Division Two
+45077255,University League Division Two
+45077256,Prime Minister Cup Hokkaido Tournament
+45077259,Prime Minister Cup Hokushin'etsu Tournament
+45077260,Tokai Student Soccer Championship
+45081238,Hokushin'etsu University League Division Two
+45082430,SKNFA National Bank Premier League
+45082431,NLA SVGFF Club Championship
+45082432,SLFA First Division
+45082433,GFF Elite League
+45082434,Cayman Islands League
+45082435,Liga Puerto Rico Pro
+45082439,SKNFA Division 1
+45082441,SVGFF First Division
+45082480,Liga MCB 1st Division
+45082481,Dominica Premiere League
+45098753,U-21 J.League
+45115573,Prince Takamado Trophy JFA U-18 Football Premier League
+45115574,Prince Takamado Trophy JFA U-18 Football Premier League East
+45115575,Prince Takamado Trophy JFA U-18 Football Premier League West
+45115576,Prince Takamado Trophy JFA U-18 Football Prince League
+45115577,Prince Takamado Trophy JFA U-18 Football Prince League - Hokkaido
+45115578,Prince Takamado Trophy JFA U-18 Football Prince League - Tohoku
+45115579,Prince Takamado Trophy JFA U-18 Football Prince League - Kanto
+45115580,Prince Takamado Trophy JFA U-18 Football Prince League - Hokushinetsu
+45115581,Prince Takamado Trophy JFA U-18 Football Prince League - Tokai
+45115582,Prince Takamado Trophy JFA U-18 Football Prince League - Kansai
+45115583,Prince Takamado Trophy JFA U-18 Football Prince League - Chugoku
+45115584,Prince Takamado Trophy JFA U-18 Football Prince League - Shikoku
+45115585,Prince Takamado Trophy JFA U-18 Football Prince League - Kyushu
+45116776,Hokkaido Block League - Central/North
+45122775,Hokkaido Block League Final Series
+47000005,Lliga Multisegur Assegurances
+47000006,Lliga UNIDA
+47017450,IZIBET FA Trophy
+47017525,LVBET Latvijas kauss
+47017546,Hegelmann LFF Taurė
+47020292,Kup na Makedonija
+47024182,Super Cup Maltija
+47024212,TOPsport LFF Supertaurė
+47024230,Superkup na Makedonija
+47040943,Latvijas Superkauss
+47053671,IZIBet National Amateur League
+47073317,Esiliiga B
+47075710,Vtora Makedonska Fudbalska Liga East
+47075711,Vtora Makedonska Fudbalska Liga West
+49038698,Championnat National 2
+49039425,Régionale 1
+49039426,Régionale 2
+50046767,Championnat National 3 Groupe M (Auvergne-Rhône-Alpes)
+50046768,Championnat National 3 Groupe A (Nouvelle-Aquitaine)
+50046769,Championnat National 3 Groupe K (Bretagne)
+50046770,Championnat National 3 Groupe C (Centre-Val de Loire)
+50046771,Championnat National 3 Groupe D (Méditerranée-Corse)
+50046772,Championnat National 3 Groupe F (Grand Est)
+50046773,Championnat National 3 Groupe I (Hauts-de-France)
+50046774,Championnat National 3 Groupe J (Normandie)
+50046775,Championnat de France Amateur 2 - Groupe A
+50046776,Championnat National 3 Groupe E (Bourgogne-Franche-Comté)
+50046777,Championnat de France Amateur 2 - Groupe B
+50046778,Championnat de France Amateur 2 - Groupe C
+50046779,Championnat de France Amateur 2 - Groupe D
+50046780,Championnat de France Amateur 2 - Groupe E
+50046781,Championnat de France Amateur 2 - Groupe F
+50046782,Championnat de France Amateur 2 - Groupe G
+50046783,Championnat de France Amateur 2 - Groupe H
+50048443,Championnat National 3 Groupe H (Occitanie)
+50048444,Championnat National 3 Groupe L (Île-de-France)
+50048445,Championnat National 3 Groupe B (Pays de la Loire)
+51013960,Segunda División de México - Liga de Nuevos Talentos
+51013961,Liga TDP
+51013962,Copa MX
+51013963,Segunda División de México Grupo 1
+51013964,Segunda División de México Grupo 2
+51013965,Segunda División de México - Liga de Nuevos Talentos Zona 1
+51013966,Segunda División de México - Liga de Nuevos Talentos Zona 2
+51013967,Liga TDP Grupo I
+51013968,Liga TDP Grupo II
+51013985,Liga TDP Grupo III
+51013986,Liga TDP Grupo IV
+51013987,Liga TDP Grupo V
+51013988,Liga TDP Grupo VI
+51013989,Liga TDP Grupo VII
+51013990,Liga TDP Grupo VIII
+51013991,Liga TDP Grupo IX
+51013992,Liga TDP Grupo X
+51013993,Liga TDP Grupo XI
+51013994,Liga TDP Grupo XII
+51013995,Liga TDP Grupo XIII
+51013996,Liga TDP Grupo XIV
+51013997,Liga TDP Grupo XV
+51045232,Supercopa MX
+51066837,Liga Premier A
+51066838,Liga Premier A Grupo 1
+51066839,Liga Premier A Grupo 2
+51066840,Liga Premier B
+51066841,Liga Premier B Grupo 1
+51066842,Liga Premier B Grupo 2
+52001471,Craig Memorial Cup
+52005285,Mid-Ulster Football League Intermediate B
+52007218,Leinster/Munster/Ulster Senior Division
+52022030,A Championship
+52029648,Munster Senior League Senior 1st Division
+52029649,Munster Senior League Senior 2nd Division
+52029650,Leinster Senior League Senior 1A
+52033665,Mid-Ulster Football League Division One
+52033668,Mid-Ulster Football League Division Two
+52034091,Ballymena & Provincial League Junior Division 1
+52039004,Leinster Senior League Senior 1B
+52040449,Coca-Cola Intermediate Cup
+52041289,Wexford Football League Premier Division
+52041290,O'Neill's Waterford and District Junior Premier League
+52041411,Galway & District League Premier League
+52041415,Mayo & District League Super League
+52041515,Limerick & District League – Premier Division
+52041516,Tipperary Southern & District Football League Premier Division
+52041533,Donegal Junior League Premier League
+52044893,Leinster/Munster Senior 1 Division
+52062811,Clare District Soccer League Premier Division
+52063048,Combined Counties Football League Premier Division
+52063852,Athletic Union League Dublin Premier A
+52063944,Athletic Union League Cork Premier
+52064055,Coca Cola Junior Cup
+52077510,President's Cup
+52077937,1. Division - Série 1
+52077939,1. Division - Série 2
+52077940,1. Division
+52085530,EA SPORTS LOI Academy MU20 League Group B
+52085531,EA SPORTS LOI Academy MU20 League Group A
+52086882,League of Ireland MU20 Division
+52086955,NIFL Premiership Development League
+52092910,George Wilson Memorial Cup
+53045703,1. divisjon avdeling A
+53045723,1. divisjon avdeling B
+53051837,UNICEF Mesterfinalen
+53057341,Norsk Tipping-ligaen Avdeling 1
+53057342,Norsk Tipping-ligaen Avdeling 2
+53057343,Norsk Tipping-ligaen Avdeling 3
+53057344,Norsk Tipping-ligaen Avdeling 4
+53057345,Norsk Tipping-ligaen Avdeling 5
+53057346,Norsk Tipping-ligaen Avdeling 6
+53057347,Norsk Tipping-ligaen Avdeling 7
+53057348,Norsk Tipping-ligaen Avdeling 8
+53057349,Norsk Tipping-ligaen Avdeling 9
+53057350,Norsk Tipping-ligaen Avdeling 10
+53057351,Norsk Tipping-ligaen Avdeling 11
+53057352,Norsk Tipping-ligaen Avdeling 12
+53083513,3. divisjon avdeling 13
+53083514,3. divisjon avdeling 14
+53083515,3. divisjon avdeling 15
+53083516,3. divisjon avdeling 16
+53083517,3. divisjon avdeling 17
+53083518,3. divisjon avdeling 18
+53083519,3. divisjon avdeling 19
+53083520,3. divisjon avdeling 20
+53083521,3. divisjon avdeling 21
+53083522,3. divisjon avdeling 22
+53083523,3. divisjon avdeling 23
+53083524,3. divisjon avdeling 24
+53130077,Nord-Norgesmesterskapet
+53149467,1. divisjon avdeling C
+53161019,Nasjonal G19
+53162001,4. divisjon menn - Østfold
+53162002,4. divisjon menn - Akershus
+53162003,4. divisjon menn - Oslo 1
+53162004,4. divisjon menn - Oslo 2
+53162005,4. divisjon menn - Oslo 3
+53162006,4. divisjon menn - Indre Østland
+53162007,4. divisjon menn - Indre Østland 2
+53162008,4. divisjon menn - Buskerud
+53162009,4. divisjon menn - Vestfold
+53162010,4. divisjon menn - Telemark
+53162011,4. divisjon menn - Agder
+53162012,4. divisjon menn - Rogaland 1
+53162013,4. divisjon menn - Rogaland 2
+53162014,4. divisjon menn - Hordaland 1
+53162015,4. divisjon menn - Hordaland 2
+53162016,4. divisjon menn - Sogn og Fjordane
+53162017,4. divisjon menn - Sunnmøre
+53162018,4. divisjon menn - Nordmøre og Romsdal
+53162019,4. divisjon menn - Trøndelag 1
+53162020,4. divisjon menn - Trøndelag 2
+53162021,4. divisjon menn - Nordland
+53162022,4. divisjon menn - Hålogaland
+53162023,4. divisjon menn - Troms
+53162024,4. divisjon menn - Finnmark
+55006606,Allianz Cup
+55020301,Campeonato Distrital
+55020400,Campeonato Nacional da Segunda Divisão Zona Norte
+55020401,Campeonato Nacional da Segunda Divisão Zona Centro
+55020402,Campeonato Nacional da Segunda Divisão Zona Sul
+55027135,Terceira Divisão - Série A
+55027140,Terceira Divisão - Série B
+55027141,Terceira Divisão - Série C
+55027142,Terceira Divisão - Série D
+55027143,Terceira Divisão - Série E
+55027144,Terceira Divisão - Série F
+55027145,Terceira Divisão - Série Madeira
+55027146,Terceira Divisão - Série Açores
+55065454,Campeonato de Portugal
+55065643,Campeonato de Portugal Série A
+55065659,Campeonato de Portugal Série B
+55065660,Campeonato de Portugal Série C
+55065661,Campeonato de Portugal Série D
+55065662,Campeonato de Portugal Série E
+55065663,Campeonato de Portugal Série F
+55065664,Campeonato de Portugal Série G
+55065665,Campeonato de Portugal Série H
+56039004,Liga Tineret
+57015177,Liga III - Seria II
+57015179,Liga III - Seria III
+57015180,Liga III - Seria IV
+57015181,Liga III - Seria V
+57015182,Liga III - Seria VI
+57015313,Liga III - Seria VII
+57015314,Liga III - Seria VIII
+57015315,Liga III - Seria IX
+57030695,Liga II - Seria IV
+57030698,Liga II - Seria V
+57030728,Liga III - Seria X
+57030737,Liga III - Seria XII
+57030754,Liga III - Seria XI
+57048424,Liga IV - Arad
+57048504,Liga IV - Alba
+57048505,Liga IV - Argeş
+57048506,Liga IV - Bacău
+57048507,Liga IV - Bihor
+57048508,Liga IV - Bistriţa-Năsăud
+57048509,Liga IV - Botoşani
+57048510,Liga IV - Braşov
+57048511,Liga IV - Brăila
+57048512,Liga IV - Vrancea
+57048513,Liga IV - Buzău
+57048514,Liga IV - Caraş-Severin
+57048515,Liga IV - Călăraşi
+57048516,Liga IV - Cluj
+57048517,Liga IV - Constanţa
+57048518,Liga IV - Covasna
+57048519,Liga IV - Dâmboviţa
+57048520,Liga IV - Dolj
+57048521,Liga IV - Galaţi
+57048522,Liga IV - Giurgiu
+57048523,Liga IV - Gorj
+57048524,Liga IV - Harghita
+57048525,Liga IV - Hunedoara
+57048526,Liga IV - Ialomiţa
+57048527,Liga IV - Iaşi
+57048528,Liga IV - Ilfov
+57048529,Liga IV - Maramureş
+57048530,Liga IV - Mehedinţi
+57048531,Liga IV - Mureş
+57048532,Liga IV - Neamţ
+57048533,Liga IV - Olt
+57048534,Liga IV - Prahova
+57048535,Liga IV - Satu Mare
+57048536,Liga IV - Sălaj
+57048537,Liga IV - Sibiu
+57048538,Liga IV - Suceava
+57048539,Liga IV - Teleorman
+57048540,Liga IV - Timiş
+57048541,Liga IV - Tulcea
+57048542,Liga IV - Vaslui
+57048543,Liga IV - Vâlcea
+57172451,Campionatul Național U19 Seria 1
+57172452,Campionatul Național U19 Seria 2
+57172453,Campionatul Național U19 Seria 3
+57172454,Campionatul Național U19 Seria 4
+57172455,Campionatul Național U19 Seria 5
+57172456,Campionatul Național U19 Seria 6
+57172457,Campionatul Național U19 Seria 7
+57172458,Campionatul Național U19 Seria 8
+57172459,Campionatul Național U19 Seria 9
+57172460,Campionatul Național U19 Seria 10
+58031020,Pervenstvo Rossii sredi ljubitel'skich futbol'nych klubov - Moskovskaya oblast'
+58135036,Molodyozhnaya Futbolnaya Liga
+58135037,Gazprom Youth Football League
+58135049,Tret'ya Liga
+59005735,Shoro Top League
+59005736,Kyrgyzstan League Second Level
+59005737,Kyrgyzstan Cup
+59006196,Fastex Premier League
+59006197,First League
+59006199,Fastex Hayastani Ankaxowt'yan Gavat'
+59006943,Misli Premyer Liqası
+59006944,Azərbaycan Birinci Divizionu A Qrupu
+59006945,Azərbaycan Aşağı Liqası
+59006948,Azərbaycan Birinci Divizionu B Qrupu
+59007527,Priemjer Ligasy
+59007598,Qazaqstan Kubogy
+59007606,Bizon Azərbaycan Kuboku
+59007607,Super Liga
+59007608,Cupa Moldovei Moldtelecom
+59007627,Liga 1
+59007869,Umaglesi Liga
+59007870,Sakartvelos Tasi
+59007871,Pirveli Liga
+59007964,Kahramonhoi Todżikiston
+59007966,Tajik Cup
+59008101,Birinci Liqası
+59008328,İkinci Liqası
+59008472,Liga 2 Seria Nord
+59008473,Liga 2 Seria Sud
+59009237,Pirveli Liga Dasavletis Zona
+59009270,Pirveli Liga Aghmosavletis Zona
+59010820,Byrynszy liga
+59020461,Meore Liga Aghmosavletis Zona
+59020462,Meore Liga Dasavletis Zona 1
+59028581,Meore Liga
+59038407,Meore Liga Dasavletis Zona 2
+59045407,Pirveli Liga A
+59045408,Pirveli Liga B
+59045661,Meore Liga Dasavletis Zona
+59046303,Hakob Tonoyani anvan Sowpergavat'
+59059632,Tajik Super Cup
+59060080,Türkmenistanyň Naýbaşy Kubogy
+59066301,Sakartvelos Sup'ertasi
+59069901,Kyrgyzstan Super Cup
+59072821,Superkubok SSSR
+59077020,Milli Futbol Superkuboku
+59090663,O'zbekiston Superkubogi
+59092336,Meore Liga Tsentraluris Zona
+59114818,Meore Liga Dasavletis Tasi
+59114819,Meore Liga Aghmosavletis Tasi
+59114820,Meore Liga Tsentraluri Tasi
+59121241,Meore Liga Aghmosavletis A
+59121242,Meore Liga Aghmosavletis B
+59121243,Meore Liga Aghmosavletis G
+59121244,Meore Liga Aghmosavletis D
+59121245,Meore Liga Centri
+59121246,Meore Liga Dasavletis A
+59121247,Meore Liga Dasavletis B
+59121248,Meore Liga Dasavletis G
+59125821,Supercupa Moldovei
+59126495,Crystalbet Erovnuli Liga
+59126496,Erovnuli Liga 2
+59126497,Liga 3
+59126500,Regionuli Liga
+59128103,Azərbaycan Birinci Divizionu C Qrupu
+59131727,Region Liqası
+59131728,Azərbaycan Region Liqası Paytaxt və Şimal
+59131729,Azərbaycan Region Liqası Cənub və Mərkəz
+59131730,Azərbaycan Region Liqası Şimal-Qərb və Qərb
+59134915,Azərbaycan Region Liqası Paytaxt
+59134916,Azərbaycan Region Liqası Şimal
+59134917,Azərbaycan Region Liqası Şimal-Qərb
+59134918,Azərbaycan Region Liqası Qərb
+59134919,Azərbaycan Region Liqası Cənub
+59134920,Azərbaycan Region Liqası Mərkəz
+59135038,O'zbekiston Superligasi
+59135039,Pro Liga Yandex Plus
+59143695,Liga 4
+60008733,Coppa Titano
+60008783,Super Coppa Sammarinese
+60024420,Campionato Sammarinese di Calcio A-2
+61006615,Breedon Highland League
+61006616,East of Scotland Football League Premier Division
+61006617,East of Scotland Football League First Division
+61006769,Macleod & MacCallum North Caledonian League
+61021798,West of Scotland Football League Premier Division
+61021805,West of Scotland Football League First Division
+61021806,West of Scotland Football League Third Division
+61021807,West of Scotland Football League Second Division
+61021808,Mcbookie.com Central District Second Division
+61021809,Mcbookie.com East Superleague
+61021810,Mcbookie.com East Premier League
+61021811,Mcbookie.com East Region North Division
+61021812,Mcbookie.com East Region Central Division
+61021813,Mcbookie.com East Region South Division
+61021814,North of Scotland Football League Premier League
+61021816,North of Scotland Football League Championship
+61025888,Scottish Communities Cup
+61026078,King Cup
+62002147,Treća crnogorska fudbalska liga
+62055299,Balkan Football Cup
+62055311,Balkans Cup
+62056424,Triobet Baltic League
+62095849,Zonske lige
+62159235,Tretja slovenska nogometna liga Center
+62159236,Tretja slovenska nogometna liga Sever
+62206517,1. SML EON NextGen
+62214658,2. Slovenska mladinska liga
+62246551,Druga savezna nogometna liga SFRJ - Skupina Istok
+62246552,Druga savezna nogometna liga SFRJ - Skupina Zapad
+64000176,Tretja slovenska nogometna liga Vzhod
+64005980,Superpokal Slovenije
+65010780,ABC Motsepe League - Western Cape
+65010781,ABC Motsepe League - Northern Cape
+65010782,ABC Motsepe League - North West
+65010783,ABC Motsepe League - Mpumalanga
+65010784,ABC Motsepe League - Limpopo
+65010785,ABC Motsepe League - Gauteng
+65010786,ABC Motsepe League - Kwazulu Natal
+65010787,ABC Motsepe League - Free State
+65010788,ABC Motsepe League - Eastern Cape
+65025757,Hollywoodbets Regional League - Eastern Cape
+65025758,Hollywoodbets Regional League - Free State
+65025759,Hollywoodbets Regional League - KwaZulu-Natal
+65025760,Hollywoodbets Regional League - Gauteng
+65025761,Hollywoodbets Regional League - Limpopo
+65025762,Hollywoodbets Regional League - Mpumalanga
+65025763,Hollywoodbets Regional League - North West
+65025764,Hollywoodbets Regional League - Western Cape
+65025765,Hollywoodbets Regional League - Northern Cape
+66010517,K3 League
+66039931,R League
+66040773,K4 League
+67023610,Tercera División Grupo I - Galicia
+67023611,Tercera División Grupo II - Asturias
+67023612,Tercera División Grupo III - Cantabria
+67023613,Tercera División Grupo IV - País Vasco
+67023614,Tercera División Grupo V - Cataluña
+67023615,Tercera División Grupo VI - Comunidad Valenciana
+67023616,Tercera División Grupo VII - Comunidad de Madrid
+67023617,Tercera División Grupo VIII - Castilla y León
+67023618,Tercera División Grupo IX - Andalucía Oriental y Melilla
+67023619,Tercera División Grupo X - Andalucía Occidental y Ceuta
+67023620,Tercera División Grupo XI - Islas Baleares
+67023621,Tercera División Grupo XII - Islas Canarias
+67023622,Tercera División Grupo XIII - Región de Murcia
+67023623,Tercera División Grupo XIV - Extremadura
+67023624,Tercera División Grupo XV - Navarra
+67023625,Tercera División Grupo XVI - La Rioja
+67023626,Tercera División Grupo XVII - Aragón
+67023627,Tercera División Grupo XVIII - Castilla-La Mancha
+67036360,Copa RFEF
+67065287,Copa Constitució Valira Seguretat
+67101188,Preferente Galicia - Grupo Norte
+67101189,Preferente Galicia - Grupo Sur
+67101190,Primera Asturfútbol
+67101191,Regional Preferente de Cantabria
+67101192,División de Honor de Vizcaya
+67101193,División de Honor de Álava
+67101194,División de Honor Regional de Guipúzcoa
+67101195,Primera Catalana - Grupo 1
+67101196,Lliga Primera FFCV - Grupo 1
+67101197,Lliga Primera FFCV - Grupo 2
+67101198,Lliga Primera FFCV - Grupo 3
+67101199,Lliga Primera FFCV - Grupo 4
+67101200,Primera División Autonómica de Madrid - Grupo 1
+67101201,Primera División Autonómica de Madrid - Grupo 2
+67101202,Primera División Regional Aficionados de Castilla y León - Grupo A
+67101203,Primera División Regional Aficionados de Castilla y León - Grupo B
+67101204,Primera División Andaluza Grupo Almería
+67101205,Primera División Andaluza Grupo Cádiz
+67101206,Primera División Andaluza Grupo Córdoba
+67101207,Primera División Andaluza Grupo Granada
+67101208,Regional Preferente de Ceuta
+67101209,División de Honor de Mallorca
+67101210,División de Honor de Menorca
+67101211,Interinsular Preferente de Las Palmas
+67101212,Interinsular Preferente de Tenerife
+67101213,Preferente Autonómica de Murcia
+67101214,Primera División Extremeña - Grupo 1
+67101215,Primera División Extremeña - Grupo 2
+67101216,Primera Autonómica de Navarra - Grupo 1
+67101217,Primera Autonómica de Navarra - Grupo 2
+67101218,Regional Preferente de La Rioja
+67101219,Regional Preferente de Aragón - Grupo 1
+67101220,Regional Preferente de Aragón - Grupo 2
+67101221,Primera Autonómica Preferente de Castilla-La Mancha - Grupo 1
+67101222,Primera Autonómica Preferente de Castilla-La Mancha - Grupo 2
+67101223,Primera División Autonómica de Melilla
+67101224,División de Honor de Ibiza-Formentera
+67109230,Supercopa Andorrana
+67196503,Primera Catalana - Grupo 2
+67246444,División de Honor Andaluza - Grupo I
+67246445,División de Honor Andaluza - Grupo II
+67248615,División de Honor Juvenil - Grupo I
+67248625,División de Honor Juvenil - Grupo II
+67248626,División de Honor Juvenil - Grupo III
+67248627,División de Honor Juvenil - Grupo IV
+67248628,División de Honor Juvenil - Grupo V
+67248629,División de Honor Juvenil - Grupo VI
+67248630,División de Honor Juvenil - Grupo VII
+67248632,División de Honor Juvenil
+67248770,Liga Nacional Juvenil de Fútbol - Grupo I
+67248771,Liga Nacional Juvenil de Fútbol - Grupo II
+67248772,Liga Nacional Juvenil de Fútbol - Grupo III
+67248773,Liga Nacional Juvenil de Fútbol - Grupo IV
+67248774,Liga Nacional Juvenil de Fútbol - Grupo V
+67248775,Liga Nacional Juvenil de Fútbol - Grupo VI
+67248776,Liga Nacional Juvenil de Fútbol - Grupo VII
+67248777,Liga Nacional Juvenil de Fútbol - Grupo VIII
+67248778,Liga Nacional Juvenil de Fútbol - Grupo IX
+67248779,Liga Nacional Juvenil de Fútbol - Grupo X
+67248780,Liga Nacional Juvenil de Fútbol - Grupo XI
+67248781,Liga Nacional Juvenil de Fútbol - Grupo XII
+67248782,Liga Nacional Juvenil de Fútbol - Grupo XIII
+67248783,Liga Nacional Juvenil de Fútbol - Grupo XIV
+67248784,Liga Nacional Juvenil de Fútbol - Grupo XV
+67248785,Liga Nacional Juvenil de Fútbol - Grupo XVI
+67248786,Liga Nacional Juvenil de Fútbol - Grupo XVII
+67248787,Liga Nacional Juvenil
+67248904,Liga Nacional Juvenil de Fútbol - Grupo XVIII
+68012819,Svenska Supercupen
+70027104,1. Amatör Lig
+70043162,Nesine 3. Lig Grup 1
+70043163,Nesine 3. Lig Grup 2
+70043164,Nesine 3. Lig Grup 3
+70043165,TFF 3. Lig 4. Grup
+70043166,TFF 3. Lig 5. Grup
+70053688,İstanbul Süper Amatör Lig
+70053773,Ankara Süper Amatör Lig
+70053839,İzmir Süper Amatör Lig
+70054385,Adana Süper Amatör Lig
+70054477,Trabzon Amatör Lig
+70055727,Bölgesel Amatör Lig
+70084836,Süper Amatör Lig
+70086159,Bölgesel Amatör Lig Grup 1
+70086160,Bölgesel Amatör Lig Grup 2
+70086161,Bölgesel Amatör Lig Grup 3
+70086162,Bölgesel Amatör Lig Grup 4
+70086163,Bölgesel Amatör Lig Grup 5
+70086164,Bölgesel Amatör Lig Grup 6
+70086165,Bölgesel Amatör Lig Grup 7
+70086166,Bölgesel Amatör Lig Grup 8
+70086167,Bölgesel Amatör Lig Grup 9
+70086168,Bölgesel Amatör Lig Grup 10
+70086169,Bölgesel Amatör Lig Grup 11
+70086170,Profesyonelliğe Geçiş Ligi 12. Grup
+70086171,Profesyonelliğe Geçiş Ligi 13. Grup
+70107801,U19 Elit B Ligi
+70107802,U19 Bölgesel Gelişim Ligi
+70107805,U19 Bölgesel Gelişim Ligi 2. Grup
+70107807,U19 Bölgesel Gelişim Ligi 1. Grup
+70118256,U19 Bölgesel Gelişim Ligi 3. Grup
+70118257,U19 Bölgesel Gelişim Ligi 4. Grup
+70118258,U19 Bölgesel Gelişim Ligi 5. Grup
+71045302,Kubok Ukraïny z futbolu sered amatorsʹkykh komand
+71051642,Super Kubok Ukraïny z futbolu sered amatorsʹkykh komand
+71052298,Turnir Pam'yati Valeriya Lobanovskoho
+72000887,Supporters' Shield
+72004357,North American SuperLiga
+72004433,CSL Regular Season Champion
+72004694,US Club Soccer
+72005980,Brimstone Cup
+72005981,Rocky Mountain Cup
+72005982,Atlantic Cup
+72005983,Texas Derby
+72005989,National Premier Soccer League
+72005990,Pacific Coast Soccer League
+72006065,Cascadia Cup
+72006960,TELUS Canadian Championship
+72007056,SuperClasico
+72007057,Trillium Cup
+72007058,California Clásico
+72007061,Lamar Hunt Pioneer Cup
+72009462,Bermuda First Division
+72009534,Bermudian FA Cup
+72019009,Heritage Cup
+72021007,American Soccer League (1988-89)
+72021821,Pacific Coast Soccer League Reserve Division
+72021822,Canadian Soccer League Reserve Division
+72023986,North American Soccer League (1968-1984)
+73000048,O‘zbekiston Birinchi Ligasi
+73100008,BFA Senior League
+73100020,Digicel Championnat Haitienne
+74009703,SPAR Mid Wales League Division One
+74009813,FAW Trophy
+74011066,Constructiv Clothing Montgomeryshire Amateur Football League
+74013576,SPAR Mid Wales League Division Two
+74040882,The Highadmit Projects South Wales Premier League Premier Division
+74040883,The Highadmit Projects South Wales Premier League Championship Division
+74055118,NEWFA Challenge Cup
+75016814,Cuarta División de Chile
+75034137,Segunda División Profesional de Chile
+75034145,Supercopa Lanco
+75045762,Tercera División B Zona Norte
+75045763,Tercera División B Zona Centro
+75045764,Tercera División B Zona Sur
+76033484,Súperliga BetPlay Dimayor
+77047934,Copa Perú Región I
+77047935,Copa Perú Región II
+77047936,Copa Perú Región III
+77047937,Copa Perú Región IV
+77047938,Copa Perú Región V
+77047939,Copa Perú Región VI
+77047940,Copa Perú Región VII
+77047941,Copa Perú Región VIII
+77055504,Torneo de Promoción y Reserva
+77055538,Torneo Juvenil Sub-18
+78008540,La Liguilla Pre-Libertadores de Uruguay
+78058914,Torneo Preparación
+78079462,Liga AUF Uruguaya Torneo Intermedio
+78084647,Supercopa Uruguaya
+78102476,Copa AUF Uruguay
+79010950,Copa de Primera Tigo ueno bank
+79010962,División Intermedia
+79010975,Primera División B: Metropolitana
+79010976,Cuarta División
+79010977,Primera División C Profesional
+79013880,Campeonato Nacional de Interligas
+79023424,Tercera División
+79023439,Primera División B Nacional
+80000563,Liga Promérica
+80000564,Liga de Ascenso de Costa Rica
+80000566,Liga Ecuabet
+80000567,Liga Ecuabet Serie B
+80010007,Liga Prom
+80024180,Segunda División de Nicaragua
+81001093,Legend Jamaica Premier League
+81001139,KSAFA Super League
+81001140,Western Confederation Super League
+81001141,Eastern Confederation Super League
+81001142,South Central Confederation Super League
+81001143,KSAFA Major League
+81010065,JFF Champions Cup
+81010190,Westmoreland Major League
+81010191,Hanover Major League
+81010192,St. James Senior League
+81010193,Trelawny Major League
+81010194,St. Elizabeth Major League
+81010195,St. Ann Major League
+81010196,Manchester Major League
+81010197,Clarendon Major League
+81010198,St. Catherine Major League
+81010199,St. Mary Major League
+81010200,Portland Major League
+81010201,St. Thomas Major League
+81012802,Confederation Super Leagues
+81012803,South Central Confederation Major Leagues
+81012804,Western Confederation Major Leagues
+81012805,Eastern Confederation Major Leagues
+82000461,TT Premier Football League
+82001154,Digicel Premier Division
+82060923,Digicel Charity Shield
+82061057,LDF Banco Popular
+82061861,Digicel Premier League
+82061953,AFA Senior Male League
+82062009,Torneo Copa Betico Croes
+82062234,BVIFA National Football League
+82062298,CIFA FA Cup
+82062416,Coupe de France - Département de la Guyane
+82062803,Trophée Daniel Charles-Alfred R2
+82062804,Coupe de la Martinique
+82062881,Montserrat Championship
+82062960,Saint Lucia FA Cup
+82063130,Sint Maarten Premier League
+82063178,SVB Cup
+82063267,Provo Premier League
+82076123,Liga Puerto Rico PRO
+82081964,CFU Club Shield
+83141244,AF Porto - Liga Pro
+83141245,AF Porto - Divisão de Elite
+83141246,AF Braga - Divisão Pró-Nacional
+83141247,AF Braga - Divisão de Honra
+83141248,AF Lisboa - Primeira Divisão
+83141249,AF Lisboa - Segunda Divisão
+83141250,AF Aveiro - Campeonato Sabseg
+83141251,AF Viseu - Divisão de Honra
+83141252,Campeonato de Futebol dos Açores
+83141253,AF Leiria - Divisão de Honra Lizsport
+83141254,AF Coimbra - Divisão de Elite
+83141255,AF Santarém - Primeira Divisão
+83141256,AF Viana do Castelo - Primeira Divisão
+83141257,AF Setúbal - Primeira Divisão
+83141258,AF Vila Real - Divisão de Honra
+83141259,AF Évora - Divisão de Elite
+83141260,AF Madeira - Divisão de Honra
+83141261,AF Beja - Primeira Divisão
+83141262,AF Castelo Branco - Primeira Divisão
+83141263,AF Bragança - Divisão de Honra
+83141264,AF Portalegre - Liga Remax
+83141265,AF Algarve - Primeira Divisão
+83141266,AF Guarda - Primeira Divisão
+83148877,Ligas Regionais
+83169224,AF Porto - Liga Pro - Série 1
+83169225,AF Porto - Liga Pro - Série 2
+83191747,Campeonato Nacional Sub-19 I Divisão
+83191748,Campeonato Nacional Sub-19 I Divisão - Série Norte
+83191749,Campeonato Nacional Sub-19 I Divisão - Série Sul
+83191750,Campeonato Nacional Sub-19 II Divisão
+83191751,Campeonato Nacional Sub-19 II Divisão - Série A
+83191752,Campeonato Nacional Sub-19 II Divisão - Série B
+83191753,Campeonato Nacional Sub-19 II Divisão - Série C
+83191754,Campeonato Nacional Sub-19 II Divisão - Série D
+83191755,Campeonato Nacional Sub-19 II Divisão - Série E
+83191756,Campeonato Distrital de Juniores A Sub19 - AF Madeira - Divisão Honra
+83191757,Campeonato Distrital de Juniores A Sub19 - AF Madeira - Divisão Honra - Série A
+83191758,Campeonato Distrital de Juniores A Sub19 - AF Madeira - Divisão Honra - Série B
+83191759,Campeonato Distrital de Juniores A Sub19 - AF Évora
+83191761,Campeonato Distrital de Juniores A Sub19 - AF Algarve
+83191762,Campeonato Distrital de Juniores A Sub19 - AF Aveiro
+83191764,Campeonato Distrital de Juniores A Sub19 - AF Braga
+83191765,Campeonato Distrital de Juniores A Sub19 - AF Bragança
+83191766,Campeonato Distrital de Juniores A Sub19 - AF Castelo Branco
+83191767,Campeonato Distrital de Juniores A Sub19 - AF Coimbra
+83191768,Campeonato Distrital de Juniores A Sub19 - AF Coimbra Série A
+83191769,Campeonato Distrital de Juniores A Sub19 - AF Coimbra Série B
+83191770,Campeonato Distrital de Juniores A Sub19 - AF Guarda
+83191771,Campeonato Distrital de Juniores A Sub19 - AF Leiria
+83191772,Campeonato Distrital de Juniores A Sub19 - AF Lisboa
+83191773,Campeonato Distrital de Juniores A Sub19 - AF Portalegre
+83191774,Campeonato Distrital de Juniores A Sub19 - AF Porto
+83191775,Campeonato Distrital de Juniores A Sub19 - AF Porto Série 1
+83191776,Campeonato Distrital de Juniores A Sub19 - AF Porto Série 2
+83191777,Campeonato Distrital de Juniores A Sub19 - AF Santarém
+83191778,Campeonato Distrital de Juniores A Sub19 - AF Setúbal
+83191779,Campeonato Distrital de Juniores A Sub19 - AF Viana do Castelo
+83191780,Campeonato Distrital de Juniores A Sub19 - AF Vila Real
+83191781,Campeonato Distrital de Juniores A Sub19 - AF Viseu
+83191782,Campeonato Distrital de Juniores A Sub19 - AF Viseu Zona Sul
+83191783,Campeonato Distrital de Juniores A Sub19 - AF Viseu Zona Norte
+83191858,Campeonato Distrital de Juniores A Sub19 - AF Algarve Série A
+83191859,Campeonato Distrital de Juniores A Sub19 - AF Algarve Série B
+83192131,Campeonato de Futebol dos Açores Juniores A Sub19
+83208755,AF Porto - Divisão de Elite - Série 1
+83250498,Liga Revelação
+83300796,Campeonato de Portugal (1922-1938)
+83301837,Taça Revelação
+85018363,Trophée des Champions
+85062891,Championnat National U-17
+86000000,División de Fútbol Profesional
+86000001,Liga FUTVE
+86000002,Liga FUTVE 2
+86000021,Liga Panameña de Fútbol
+86000027,Liga Primera de Nicaragua
+86009019,Copa Simón Bolívar
+86019125,Copa Aerosur
+87000201,Liga Hondubet
+87000202,Liga Nacional de Ascenso
+87000416,Copa Centroamericana
+87000427,Copa Interclubes UNCAF
+87000495,Liga Bantrab
+87000505,Primera División de Ascenso
+87001116,Liga GanaPlay
+87001465,Premier League of Belize
+87001812,Liga de Ascenso
+87006846,Segunda División de Ascenso
+87010714,Liga Nacional de Ascenso Zona Norte y Occidente
+87010715,Liga Nacional de Ascenso Zona Norte y Atlántica
+87010716,Liga Nacional de Ascenso Zona Central
+87010717,Liga Nacional de Ascenso Zona Centro-Sur y Oriente
+87010879,Primera División A
+87010880,Primera División B
+87017648,Copa Centenario
+88006344,Central Region Premier League
+88006347,United Soccer 1 Men's Premiership
+88006348,Lotto Sport Italia NRFL Division 1
+88006349,Robbie's Mainland Premier League
+88006350,ODT FootballSouth Premier League
+88006351,Central Federation Premier League
+88006353,Lotto Sport Italia NRFL Division 2
+89022624,The Isuzu FA Vase
+89053889,Premier League Cup
+89056580,Albi Mall Superliga
+89056581,Raiffeisen Liga e Parë
+89056582,Liga e Dytë
+89056583,Kupa e Kosovës
+89056584,Superkupa e Kosovës
+89062118,Challenger Pro League Opening Stage
+89062128,Challenger Pro League Closing Stage
+90075517,U19-DFB-Nachwuchsliga
+90081108,Northern Premier League Division One East
+90081109,Northern Premier League Division One West
+91107110,Regionalliga Nordost
+91107111,Regionalliga Bayern
+91109039,Bayernliga Nord
+91109040,Bayernliga Süd
+91109041,Oberliga Niederrhein
+91109042,Oberliga Mittelrhein
+91145394,NOFV-Oberliga Mitte
+92030194,Franz-Beckenbauer-Supercup
+92086572,A-Junioren-Bundesliga Nord/Nordost
+92086573,A-Junioren-Bundesliga Süd/Südwest
+92086574,A-Junioren-Bundesliga West
+92086575,A-Junioren-Regionalliga Nord
+92086576,A-Junioren-Regionalliga Nordost
+92086577,A-Junioren-Oberliga Baden-Württemberg
+92086578,A-Junioren-Hessenliga
+92086579,A-Junioren-Regionalliga Südwest
+92086580,A-Junioren-Bayernliga
+92086581,A-Junioren-Mittelrheinliga
+92086582,A-Junioren-Niederrheinliga
+92086583,A-Junioren-Westfalenliga
+92086585,A-Junioren-Verbandsliga
+92086635,U19-Amateurliga
+93099401,Folksam U21 Allsvenskan Norra
+93099402,Folksam U21 Allsvenskan Södra
+93104593,P19 Allsvenskan
+94013292,Evo-Stik League Southern Division One Central
+94016345,Dr. Martens League Southern Division
+94029475,Southern League Cup
+94048275,Southern Football League Premier Division Central
+94048276,Southern Football League Premier Division South
+95003534,Kup Bosne i Hercegovine
+95010081,Prva nogometna liga Federacije Bosne i Hercegovine/Republike Srpske
+95041291,Premier League 2 Division 1
+95041295,Premier League 2 Division 2
+95041298,Premier League Professional Development League
+95041299,Premier League Professional Development League North
+95041300,Premier League Professional Development League South
+95041301,EFL Central League
+95041302,The Central League North-East Division
+95041303,The Central League North-West Division
+95041304,The Central League South-East Division
+95041305,The Central League South-West Division
+95041306,U18 Premier League
+95041307,U18 Premier League North
+95041308,U18 Premier League South
+95041309,U18 Premier League Professional Development League
+95041310,U18 Premier League Professional Development League North
+95041311,U18 Premier League Professional Development League South
+95041312,U18 Youth Alliance Cup
+95041313,U18 Youth Alliance League North-East
+95041314,U18 Youth Alliance League North-West
+95041315,U18 Youth Alliance League South-East
+95041316,U18 Youth Alliance League South-West
+95041317,The FA Youth Cup
+95041319,Premier League International Cup
+95041689,EFL Central League South
+95041690,EFL Central League North
+95041956,Premier League 2
+96004088,II Liga Grupa Zachodnia
+96004089,II Liga Grupa Wschodnia
+96041163,1. Liga - zachodnia
+96041164,1. Liga - wschodnia
+96041204,1. Liga - południowa
+96041205,1. Liga - północna
+96054495,III Liga Grupa Opolsko-Śląska
+96054513,III Liga Grupa Małopolsko-Świętokrzyska
+96054531,III Liga Grupa Lubelsko-Podkarpacka
+96054565,III Liga Grupa Łódzko-Mazowiecka
+96054586,III Liga Grupa Podlasko-Warmińsko-Mazurska
+96054604,III Liga Grupa Dolnośląsko-Lubuska
+96054661,III Liga Grupa Pomorsko-Zachodniopomorska
+96054666,III Liga Grupa Kujawsko-Pomorsko-Wielkopolska
+96055459,2. Liga - północno-wschodnia
+96055477,2. Liga - północno-zachodnia
+96055498,2. Liga - południowa
+96055516,2. Liga - południowo-wschodnia
+96056824,IV Liga
+96056825,IV Liga Grupa Dolnośląska
+96056843,IV Liga Grupa Śląska I
+96056976,2. Liga - lubelska
+96056977,2. Liga - wrocławska
+96056978,2. Liga - warszawsko-mazurska
+96056979,2. Liga - łódzka
+96056980,2. Liga - krakowska
+96056981,2. Liga - gdańska
+96056982,2. Liga - katowicka
+96056983,2. Liga - szczecińsko-poznańska
+96057489,IV Liga Grupa Śląska II
+96057519,IV Liga Grupa Kujawsko-Pomorska
+96057533,IV Liga Grupa Lubelska
+96057549,IV Liga Grupa Lubuska
+96057553,IV Liga Grupa Łódzka
+96057611,IV Liga Grupa Małopolska I
+96057614,IV Liga Grupa Małopolska
+96057629,IV Liga Grupa Małopolska II
+96062912,IV liga mazowiecka południe
+96062935,IV liga mazowiecka północ
+96062957,IV liga opolska
+96062968,IV liga podkarpacka
+96062985,IV liga podlaska
+96063004,IV liga pomorska
+96063024,IV liga świętokrzyska
+96063405,IV liga warmińsko-mazurska
+96063416,IV liga wielkopolska południe
+96063425,IV liga wielkopolska północ
+96063448,IV liga zachodniopomorska
+96070495,3. Liga - śląska I
+96070635,3. Liga - śląska II
+96070768,3. Liga - łódzka
+96070897,3. Liga - mazowiecka
+96071007,3. Liga - mazowiecka północ
+96071008,3. Liga - mazowiecka południe
+96071041,3. Liga - podlaska
+96071154,3. Liga - warmińsko-mazurska
+96071279,3. Liga - kujawsko-pomorska
+96071414,3. Liga - pomorska
+96071598,3. Liga - wielkopolska południe
+96071712,3. Liga - wielkopolska północ
+96071824,3. Liga - zachodniopomorska
+96071953,3. Liga - dolnośląska
+96072087,3. Liga - lubuska
+96072217,3. Liga - opolska
+96072341,3. Liga - lubelska
+96072458,3. Liga - podkarpacka
+96072585,3. Liga - świętokrzyska
+96072700,3. Liga - małopolska
+96072737,3. Liga - małopolska zachód
+96072823,3. Liga - małopolska wschód
+96104037,2. Liga - poznańska
+96104038,2. Liga - szczecińska
+96116270,Centralna Liga Juniorów U-19
+96116933,Betclic 3. Liga - grupa I
+96116934,Betclic 3. Liga - grupa II
+96116935,Betclic 3. Liga - grupa III
+96116936,Betclic 3. Liga - grupa IV
+96117035,Makroregionalna Liga Juniorów U-19
+96120858,IV liga dolnośląska wschód
+96120859,IV liga dolnośląska zachód
+96128698,3. Liga - wielkopolska
+96128753,3. Liga - kujawska
+96128791,3. Liga - śląska
+96145421,IV liga wielkopolska
+96501381,Liga 2 Seria Centru
+96501468,Liga 2
+98005768,2. Liga Interregional
+98005769,2. Liga Interregional Gruppe 1
+98005770,2. Liga Interregional Gruppe 2
+98005771,2. Liga Interregional Gruppe 3
+98005772,2. Liga Interregional Gruppe 4
+98005773,2. Liga Interregional Gruppe 5
+98008693,2. Liga Interregional Gruppe 6
+98015063,Interum FL-Cup
+98027828,Hoval Promotion League
+2000003898,Régional 1 - Pays de la Loire - Groupe A
+2000003900,Régional 1 - Pays de la Loire - Groupe B
+2000003902,Régional 1 - Auvergne Rhône Alpes - Poule A
+2000003903,Régional 1 - Auvergne Rhône Alpes - Poule B
+2000003904,Régional 1 - Corse
+2000003905,Régional 1 - Méditerranée
+2000003906,Régional 1 - Occitanie - Poule A
+2000003907,Régional 1 - Occitanie - Poule B
+2000003908,Régional 1 - Occitanie - Poule C
+2000003909,Régional 1 - Bretagne - Poule A
+2000003910,Régional 1 - Bretagne - Poule B
+2000003911,Régional 1 - Nouvelle Aquitaine - Poule A
+2000003912,Régional 1 - Nouvelle Aquitaine - Poule B
+2000003913,Régional 1 - Nouvelle Aquitaine - Poule C
+2000003914,Régional 1 - Grand Est - Poule A
+2000003916,Régional 1 - Grand Est - Poule B
+2000003917,Régional 1 - Grand Est - Poule C
+2000003918,Régional 1 - Centre Val de Loire
+2000003919,Régional 1 - Hauts de France - Poule A
+2000003921,Régional 1 - Paris Ile de France - Poule A
+2000003922,Régional 1 - Normandie - Groupe A
+2000003923,Régional 1 - Normandie - Groupe B
+2000003924,Régional 1 - Paris Ile de France - Poule B
+2000003925,Régional 1 - Bourgogne-Franche Comté - Groupe A
+2000003926,Régional 1 - Bourgogne-Franche Comté - Groupe B
+2000004167,Druga Liga Republike Srpske Istok
+2000004168,Druga Liga Republike Srpske Zapad
+2000005024,Primera División Andaluza Grupo Huelva
+2000005026,Primera División Andaluza Grupo Jaén
+2000005030,Primera División Andaluza Grupo Málaga
+2000005031,Primera División Andaluza Grupo Sevilla
+2000005213,A' EPS Athinón 1os Omilos
+2000005214,A' EPS Athinón 2os Omilos
+2000005216,B' EPS Athinón
+2000005220,A' EPS Achaías 1os Omilos
+2000005221,A' EPS Achaías 2os Omilos
+2000005222,B' EPS Achaías
+2000005225,B' EPS Aitoloakarnanías
+2000005255,A2 EPS Argolídas
+2000005256,B' EPS Arkadías
+2000005261,A' EPS Chalkidikís
+2000005291,B' EPS Ártas
+2000005292,B' EPS Chíou
+2000005293,B' EPS Chaníon
+2000005294,B' EPS Dodekanísou
+2000005295,B' EPS Drámas
+2000005318,B' EPS Anatolikís Attikís
+2000005319,B' EPS Évoias
+2000005352,B' EPS Évrou
+2000005353,Mid-Ulster Football League Division Three
+2000005361,B' EPS Evrytanías
+2000005363,B' EPS Flórinas
+2000005369,B' EPS Fokídas
+2000005372,B' EPS Fthiótidas
+2000005382,B' EPS Grevenón
+2000005400,A2 EPS Ileías
+2000005404,B' EPS Imathías
+2000005405,B' EPS Ipeírou
+2000005409,A2 EPS Irakleíou
+2000005417,B' EPS Kardítsas
+2000005440,B' EPS Kastoriás
+2000005442,B' EPS Kaválas
+2000005446,B' EPS Kefallinías & Ithákis
+2000005475,A' EPS Kérkyras
+2000005493,Četvrta hrvatska liga - Istok/Sjeveroistok
+2000005494,Četvrta hrvatska liga - Istok/Jugozapad
+2000005495,Treća nogometna liga Središte
+2000005502,A' EPS Kilkís
+2000005507,B' EPS Korinthías
+2000005508,B' EPS Kozánis
+2000005509,B' EPS Kykládon
+2000005511,A1 EPS Lakonías
+2000005538,B' EPS Lasithíou
+2000005539,B' EPS Lésvou
+2000005540,A' EPS Lésvou Omilos Lésvou
+2000005541,A' EPS Lésvou Omilos Límnou
+2000005566,A' EPS Makedonías
+2000005581,A1 EPS Messinías
+2000005601,Regionalna Liga RS Istok
+2000005602,Regionalna Liga RS Centar
+2000005603,Regionalna Liga RS Zapad
+2000005605,Druga Liga Republike Srpske
+2000005623,Treća nogometna liga
+2000005624,A' EPS Péllas
+2000005637,A' EPS Peiraiá 1os Omilos
+2000005638,A' EPS Peiraiá 2os Omilos
+2000005639,B' EPS Peiraiá
+2000005643,B' EPS Prévezas & Lefkádas
+2000005647,B' EPS Rethýmnou
+2000005648,B' EPS Sámou
+2000005649,A2 EPS Serrón
+2000005650,B' EPS Thesprotías
+2000005651,B' EPS Thessalías
+2000005652,A2 EPS Thrákis
+2000005653,B' EPS Trikálon
+2000005658,B' EPS Voiotías
+2000005664,B' EPS Dytikís Attikís
+2000005665,B' EPS Xánthis
+2000005666,B' EPS Zakýnthou
+2000006103,Primera División Extremeña - Grupo 3
+2000008502,B' EPS Pierías
+2000009383,A1 EPS Lárisas
+2000015109,Copa Ecuador
+2000015110,Supercopa Ecuador Ecuabet DirecTV
+2000015975,Liga 3 Placard
+2000017067,Liga BBVA Expansión MX
+2000017075,Liga BBVA Expansión MX Torneo Apertura
+2000017076,Liga BBVA Expansión MX Torneo Clausura
+2000017168,Second Division league
+2000017538,Treta Makedonska Liga
+2000017539,Treta Makedonska Liga Sever
+2000017540,Treta Makedonska Liga Centar
+2000017541,Treta Makedonska Liga Zapad
+2000017542,Treta Makedonska Liga Istok
+2000017543,Treta Makedonska Liga Jugoistok
+2000017544,Treta Makedonska Liga Jugozapad
+2000018085,IV liga mazowiecka centrum
+2000019552,A1 EPS Makedonías 1os Omilos
+2000019553,A1 EPS Makedonías 2os Omilos
+2000019816,A' EPS Korinthías 1os Omilos
+2000019817,A' EPS Korinthías 2os Omilos
+2000020138,Cherry Red Records Combined Counties Football League Division One
+2000020140,East Midlands Counties Football League
+2000020175,Thurlow Nunn League First Division North
+2000020176,Thurlow Nunn League First Division South
+2000020177,uhlsport Hellenic League Division One East
+2000020178,uhlsport Hellenic League Division One West
+2000020179,Midland Football League Division One
+2000020180,North West Counties Football League First Division North
+2000020181,North West Counties Football League First Division South
+2000020182,Northern Counties East Football League Division One
+2000020183,Ebac Northern Football League Division Two
+2000020184,South West Peninsula League Premier Division West
+2000020185,South West Peninsula League Premier Division East
+2000020186,Premier Sports Southern Combination Football League Division One
+2000020187,Southern Counties East Football League First Division
+2000020188,Spartan South Midlands Football League Division One
+2000020189,United Counties Football League Division One
+2000020190,Wessex Football League Division One
+2000020191,West Midlands (Regional) League Premier Division
+2000020192,Jewson Western League Division One
+2000020346,Northern Premier League Challenge Cup
+2000022969,Régional 1 - Auvergne Rhône Alpes - Poule C
+2000023148,Régional 1 - Bourgogne-Franche Comté - Groupe C
+2000023271,Régional 1 - Grand Est - Poule D
+2000023347,Régional 1 - Hauts de France - Poule C
+2000023601,Vtoraya Liga - Gruppa 1
+2000023602,Vtoraya Liga - Gruppa 2
+2000023603,Vtoraya Liga - Gruppa 3
+2000023604,Vtoraya Liga - Gruppa 4
+2000023772,Régional 1 - Bretagne - Poule C
+2000024332,Raiffeisen Liga e Parë – Grupi A
+2000024334,Raiffeisen Liga e Parë – Grupi B
+2000026060,Campeón de Campeones de la Liga de Expansión MX
+2000027253,Ardal South West
+2000027254,Lock Stock Ardal North East
+2000027255,Ardal South East
+2000027261,Lock Stock Ardal North West
+2000029413,Eccellenza Campania Girone C
+2000029414,Eccellenza Emilia-Romagna Girone C
+2000029415,Eccellenza Lazio Girone C
+2000029416,Eccellenza Liguria Girone A
+2000029417,Eccellenza Liguria Girone B
+2000029419,Eccellenza Puglia Girone A
+2000029420,Eccellenza Puglia Girone B
+2000029422,Eccellenza Toscana Girone C
+2000029423,Promozione Abruzzo Girone C
+2000029424,Promozione Campania Girone E
+2000029425,Promozione Emilia-Romagna Girone E
+2000029426,Promozione Emilia-Romagna Girone F
+2000029427,Promozione Lazio Girone E
+2000029428,Promozione Toscana Girone D
+2000029432,Prima Categoria Campania Girone H
+2000029433,Prima Categoria Emilia-Romagna Girone I
+2000029436,Prima Categoria Toscana Girone G
+2000029437,Prima Categoria Toscana Girone H
+2000032789,Segunda División B Grupo V
+2000033269,Liga A1 Semi-Pro Kumpulan A
+2000033270,Liga A1 Semi-Pro Kumpulan B
+2000034515,Türkmenistan Birinji Ligasy
+2000036528,Liga Revelação - Série A
+2000036529,Liga Revelação - Série B
+2000038391,BYD Dolphin League III North
+2000038392,BYD Dolphin League III Northeast
+2000038393,BYD Dolphin League III East
+2000038394,BYD Dolphin League III West
+2000038395,BYD Dolphin League III Central
+2000038398,BYD Dolphin League III South
+2000041558,Campionato Under 17 Serie C Girone F
+2000041559,Campionato Under 17 Serie C Girone G
+2000042693,A' EPS Athinón 3os Omilos
+2000043354,A' EPS Anatolikís Attikís 1os Omilos
+2000043360,A' EPS Anatolikís Attikís 2os Omilos
+2000046460,NRF League One Men
+2000046461,WaiBOP League One
+2000046462,Western Premiership
+2000046465,Nelson Bays Premiership League
+2000048840,Primera Federación Versus e-Learning
+2000048844,Primera Federación Versus e-Learning Grupo I
+2000048846,Primera Federación Versus e-Learning Grupo II
+2000050016,A' EPS Argolídas 1os Omilos
+2000050019,A' EPS Argolídas 2os Omilos
+2000050382,A' EPS Arkadías 1os Omilos
+2000050383,A' EPS Arkadías 2os Omilos
+2000052672,Campionato Primavera 3 Girone G
+2000053478,Prima Categoria Marche Girone E
+2000057028,AF Lisboa - Segunda Divisão - Série 1
+2000057038,AF Lisboa - Segunda Divisão - Série 2
+2000059334,Promozione Marche Girone C
+2000059543,USL Championship Group A
+2000059544,USL Championship Group B
+2000059545,USL Championship Group C
+2000059546,USL Championship Group D
+2000059547,USL Championship Group E
+2000059548,USL Championship Group F
+2000059550,USL Championship Group G
+2000059551,USL Championship Group H
+2000060085,Promozione Umbria Girone C
+2000067561,NRF Northland Division 1
+2000067841,Prima Categoria Umbria Girone E
+2000067842,Prima Categoria Umbria Girone F
+2000068645,A1 EPS Kérkyras Voreios Omilos
+2000068647,A1 EPS Kérkyras Notios Omilos
+2000068934,A' EPS Kykládon 1os Omilos
+2000068935,A' EPS Kykládon 2os Omilos
+2000068936,A' EPS Kykládon 3os Omilos
+2000070108,Taiwan Football League 2
+2000071675,USL League Two Metropolitan Division
+2000074273,A1 EPS Péllas 1os Omilos
+2000074274,A1 EPS Péllas 2os Omilos
+2000075254,Landesliga Schleswig
+2000075255,Landesliga Holstein
+2000075256,Landesliga Mitte
+2000075257,Landesliga Hamburg/Staffel Hansa
+2000075258,Landesliga Hamburg/Staffel Hammonia
+2000075259,Landesliga Bremen
+2000075260,Landesliga Braunschweig/Staffel Nord
+2000075261,Landesliga Braunschweig/Staffel Süd
+2000075262,Landesliga Hannover/Staffel 1
+2000075263,Landesliga Hannover/Staffel 2
+2000075265,Landesliga Hannover
+2000075266,Landesliga Lüneburg
+2000075267,Landesliga Lüneburg/Gruppe 1
+2000075268,Landesliga Lüneburg/Gruppe 2
+2000075269,Landesliga Weser-Ems
+2000075270,Landesliga Weser-Ems/Staffel 1
+2000075272,Landesliga Weser-Ems/Staffel 2
+2000075273,Verbandsliga Mecklenburg-Vorpommern
+2000075274,Brandenburgliga
+2000075275,Berlin-Liga
+2000075276,Verbandsliga Sachsen-Anhalt
+2000075277,Thüringenliga
+2000075278,Sachsenliga
+2000075280,Landesliga Niederrhein/Gruppe 1
+2000075281,Landesliga Niederrhein/Gruppe 2
+2000075282,Landesliga Mittelrhein Staffel 1
+2000075283,Landesliga Mittelrhein Staffel 2
+2000075284,Westfalenliga/Staffel 1
+2000075285,Westfalenliga/Staffel 2
+2000075286,Rheinlandliga
+2000075287,Verbandsliga Südwest
+2000075288,Schröder-Liga Saar
+2000075289,Verbandsliga Hessen/Staffel Nord
+2000075290,Verbandsliga Hessen/Staffel Mitte
+2000075291,Verbandsliga Hessen/Staffel Süd
+2000075292,Verbandsliga Baden
+2000075293,Verbandsliga Südbaden
+2000075294,Verbandsliga Württemberg
+2000075295,Landesliga Bayern/Staffel Nordwest
+2000075296,Landesliga Bayern/Staffel Nordost
+2000075297,Landesliga Bayern/Staffel Mitte
+2000075298,Landesliga Bayern/Staffel Südwest
+2000075299,Landesliga Bayern/Staffel Südost
+2000075395,Landesliga Braunschweig
+2000075414,Landesliga Mecklenburg-Vorpommern
+2000075442,Landesliga Sachsen-Anhalt (1990-1994)
+2000075443,Landesliga Sachsen-Anhalt (1994-2009)
+2000075463,Landesliga Niederrhein/Gruppe 3
+2000075468,Landesliga Bayern/Staffel Süd
+2000075469,Landesliga Bayern/Staffel Nord
+2000075922,North Wales Coast FA Junior Challenge Cup
+2000087217,FIFA Arab Cup
+2000091752,A OFG Vratsa
+2000092325,A OFG Razgrad
+2000093009,Kategoria e Tretë
+2000093167,Kategoria e Dytë Grupi A
+2000093168,Kategoria e Dytë Grupi B
+2000094876,Liga BetPlay DIMAYOR - Tabla Anual
+2000095101,Kategoria e Tretë Grupi A
+2000095103,Kategoria e Tretë Grupi B
+2000095538,Dettol Southern League
+2000095574,Northern Premier League Division One Midlands
+2000096933,North Wales Coast FA Intermediate Cup
+2000097048,FinestCarMats.co.uk South Region Challenge Cup
+2000097284,uhlsport Hellenic League Division One
+2000099902,Segunda Federación
+2000099903,Segunda Federación Grupo I
+2000099904,Segunda Federación Grupo II
+2000099905,Segunda Federación Grupo III
+2000099906,Segunda Federación Grupo IV
+2000099907,Segunda Federación Grupo V
+2000099910,Tercera Federación
+2000099911,Tercera Federación Grupo I
+2000099912,Tercera Federación Grupo II
+2000099913,Tercera Federación Grupo III
+2000099914,Tercera Federación Grupo IV
+2000099915,Tercera Federación Grupo V
+2000099916,Tercera Federación Grupo VI
+2000099917,Tercera Federación Grupo VII
+2000099918,Tercera Federación Grupo VIII
+2000099919,Tercera Federación Grupo IX
+2000099920,Tercera Federación Grupo X
+2000099921,Tercera Federación Grupo XI
+2000099922,Tercera Federación Grupo XII
+2000099923,Tercera Federación Grupo XIII
+2000099924,Tercera Federación Grupo XIV
+2000099925,Tercera Federación Grupo XV
+2000099926,Tercera Federación Grupo XVI
+2000099927,Tercera Federación Grupo XVII
+2000099928,Tercera Federación Grupo XVIII
+2000100747,Eccellenza Marche Girone A
+2000100748,Eccellenza Marche Girone B
+2000100749,Eccellenza Campania Girone D
+2000100750,Eccellenza Campania Girone E
+2000100752,Eccellenza Veneto/Friuli Girone A
+2000100753,Eccellenza Veneto/Friuli Girone B
+2000101203,USL Championship Atlantic Division
+2000101204,USL Championship Central Division
+2000101205,USL Championship Mountain Division
+2000103320,Treta Makedonska Liga Ezerski
+2000103321,Treta Makedonska Liga Pelagonija
+2000103322,Treta Makedonska Liga Kozjak
+2000103323,Treta Makedonska Liga Sever i Polog
+2000103325,Treta Makedonska Liga Sever A
+2000103327,Treta Makedonska Liga Sever B
+2000103360,Treta Makedonska Liga Jug
+2000108354,United Counties Football League Premier Division North
+2000108355,United Counties Football League Premier Division South
+2000110213,Cherry Red Records Combined Counties Football League Premier Division South
+2000110214,Cherry Red Records Combined Counties Football League Premier Division North
+2000112148,Prima Categoria Liguria Girone E
+2000112232,Liga 3 Placard Série A
+2000112233,Liga 3 Placard Série B
+2000113027,Altero.lv LIIGA
+2000114482,Prima Categoria Lombardia Girone O
+2000114483,Prima Categoria Lombardia Girone P
+2000115012,A-Junioren-Regionalliga Nord - Staffel Nord
+2000115013,A-Junioren-Regionalliga Nord - Staffel Süd
+2000115594,South Canterbury Division 1
+2000116068,Promozione Sardegna Girone C
+2000116372,B' Ethnikí Katigoría 1os Omilos
+2000116373,B' Ethnikí Katigoría 2os Omilos
+2000116374,B' Ethnikí Katigoría 3os Omilos
+2000116375,B' Ethnikí Katigoría 4os Omilos
+2000116606,Eccellenza Veneto Girone C
+2000116607,Promozione Veneto Girone E
+2000116609,Prima Categoria Veneto Girone I
+2000117798,Prima Categoria Veneto Girone L
+2000119015,Eccellenza Friuli-Venezia Giulia Girone A
+2000119018,Eccellenza Friuli-Venezia Giulia Girone B
+2000120714,Championnat des Comores
+2000120719,Ligue Mwali
+2000120720,Ligue Nzwani
+2000120721,Ligue Ngazidja
+2000120725,Coupe des Comores
+2000120727,Super Coupe des Comores
+2000121413,Campionato Primavera 4
+2000121414,Campionato Primavera 4 Girone A
+2000121415,Campionato Primavera 4 Girone B
+2000121416,Campionato Primavera 4 Girone C
+2000121417,Campionato Primavera 4 Girone D
+2000122195,Treća nogometna liga Sjever
+2000126063,A' EPS Messinías 1os Omilos
+2000126065,A' EPS Messinías 2os Omilos
+2000141740,Dettol Men's National League
+2000148543,Toppserien
+2000148997,Besta deild kvenna
+2000149343,Subway Players Cup
+2000150114,National Premier Leagues Victoria Women's
+2000150119,National Premier Leagues NSW Women's
+2000150424,Lengjudeild kvenna
+2000150744,British Columbia Premier League
+2000157475,Finalissima
+2000158691,Adobe Women's FA Cup
+2000163438,FA Women's National League Southern Premier Division
+2000163439,FA Women's National League Northern Premier Division
+2000163719,Norgesmesterskapet i fotball for kvinner
+2000167898,Liga F Moeve
+2000169152,Genero Adran Premier
+2000170123,Premier Soccer Leagues Canada
+2000170236,LFF II lyga
+2000170400,Københavnsserien
+2000170401,Sjællandsserien
+2000170402,Fynsserien
+2000170403,Jyllandsserien
+2000171123,A' EPS Drámas 1os Omilos
+2000171124,A' EPS Drámas 2os Omilos
+2000171161,A' EPS Lakonías 1os Omilos
+2000171162,A' EPS Lakonías 2os Omilos
+2000171163,A' EPS Lakonías 3os Omilos
+2000173687,Kansallinen Liiga
+2000174370,USL League Two Valley Division
+2000174372,USL League Two Deep North Division
+2000174374,USL League Two Lone Star Division
+2000174375,USL League Two Chesapeake Division
+2000175219,P19 Superettan
+2000176647,Coppa Italia Women
+2000177190,AXA Women's Super League
+2000177885,Beker van België Vrouwen
+2000178041,1. divisjon kvinner
+2000178471,Evo-Stik League Southern Division One East
+2000178569,British Gas League Southern Division One Midlands
+2000178571,Dr. Martens League Eastern Division
+2000178573,Dr. Martens League Western Division
+2000179667,Svenska Cupen
+2000180030,Eurojackpot Vrouwen Eredivisie
+2000180088,Primera Federación Femenina
+2000180099,DFB-Pokal Frauen
+2000180113,KNVB Beker Vrouwen
+2000180116,2. Frauen-Bundesliga
+2000181661,SheBelieves Cup
+2000182298,Coupe de France Féminine
+2000182300,Trophée des Championnes
+2000182611,Altero.lv LIIGA Rietumu Zona
+2000182612,Altero.lv LIIGA Austrumu Zona
+2000183166,UEFA Women's European Championship
+2000183170,Superliga
+2000183173,Kubok Rossii sredi zhenskikh komand
+2000183207,Scottish Gas Women's Scottish Cup
+2000183208,Sky Sports Cup
+2000183549,East of Scotland Football League Second Division
+2000183888,Seconde Ligue
+2000184919,Serie B Femminile
+2000186167,IV liga mazowiecka
+2000187469,Eerste Klasse I
+2000188714,Tweede Klasse Zaterdag K
+2000188715,Tweede Klasse Zaterdag L
+2000188855,Derde Klasse Zaterdag E Zuid 1
+2000188856,Derde Klasse Zondag E Zuid 2
+2000188857,Derde Klasse Zaterdag E Oost
+2000193550,Liga Premier A Grupo 3
+2000199505,Liga BBVA MX Femenil
+2000209806,Liga BPI
+2000209808,Ženska Premijer Liga BiH
+2000209811,1. liga žen
+2000209813,ADMIRAL Frauen Bundesliga
+2000210815,Sports Direct Women's Premiership
+2000210931,Profesyonelliğe Geçiş Ligi 14. Grup
+2000214915,WK League
+2000217594,Premier League 2
+2000217610,Premier League 2 Division 1
+2000217623,Premier League 2 Division 2
+2000217625,Premier League 2 Division 2
+2000217632,Premier League Professional Development League North
+2000217674,Premier League Professional Development League South
+2000217682,The Central League
+2000217703,The Central League North-West
+2000217713,Premier League Cup
+2000217716,Premier League International Cup
+2000220589,Generation adidas Cup
+2000221253,The Central League Cup
+2000223316,Copa de S.M. la Reina
+2000227159,Ykköscup
+2000228209,Ykkösliiga
+2000232685,Moterų A lyga
+2000232686,Superliga Srbije za žene
+2000232688,Praim Liha
+2000232691,Abissnet Superiore Femra
+2000232702,SuperLiga Feminină
+2000232705,Orlen Ekstraliga
+2000232706,Simple Női Liga
+2000232723,Prva hrvatska nogometna liga za žene
+2000232803,A' Ethnikí Katigoría Yinaikón
+2000232806,Ženska nogometna liga Triglav
+2000232809,Balgarska zhenska liga
+2000232812,SIGURIA Superliga e Femrave
+2000232846,Prva liga Crne Gore za žene
+2000232848,I. liga žien
+2000232852,Suwen Kadın Futbol Süper Ligi
+2000232885,Naiste Meistriliiga
+2000232910,SSE Airtricity Women's Premier Division
+2000233751,Sakartvelos Kalta Erovnuli Liga
+2000233754,Dames Ligue 1
+2000233759,Betri deildin kvinnur
+2000233857,Assikura Women's League
+2000233862,Ligat Nashim
+2000233872,LuckyBet Sieviešu līga
+2000233874,Liga Națională
+2000234779,OPL Cup
+2000252470,WE League Kracie Cup
+2000252572,Supercopa de España Femenina
+2000252983,Orlen Puchar Polski Kobiet
+2000254863,Liga BBVA MX Femenil Torneo Apertura
+2000254893,Dettol Men's National League Championship
+2000254981,Nigeria National League Conference A
+2000254982,Nigeria National League Conference B
+2000254983,Nigeria National League Conference C
+2000254984,Nigeria National League Conference D
+2000255101,Plenus Nadeshiko League Division 1
+2000257671,Liga BBVA MX Femenil Torneo Clausura
+2000262380,Orlen I liga
+2000269775,Empress's Cup JFA Japan Women's Football Championship
+2000270607,Nemzeti Bajnokság III - Észak-keleti csoport
+2000270609,Nemzeti Bajnokság III - Dél-keleti csoport
+2000270610,Nemzeti Bajnokság III - Észak-nyugati csoport
+2000270611,Nemzeti Bajnokság III - Dél-nyugati csoport
+2000272297,Vtoraya Liga Divizion A
+2000272298,Vtoraya Liga Divizion A - Zolotaya Gruppa
+2000272300,Vtoraya Liga Divizion A - Serebryanaya Gruppa
+2000272301,Vtoraya Liga Divizion B
+2000272302,Vtoraya Liga Divizion B - Gruppa 1
+2000272303,Vtoraya Liga Divizion B - Gruppa 2
+2000272306,Vtoraya Liga Divizion B - Gruppa 4
+2000272767,UEFA–CONMEBOL Club Challenge
+2000274181,SVGFF Women's Premier Division
+2000274211,Superior Femenino de la Liga Puerto Rico
+2000276256,Campeonato Nacional II Divisão Feminino
+2000276269,Nationalliga B
+2000277894,Vyshcha Liha
+2000277954,Kadınlar 1. Futbol Ligi
+2000277956,Women's Beta Ethniki Group 1
+2000277957,Women's Beta Ethniki 2
+2000278257,Championnat de France Féminin de D3
+2000278258,Championnat de France Féminin de D3 Poule A
+2000278259,Championnat de France Féminin de D3 Poule B
+2000278359,B-Liga
+2000278627,Liga a II-a Feminin
+2000278985,CONCACAF W Championship
+2000279692,Championnat National 2 Groupe A
+2000279693,Championnat National 2 Groupe B
+2000279694,Championnat National 2 Groupe C
+2000279695,Championnat National 2 Groupe D
+2000279696,Championnat National 2 Groupe E
+2000279697,Championnat National 2 Groupe F
+2000279698,Championnat National 2 Groupe G
+2000279699,Championnat National 2 Groupe H
+2000279700,Championnat National 3 Groupe I
+2000279701,Championnat National 3 Groupe J
+2000279702,Championnat National 3 Groupe K
+2000279735,Druga HNLŽ
+2000279737,Druga HNLŽ skupina A
+2000279738,Druga HNLŽ skupina B
+2000279843,CONCACAF W Qualifiers
+2000279845,TotalEnergies Women's Africa Cup of Nations Qualifiers
+2000279846,AFC Women's Asian Cup Qualifiers
+2000279903,2. Frauenliga
+2000280059,Liga Leumit Nashim
+2000280992,Barclays Scottish Women's Championship
+2000281280,Liga Femenina BetPlay DIMAYOR
+2000298334,Supercopa Internacional
+2000302444,Segunda Federación Femenina
+2000302735,Segunda Federación Femenina Grupo I
+2000302738,Segunda Federación Femenina Grupo II
+2000314835,Bute Energy Welsh Cup
+2000314837,Genero Adran Trophy
+2000314935,Campeonato Brasileiro Feminino A1
+2000314936,Campeonato Brasileiro Feminino A2
+2000315166,Campeonato Femenino YPF
+2000315212,CONCACAF W Gold Cup
+2000315213,CONMEBOL Copa América Femenina
+2000315228,AFC Women's Asian Cup
+2000315434,B' Ethnikí Katigoría Yinaikón
+2000315685,Plenus Nadeshiko League Division 2
+2000316564,National Women's Soccer League Championship
+2000316816,TotalEnergies Women's Africa Cup of Nations
+2000316939,CAF Women's Olympic Qualifiers
+2000316949,National Women's Soccer League Shield
+2000317030,AFC Women's Olympic Qualifying Tournament
+2000317032,FIFA Women's World Cup European Qualifiers
+2000317033,UEFA Women's Nations League
+2000317034,CONCACAF W Gold Cup Qualifiers
+2000317035,OFC Women's Nations Cup
+2000317037,FIFA Women's World Cup Play-Off Tournament
+2000317038,AFC Women's Champions League
+2000318052,Campeonato Nacional III Divisão Feminino
+2000318054,Taça de Portugal Feminina
+2000318055,Taça da Liga Feminina Placard
+2000318056,Supertaça Feminina Vodafone
+2000319743,UEFA Women's Europa Cup
+2000320681,Alberta Premier League
+2000321669,FIFA Intercontinental Cup
+2000325110,FA Women's National League Northern/Southern
+2000326923,Tercera Federación FUTFEM
+2000326934,Tercera Federación FUTFEM Grupo VI
+2000326935,Tercera Federación FUTFEM Grupo V
+2000326936,Tercera Federación FUTFEM Grupo IV
+2000326937,Tercera Federación FUTFEM Grupo III
+2000326938,Tercera Federación FUTFEM Grupo II
+2000326939,Tercera Federación FUTFEM Grupo I
+2000327935,Division 1 Norra
+2000327936,Division 1
+2000327937,Division 1 Södra
+2000327938,Division 1 Mellersta
+2000335879,Gainbridge Super League
+2000335881,USL W League
+2000337013,Serie C Femminile
+2000337547,Barclays Scottish Women's League One
+2000337713,Ninja A-League Women Regular Season
+2000337875,CONMEBOL Libertadores Femenina
+2000338262,Naisten Suomen Cup
+2000338263,Kansallinen Ykkönen
+2000338387,Hollywoodbets Super League
+2000338388,Sasol Women's League
+2000338389,Steypakappingin í kvinnufótbólti
+2000338390,Campeonato Femenino de Primera División
+2000338391,Cupa României Fotbal Feminin
+2000338393,Campeonato Anual FEM
+2000338399,Primera División Femenina de Costa Rica
+2000338401,Naiste karikavõistlused
+2000338402,Naiste Esiliiga
+2000338404,Sieviešu futbola kauss
+2000338405,Altero.lv Sieviešu 1. līga
+2000338406,LFF moterų taurė
+2000338409,Assikura Women's Knockout
+2000338410,Eerste Nationale
+2000338411,Chinese Women's League One
+2000338414,Gvia HaMedina Nashim
+2000338464,Coupe des Dames
+2000338473,Ženski pokal Pivovarna Union
+2000338474,Indonesia Women's League
+2000338479,Campeonato Uruguayo Femenino B
+2000338480,Campeonato Uruguayo Femenino Primera División
+2000338483,Championnat National Professionnel de Football Féminin D1
+2000338485,Coupe du Trône de Football Féminin
+2000338486,Liga FUTVE Femenina
+2000338487,Liga Femenina Apuesta Total
+2000338489,Superliga Ecuatoriana de Fútbol Femenino
+2000338491,Liga de Ascenso Femenina
+2000338499,Jockey Club Women's Football League FA Cup
+2000338500,Jockey Club Women's Football League Second Division
+2000338501,Jockey Club Women's Football League First Division
+2000338502,Liga Wanita Nasional
+2000338503,Women's Premier League
+2000338504,SAFF Women's First Division League
+2000338506,SAFF Women's Premier League
+2000338511,Jordan Women's Pro League
+2000338889,Copa do Brasil de Futebol Feminino
+2000338890,Supercopa do Brasil de Futebol Feminino
+2000338892,Campeonato Brasileiro Feminino A3
+2000338935,Gvia Etna
+2000339244,Women's Ontario Premier League 1
+2000339245,Women's British Columbia Premier League
+2000339246,Premier Soccer Leagues Canada
+2000339248,Kalta Liga 2
+2000339254,CAF Women's Champions League
+2000340045,USL League Two NorCal Division
+2000340046,USL League Two South Florida Division
+2000340053,Alberta Premier League Women's Division
+2000340064,SAFF Women's First Division League Group 5
+2000340065,SAFF Women's First Division League Group 4
+2000340066,SAFF Women's First Division League Group 3
+2000340067,SAFF Women's First Division League Group 2
+2000340068,SAFF Women's First Division League Group 1
+2000340099,Piala Tun Sharifah Rodziah
+2000340102,Jockey Club Women's Football League Second League Cup
+2000340103,Jockey Club Women's Football League Cup
+2000340106,Jockey Club Women's Football League Second B
+2000340107,Jockey Club Women's Football League Second A
+2000340528,Campeón de Campeones Femenil
+2000341963,Supercoppa Women
+2000343079,Dettol Women's National League
+2000343080,Fiji Women's Super League
+2000343084,Liga Nacional de Fútbol Femenino de Guatemala
+2000343085,Primera División Femenina de El Salvador
+2000343096,C' Ethnikí Katigoría Yinaikón
+2000343101,Giải Nữ Vô địch Quốc gia – Cúp Thái Sơn Bắc
+2000343102,Wingz Thai Women's League 1
+2000343106,PFF Women's League
+2000343108,DPR Korea Women's Premier League
+2000343109,ANFA Women's League
+2000343110,FAM Women's League
+2000343112,Taiwan Mulan Football League
+2000343115,FUFA Women Super League
+2000343118,Ligi Kuu Ya Wanawake Tanzania
+2000343120,Championnat National de Football Féminin
+2000343122,Nigeria Women Football League Premiership
+2000343123,FNB Women's Super League
+2000343125,Ligue 1 Féminine du Mali
+2000343127,Kenyan Women's Premier League
+2000343130,Ghana Women's Premier League
+2000343136,Campeonato Nacional Feminino
+2000343137,Guinness Super League
+2000343341,Campeonato de Fútbol Femenino de Primera División B
+2000343342,Kup Crne Gore za žene
+2000343353,UEFA Women's Nations League A
+2000343355,UEFA Women's Nations League B
+2000343356,UEFA Women's Nations League C
+2000344931,Vrouwen Eerste Divisie
+2000344945,CONCACAF W Champions Cup
+2000346780,Women's Ontario Premier League Cup
+2000346822,FAZ Women Super Division
+2000347486,Pohár FAČR žen
+2000347776,AFC Champions League Two
+2000347777,AFC Challenge League
+2000350536,Nigeria Women Football League Premiership Group A
+2000350537,Nigeria Women Football League Premiership Group B
+2000351336,Liga a II-a Feminin - Seria 2
+2000351337,Liga a II-a Feminin - Seria 1
+2000351351,OFC Women's Champions League
+2000351603,FUFA Women Elite League
+2000353073,Championnat National Professionnel de Football Féminin D2
+2000353195,Schweizer Cup Frauen
+2000355605,Championnat National Professionnel de Football Féminin D2 Sud
+2000355606,Championnat National Professionnel de Football Féminin D2 Nord
+2000355651,Slovenský pohár žien
+2000355653,Kupa na Bulgaria - zheni
+2000355657,Copa Chile Femenina
+2000356426,Sierra Leone Women's Premier League
+2000359534,Rwanda Women's First Division League
+2000362180,National Women's Super League
+2000363429,LFF II lyga B divizionas
+2000364489,EA SPORTS LOI Academy MU20 League Group C
+2000364956,NWSL x Liga MX Femenil Summer Cup
+2000364984,FIFA Women's World Cup European Qualifiers League A
+2000364985,FIFA Women's World Cup European Qualifiers League B
+2000364986,FIFA Women's World Cup European Qualifiers League C
+2000365507,Campeonato Femenino de Ascenso
+2000366959,Liga Feto Timor
+2000367080,FIFA Women's World Cup European Qualifiers Play-offs
+2000367201,2. divisjon kvinner
+2000367202,2. divisjon kvinner avdeling 1
+2000367203,2. divisjon kvinner avdeling 2
+2000367936,Campeonato Nacional II Divisão Feminino Série Norte
+2000367937,Campeonato Nacional II Divisão Feminino Série Sul
+2000368953,Ontario Premier League 2
+2000368954,Ontario Premier League 3
+2000369153,Kup Srbije za žene
+2000370106,Nationale 1 - VV
+2000370107,Nationale 1 - FFA
+2000372929,DFB-Supercup der Frauen
+2000374434,Copa Paraguay FEM
+2000374435,Copa eFe
+2000375934,Prinx Tires USL Cup
+2000378541,CONCACAF W Gold Cup Qualifiers League C
+2000378542,CONCACAF W Gold Cup Qualifiers League B
+2000378543,CONCACAF W Gold Cup Qualifiers League A
+2000379859,Ykkösliigacup
+2000383436,Miesten Kolmonen Eteläinen Lohko C
+2000383437,Miesten Kolmonen Eteläinen Lohko B
+2000383438,Miesten Kolmonen Eteläinen Lohko A
+2000383439,Miesten Kolmonen Läntinen Lohko C
+2000383440,Miesten Kolmonen Läntinen Lohko B
+2000383441,Miesten Kolmonen Läntinen Lohko A
+2000383442,Miesten Kolmonen Itäinen Lohko B
+2000383443,Miesten Kolmonen Itäinen Lohko AC2
+2000383444,Miesten Kolmonen Itäinen Lohko AC1
+2000383445,Miesten Kolmonen Pohjoinen
+2000397038,ÖFB Frauen Cup
+2000406250,Coupe d'Excellence
+2000412812,FIFA Derby of the Americas
+2000412813,FIFA Challenger Cup
+2000419813,Copa Venezuela Femenina
+2000422984,Mjólkurbikar kvenna
+2000423783,LFF II lyga A divizionas
+2000423922,C-Liga
+2000424305,Kýpello Kýprou Yinaikón
+2000425259,Svenska Supercupen
+2000428816,New Balance NPL WA Women's
+2000428817,Apex Steel Women's National Premier League
+2000428818,National Premier Leagues Queensland Women's
+2000428819,OPC National Premier Leagues Women's
+2000428895,National Premier Leagues Women's
+2000430936,McDonald's Women's Super League
+2000439966,Naisten Kakkonen
+2000442756,Vrouwen Supercup
+2000445016,Vrouwen Eredivisiecup
+2000445422,Club Orange Women's FAI Cup
+2000446418,OFC Professional League
+2000446427,BOV National League II
+2000446653,NIWFA Championship
+2000448994,SAFF Women's Second Division League Group 5
+2000448995,SAFF Women's Second Division League Group 4
+2000448996,SAFF Women's Second Division League Group 3
+2000448997,SAFF Women's Second Division League Group 2
+2000448998,SAFF Women's Second Division League Group 1
+2000448999,SAFF Women's Second Division League
+2000451694,USL League Two Great Plains Division
+2000451695,USL League Two Great Forest Division
+2000452306,Men's Central League 2
+2000455920,O'zbekiston Birinchi ligasi - Markaz
+2000458689,Copa Paceña
+2000458690,Supercopa de Bolivia
+2000458693,Supercopa de Venezuela
+2000463232,ScottishPower Women's Highlands & Islands League
+2000468159,Coupe LFFP
+2000469339,II. liga žien
+2000469341,Regionalliga
+2000469344,Frauen-Regionalliga Nord
+2000469346,Frauen-Regionalliga Nordost
+2000469347,Frauen-Regionalliga West
+2000469362,Frauen-Regionalliga Süd
+2000469371,Frauen-Regionalliga Südwest
+2000469387,Campeonato Nacional Feminino IV Divisão
+2000470652,CONCACAF Women's Under-20 Championship
+2000470653,CONCACAF Women's Under-20 Championship Qualifiers
+2000470655,OFC U-19 Women's Championship
+2000471254,Superkup Bosne i Hercegovine
+2000472036,Serie A Women's Cup
+2000473694,Segunda Federación Femenina Grupo III
+2000474455,OFC U-19 Women's Championship Qualifiers
+2000475350,Scottish Women's Football League Central-West
+2000477204,Singapore Premier League 2
+2000477993,Norgesmesterskapet i fotball for menn
+2000479254,Meiji Yasuda J1 100 Year Vision League
+2000479255,Meiji Yasuda J2/J3 100 Year Vision League
+2000486141,CONMEBOL Liga de Naciones Femenina
+2000488566,CONCACAF W Nations League
+2000488664,Tercera Federación FUTFEM Grupo VIII
+2000488671,Tercera Federación FUTFEM Grupo IX
+2000488674,Tercera Federación FUTFEM Grupo X
+2000488678,Tercera Federación FUTFEM Grupo XI
+2000488681,Tercera Federación FUTFEM Grupo XII
+2000488683,Tercera Federación FUTFEM Grupo XIII
+2000488685,Tercera Federación FUTFEM Grupo XIV
+2000488686,Tercera Federación FUTFEM Grupo XV
+2000488687,Tercera Federación FUTFEM Grupo XVI
+2000488690,Tercera Federación FUTFEM Grupo XVII
+2000488693,Tercera Federación FUTFEM Grupo XVIII
+2000490609,Tercera Federación FUTFEM Grupo VII
+2000502762,UAFA Arab Women's Cup
+2000525203,Copa de la Liga
+2000560616,Primera Premier

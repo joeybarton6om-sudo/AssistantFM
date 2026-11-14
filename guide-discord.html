@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Discord — Assistant FM</title>
+<style>
+    :root {
+        --bg: #1e1f22;
+        --panel: #2b2d31;
+        --panel2: #313338;
+        --panel3: #383a40;
+        --text: #f2f3f5;
+        --muted: #949ba4;
+        --blurple: #5865f2;
+        --green: #23a55a;
+        --yellow: #f0b232;
+        --red: #f23f43;
+        --border: #1f2023;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "gg sans", "Segoe UI", system-ui, sans-serif;
+        line-height: 1.55;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    h1 { font-size: 30px; margin: 0 0 6px; }
+    h2 { font-size: 22px; margin: 44px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #3f4147; }
+    h3 { font-size: 17px; margin: 26px 0 8px; color: #c9cdfb; }
+    p, li { color: #dbdee1; }
+    a { color: #00a8fc; }
+    code, pre { font-family: Consolas, "Courier New", monospace; }
+    code { background: #2b2d31; padding: 2px 6px; border-radius: 4px; color: #f0b232; }
+    pre { background: #0e0f11; border: 1px solid #3f4147; border-radius: 8px; padding: 14px; overflow-x: auto; color: #9ce29c; font-size: 13px; }
+    .lead { color: var(--muted); font-size: 15px; }
+    .toc { background: var(--panel); border: 1px solid #3f4147; border-radius: 10px; padding: 14px 20px; margin: 20px 0 8px; }
+    .toc a { display: block; padding: 3px 0; text-decoration: none; }
+    .step { background: var(--panel); border: 1px solid #3f4147; border-radius: 12px; padding: 18px 20px; margin: 18px 0; }
+    .step-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--blurple); color: #fff; font-weight: 700; font-size: 14px; margin-right: 8px; }
+    .note { border-left: 4px solid var(--blurple); background: #232428; padding: 10px 14px; border-radius: 6px; margin: 12px 0; color: #c9cdfb; }
+    .warn { border-left: 4px solid var(--yellow); background: #2a2517; padding: 10px 14px; border-radius: 6px; margin: 12px 0; color: #f5e6b8; }
+    .ok { border-left: 4px solid var(--green); background: #17281d; padding: 10px 14px; border-radius: 6px; margin: 12px 0; color: #b7f0c8; }
+
+    /* Mockup Discord */
+    .mock { border: 1px solid #000; border-radius: 12px; overflow: hidden; margin: 16px 0; box-shadow: 0 12px 30px rgba(0,0,0,.45); }
+    .mock-bar { background: #111214; padding: 8px 12px; display: flex; gap: 6px; align-items: center; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+    .mock-title { margin-left: 10px; color: var(--muted); font-size: 12px; }
+    .discord { display: grid; grid-template-columns: 210px 1fr; background: var(--panel2); min-height: 300px; }
+    .sidebar { background: var(--panel); padding: 10px 8px; border-right: 1px solid #000; }
+    .server-name { color: #fff; font-weight: 700; font-size: 14px; padding: 8px 10px; border-bottom: 1px solid #3f4147; margin-bottom: 8px; }
+    .cat { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 12px 8px 4px; }
+    .chan { color: var(--muted); font-size: 13px; padding: 5px 8px; border-radius: 4px; display: flex; gap: 6px; align-items: center; }
+    .chan.active { background: #404249; color: #fff; }
+    .chan .hash { color: #6d7178; font-weight: 700; }
+    .content { padding: 18px; background: var(--panel2); }
+    .content h4 { margin: 0 0 4px; color: #fff; }
+    .content p { color: var(--muted); font-size: 13px; margin: 0 0 10px; }
+    .msg { display: flex; gap: 10px; margin-top: 14px; }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--blurple); flex: 0 0 36px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .msg .who { font-weight: 700; font-size: 14px; }
+    .msg .txt { color: #dbdee1; font-size: 14px; }
+
+    /* UI form mockups */
+    .form { background: var(--panel2); border: 1px solid #3f4147; border-radius: 10px; padding: 16px; margin: 14px 0; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 12px; font-weight: 700; color: #b5bac1; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 6px; }
+    .input { background: #1e1f22; border: 1px solid #3f4147; border-radius: 6px; padding: 10px 12px; color: var(--muted); font-size: 14px; }
+    .btn { display: inline-block; background: var(--blurple); color: #fff; border: none; border-radius: 6px; padding: 9px 16px; font-weight: 600; font-size: 14px; }
+    .btn.green { background: var(--green); }
+    .perm { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }
+    .perm div { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #dbdee1; }
+    .switch { width: 34px; height: 18px; border-radius: 9px; background: var(--green); position: relative; flex: 0 0 34px; }
+    .switch::after { content: ""; position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; right: 2px; top: 2px; }
+    .switch.off { background: #72767d; }
+    .switch.off::after { right: auto; left: 2px; }
+
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #3f4147; }
+    th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+    td.yes { color: #6ee7a0; } td.no { color: #f08a8d; }
+
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 720px) { .two, .perm { grid-template-columns: 1fr; } .discord { grid-template-columns: 1fr; } .sidebar { display: none; } }
+    @media print { body { background: #fff; color: #111; } .mock, .step, .toc { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <h1>Guide Discord — Assistant FM</h1>
+    <p class="lead">Configuration complète du serveur : catégories, salons, emojis, droits d'écriture et salon vocal. Compte 15–20 minutes.</p>
+
+    <div class="toc">
+        <strong>Sommaire</strong>
+        <a href="#but">🎯 Le résultat attendu</a>
+        <a href="#bot">🤖 Méthode A — Créer un bot (automatique)</a>
+        <a href="#manuel">✋ Méthode B — Configuration manuelle</a>
+        <a href="#perms">🔐 Droits d'écriture détaillés</a>
+        <a href="#depannage">🛠️ Dépannage</a>
+    </div>
+
+    <h2 id="but">🎯 Le résultat attendu</h2>
+    <p>Le serveur doit ressembler à ceci, avec 4 catégories et des salons préfixés d'un emoji :</p>
+
+    <div class="mock">
+        <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="mock-title">Assistant FM — aperçu</span></div>
+        <div class="discord">
+            <div class="sidebar">
+                <div class="server-name">Assistant FM</div>
+                <div class="cat">🏠 Accueil</div>
+                <div class="chan"><span class="hash">#</span> 📌 annonces</div>
+                <div class="chan"><span class="hash">#</span> 📜 règles</div>
+                <div class="chan"><span class="hash">#</span> 👋 présentations</div>
+                <div class="chan"><span class="hash">#</span> 🚀 mises-à-jour</div>
+                <div class="cat">💬 Discussion</div>
+                <div class="chan active"><span class="hash">#</span> 💬 général</div>
+                <div class="chan"><span class="hash">#</span> ⚽ parlons-fm27</div>
+                <div class="chan"><span class="hash">#</span> 📖 ma-partie</div>
+                <div class="chan"><span class="hash">#</span> 🎯 tactiques</div>
+                <div class="chan"><span class="hash">#</span> 🔄 mercato</div>
+                <div class="cat">🛠️ Support</div>
+                <div class="chan"><span class="hash">#</span> ❓ aide</div>
+                <div class="chan"><span class="hash">#</span> 🐛 bugs</div>
+                <div class="chan"><span class="hash">#</span> 💡 suggestions</div>
+                <div class="cat">📚 Ressources</div>
+                <div class="chan"><span class="hash">#</span> 🔗 liens-utiles</div>
+            </div>
+            <div class="content">
+                <h4># 💬 général</h4>
+                <p>Bienvenue sur le Discord d'Assistant FM !</p>
+                <div class="msg"><div class="avatar">A</div><div><div class="who">Assistant FM</div><div class="txt">Présente-toi dans #👋 présentations et raconte ta carrière dans #📖 ma-partie.</div></div></div>
+            </div>
+        </div>
+    </div>
+
+    <h2 id="bot">🤖 Méthode A — Créer un bot (automatique)</h2>
+    <p class="lead">Recommandé si tu veux appliquer toute la structure d'un coup via le script fourni.</p>
+
+    <div class="step">
+        <h3><span class="step-num">1</span>Créer l'application</h3>
+        <p>Va sur <a href="https://discord.com/developers/applications" target="_blank">discord.com/developers/applications</a> → <strong>New Application</strong> → nomme-la <code>Assistant FM</code>.</p>
+        <div class="form">
+            <div class="field"><label>Nom de l'application</label><div class="input">Assistant FM</div></div>
+            <span class="btn">Create</span>
+        </div>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-num">2</span>Créer le bot et récupérer le token</h3>
+        <p>Dans le menu de gauche → <strong>Bot</strong> → <strong>Add Bot</strong> → <strong>Reset Token</strong> → copie le token.</p>
+        <div class="warn">⚠️ Ne partage jamais ce token. Il donne un accès complet au bot. Régénère-le s'il a fuité.</div>
+        <div class="form">
+            <div class="field"><label>Token</label><div class="input">••••••••••••••••••••••••••••••••••••••••</div></div>
+            <span class="btn green">Reset Token</span> <span class="btn">Copy</span>
+        </div>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-num">3</span>Inviter le bot sur le serveur</h3>
+        <p>Menu <strong>OAuth2 → URL Generator</strong> :</p>
+        <ul>
+            <li><strong>Scopes</strong> : coche <code>bot</code> et <code>applications.commands</code></li>
+            <li><strong>Bot Permissions</strong> : coche <em>Manage Channels</em>, <em>Manage Roles</em>, <em>View Channels</em>, <em>Send Messages</em>, <em>Read Message History</em>, <em>Embed Links</em>, <em>Attach Files</em></li>
+        </ul>
+        <p>Copie l'URL générée, ouvre-la dans ton navigateur, choisis ton serveur et valide.</p>
+        <div class="form">
+            <div class="field"><label>Scopes</label><div class="perm"><div><span class="switch"></span> bot</div><div><span class="switch"></span> applications.commands</div></div></div>
+            <div class="field"><label>Bot Permissions</label><div class="perm">
+                <div><span class="switch"></span> Manage Channels</div>
+                <div><span class="switch"></span> Manage Roles</div>
+                <div><span class="switch"></span> View Channels</div>
+                <div><span class="switch"></span> Send Messages</div>
+                <div><span class="switch"></span> Read Message History</div>
+                <div><span class="switch"></span> Embed Links</div>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-num">4</span>Lancer le script</h3>
+        <p>Dans un terminal, à la racine du projet Assistant FM :</p>
+        <pre>python -m pip install discord.py
+
+$env:DISCORD_TOKEN = "COLLE_TON_TOKEN_ICI"
+$env:DISCORD_GUILD_ID = "ID_DE_TON_SERVEUR"   # optionnel
+python reorganiser_discord.py</pre>
+        <div class="note">💡 Pour trouver l'ID du serveur : Paramètres Discord → Avancé → active le <strong>Mode développeur</strong>, puis clic droit sur l'icône du serveur → <em>Copier l'identifiant du serveur</em>.</div>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-num">5</span>Vérifier</h3>
+        <p>Le script affiche <code>Réorganisation terminée.</code> et crée les catégories/salons. Les anciens salons ne sont pas supprimés : range-les ou supprime-les manuellement.</p>
+    </div>
+
+    <h2 id="manuel">✋ Méthode B — Configuration manuelle</h2>
+    <p class="lead">Si tu ne veux pas créer de bot, suis ces étapes dans les paramètres du serveur.</p>
+
+    <div class="step">
+        <h3><span class="step-num">1</span>Créer les catégories</h3>
+        <p>Dans la liste des salons → clic droit → <strong>Créer une catégorie</strong>. Nomme-les exactement :</p>
+        <div class="two">
+            <div class="form"><div class="field"><label>Catégorie 1</label><div class="input">🏠 ACCUEIL</div></div></div>
+            <div class="form"><div class="field"><label>Catégorie 2</label><div class="input">💬 DISCUSSION</div></div></div>
+            <div class="form"><div class="field"><label>Catégorie 3</label><div class="input">🛠️ SUPPORT</div></div></div>
+            <div class="form"><div class="field"><label>Catégorie 4</label><div class="input">📚 RESSOURCES</div></div></div>
+        </div>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-num">2</span>Créer les salons dans chaque catégorie</h3>
+        <p>Clic droit sur la catégorie → <strong>Créer un salon</strong> → type <em>Texte</em> → colle le nom avec l'emoji. Répète pour chaque salon.</p>
+        <div class="form">
+            <div class="field"><label>Exemple de nom de salon</label><div class="input">📖 ma-partie</div></div>
+        </div>
+        <p><strong>🏠 ACCUEIL :</strong> 📌 annonces · 📜 règles · 👋 présentations · 🚀 mises-à-jour · 🗳️ sondages</p>
+        <p><strong>💬 DISCUSSION :</strong> 💬 général · ⚽ parlons-fm27 · 📖 ma-partie · 🎯 tactiques · 🔄 mercato · 🌟 jeunes-pépites · 🖼️ captures · 😂 memes</p>
+        <p><strong>🛠️ SUPPORT :</strong> ❓ aide · 🐛 bugs · 💡 suggestions · 📥 installation</p>
+        <p><strong>📚 RESSOURCES :</strong> 🔗 liens-utiles · 📥 téléchargements</p>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-num">3</span>Régler les droits d'écriture</h3>
+        <p>Pour chaque salon : <strong>Modifier le salon → Permissions</strong>. Sélectionne le rôle <code>@everyone</code> et applique le tableau ci-dessous.</p>
+        <div class="form">
+            <div class="field"><label>@everyone — salon de discussion</label><div class="perm">
+                <div><span class="switch"></span> Voir le salon</div>
+                <div><span class="switch"></span> Envoyer des messages</div>
+                <div><span class="switch"></span> Lire l'historique</div>
+                <div><span class="switch"></span> Ajouter des réactions</div>
+            </div></div>
+            <div class="field"><label>@everyone — salon d'annonces</label><div class="perm">
+                <div><span class="switch"></span> Voir le salon</div>
+                <div><span class="switch off"></span> Envoyer des messages</div>
+                <div><span class="switch"></span> Lire l'historique</div>
+                <div><span class="switch off"></span> Ajouter des réactions</div>
+            </div></div>
+        </div>
+    </div>
+
+    <div class="step">
+        <h3><span class="step-num">4</span>Ajouter le salon vocal</h3>
+        <p>Dans la catégorie <strong>🛠️ SUPPORT</strong> → <strong>Créer un salon</strong> → type <em>Vocal</em> → nomme-le <code>🔊 vocal</code>.</p>
+    </div>
+
+    <h2 id="perms">🔐 Droits d'écriture détaillés</h2>
+    <table>
+        <thead><tr><th>Salon</th><th>@everyone écrit</th><th>Staff gère</th></tr></thead>
+        <tbody>
+            <tr><td>📌 annonces</td><td class="no">Non (lecture)</td><td class="yes">Oui</td></tr>
+            <tr><td>📜 règles</td><td class="no">Non (lecture)</td><td class="yes">Oui</td></tr>
+            <tr><td>👋 présentations</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>🚀 mises-à-jour</td><td class="no">Non (lecture)</td><td class="yes">Oui</td></tr>
+            <tr><td>🗳️ sondages</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>💬 général</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>⚽ parlons-fm27</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>📖 ma-partie</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>🎯 tactiques</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>🔄 mercato</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>🌟 jeunes-pépites</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>🖼️ captures</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>😂 memes</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>❓ aide</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>🐛 bugs</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>💡 suggestions</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>📥 installation</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+            <tr><td>🔗 liens-utiles</td><td class="no">Non (lecture)</td><td class="yes">Oui</td></tr>
+            <tr><td>📥 téléchargements</td><td class="no">Non (lecture)</td><td class="yes">Oui</td></tr>
+            <tr><td>🔊 vocal</td><td class="yes">Connexion</td><td class="yes">Oui</td></tr>
+        </tbody>
+    </table>
+
+    <div class="ok">✅ <strong>Astuce rapidité :</strong> dans un salon, <em>Modifier le salon → Permissions</em>, puis copie la configuration vers les autres salons via <em>… → Copier les permissions</em>.</div>
+
+    <h2 id="depannage">🛠️ Dépannage</h2>
+    <div class="step">
+        <h3>Le bot ne crée rien</h3>
+        <ul>
+            <li>Vérifie que le bot a bien été invité avec <strong>Manage Channels</strong>.</li>
+            <li>Vérifie que le rôle du bot est <strong>au-dessus</strong> des rôles à modifier.</li>
+            <li>Le token doit être valide et la variable <code>DISCORD_TOKEN</code> définie.</li>
+        </ul>
+    </div>
+    <div class="step">
+        <h3>« Missing Permissions » / « Forbidden »</h3>
+        <p>Le bot n'a pas les droits. Réinvite-le avec les permissions complètes ou déplace son rôle en haut de la liste des rôles.</p>
+    </div>
+    <div class="step">
+        <h3>Les salons existent en double</h3>
+        <p>Le script ne supprime pas les anciens salons. Supprime-les manuellement ou renomme-les avant de relancer.</p>
+    </div>
+
+    <div class="note">📌 <strong>Rappel :</strong> Discord n'autorise pas de police personnalisée pour les noms de salons. Les emojis + noms courts sont la meilleure solution. Garde le nom du serveur en « Assistant FM » pour rester lisible partout.</div>
+
+    <p class="lead" style="margin-top:40px">Document généré pour Assistant FM · <a href="https://discord.gg/YR2e8kMHeF" target="_blank">Rejoindre le Discord</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+players_data.json
+"last save overwrite backup.fm"
+Python/
+releases/
+__pycache__/
+*.pyc
+*.log

@@ -1,0 +1,1098 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Assistant FM2027 Pro</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0a1020;
+            --panel: #111a2d;
+            --panel-raised: #1a2740;
+            --line: #30425f;
+            --accent: #5b9bd5;
+            --accent-strong: #3a6ea5;
+            --accent-soft: rgba(91, 155, 213, .16);
+            --text: #f5f8ff;
+            --muted: #aab9cf;
+            --shadow: 0 18px 48px rgba(2, 8, 24, .38);
+            font-family: Nunito, "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: radial-gradient(ellipse at 2% 0%, var(--accent-soft), transparent 34%), var(--bg);
+            color: var(--text);
+            display: grid;
+            font-family: inherit;
+            gap: 12px;
+            grid-template-columns: minmax(250px, 290px) minmax(0, 1fr);
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            padding: 16px;
+        }
+        .panel {
+            background: linear-gradient(155deg, rgba(255,255,255,.025), transparent 42%), var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            min-width: 0;
+            padding: 16px;
+        }
+        .left { overflow-y: auto; }
+        .right { overflow: hidden; }
+        .global-search { position: relative; margin-bottom: 8px; }
+        .global-search input { width: 100%; }
+        .global-results { position: absolute; z-index: 20; width: min(100%, 620px); max-height: 320px; overflow: auto; background: var(--panel-raised); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+        .global-results:empty { display: none; }
+        .global-results button { display: block; width: 100%; text-align: left; }
+        .decision-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+        .decision-controls label { display: grid; gap: 4px; }
+        .column-options label { display: inline-flex; gap: 4px; margin: 4px 10px 4px 0; }
+        body.sidebar-collapsed { grid-template-columns: 58px minmax(0, 1fr); }
+        .sidebar-toggle { background: #252c35; border: 1px solid var(--line); flex: 0 0 30px; font-size: 18px; padding: 3px; width: 30px; }
+        body.sidebar-collapsed .left { align-items: center; overflow: hidden; padding: 10px 6px; }
+        body.sidebar-collapsed .left > :not(.club-brand) { display: none !important; }
+        body.sidebar-collapsed .club-brand { justify-content: center; margin: 0; }
+        body.sidebar-collapsed .club-brand > :not(#sidebar-toggle) { display: none; }
+        .club-brand { align-items: center; display: flex; gap: 12px; margin: 2px 0 18px; }
+        .club-crest {
+            align-items: center;
+            background: linear-gradient(145deg, var(--accent), var(--accent-strong));
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 12px 12px 12px 4px;
+            box-shadow: 0 6px 18px var(--accent-soft);
+            color: #fff;
+            display: flex;
+            flex: 0 0 54px;
+            font-size: 13px;
+            font-weight: 900;
+            height: 54px;
+            justify-content: center;
+            letter-spacing: .04em;
+            overflow: hidden;
+            position: relative;
+        }
+        .club-crest.has-logo { background: transparent; border-color: transparent; border-radius: 0; box-shadow: none; }
+        .club-brand h2 { font-size: 18px; letter-spacing: -.03em; margin: 0; }
+        .club-brand p { color: var(--muted); font-size: 11px; margin: 4px 0 0; }
+        .form { margin-bottom: 12px; }
+        #n[readonly] { cursor: pointer; }
+        label { color: #d7dde5; font-size: 12px; font-weight: 650; }
+        input, select {
+            background: #11161b;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            color: var(--text);
+            padding: 9px 10px;
+            transition: border-color .16s ease, box-shadow .16s ease;
+            width: 100%;
+        }
+        input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); outline: none; }
+        input[type="checkbox"], input[type="range"] { accent-color: var(--accent); }
+        button {
+            background: linear-gradient(140deg, var(--accent), var(--accent-strong));
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 12px;
+            transition: filter .16s ease, transform .16s ease, border-color .16s ease;
+            width: 100%;
+        }
+        button:hover:not(:disabled) { filter: brightness(1.12); transform: translateY(-1px); }
+        button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+        button:disabled { cursor: not-allowed; filter: grayscale(.5); opacity: .6; }
+        .scroll { border: 1px solid var(--line); border-radius: 9px; flex: 1; min-height: 0; overflow: auto; }
+        table { border-collapse: collapse; min-width: 760px; table-layout: fixed; width: 100%; }
+        th, td { border-bottom: 1px solid var(--line); overflow: hidden; padding: 10px 9px; text-align: left; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+        th { background: #20262e; color: #e2e8f2; position: sticky; top: 0; z-index: 5; cursor: pointer; user-select: none; }
+        th:hover { color: var(--accent); }
+        tr { transition: background .12s ease; }
+        tr:hover { background: var(--accent-soft); cursor: pointer; }
+        #list-toolbar { background: #122434; border: 1px solid #294156; border-radius: 7px; flex: 0 0 auto; margin: 0 0 7px; padding: 7px; }
+        #list-toolbar #se { background: #0c1925; border-color: #31485b; margin: 0 !important; min-width: 0; padding: 8px 10px !important; }
+        #list-toolbar .checkbox-container { color: #c3ced8; font-size: 11px; margin: 0; }
+        #list-toolbar .checkbox-container input { accent-color: #7fbf43; }
+        #player-filters { background: #102130; border: 1px solid #294156; border-radius: 7px; flex: 0 0 auto; margin: 0 0 6px; padding: 0 9px 7px; }
+        #player-filters > summary { color: #d3dee8; cursor: pointer; font-size: 10px; font-weight: 750; letter-spacing: .04em; padding: 9px 0 4px; text-transform: uppercase; }
+        #player-filters .player-filter-grid { gap: 7px; padding-top: 8px; }
+        #player-filters label { color: #bac8d4; font-size: 10px; }
+        #player-filters input, #player-filters select { background: #0c1925; border-color: #304558; border-radius: 5px; font-size: 11px; padding: 7px 8px; }
+        #player-filters button { border-radius: 5px; font-size: 10px; padding: 7px 9px; }
+        #player-filters .attribute-filters { border-top: 1px solid #294156; margin-top: 9px; padding-top: 8px; }
+        #player-filters .attribute-filters > strong { color: #d3dee8; font-size: 10px; text-transform: uppercase; }
+        #player-filters .attribute-filters > p { font-size: 10px; margin: 5px 0; }
+        #active-player-filters { flex: 0 0 auto; margin: 0 0 6px; }
+        #active-player-filters:empty { display: none; }
+        #results-table.player-search-table { background: #0c1a27; border-color: #294156; border-radius: 6px; flex: 1 1 auto; min-height: 0; }
+        #results-table.player-search-table table { min-width: 1450px; }
+        #results-table.player-search-table th { background: #14283a; border-bottom: 1px solid #35536a; color: #9eb4c6; font-size: 9px; font-weight: 750; letter-spacing: .045em; padding: 8px 7px; text-transform: uppercase; }
+        #results-table.player-search-table td { background: #102130; border-bottom-color: #203748; color: #d6e0e9; font-size: 10px; padding: 5px 7px; }
+        #results-table.player-search-table tbody tr:nth-child(even) td { background: #122536; }
+        #results-table.player-search-table tbody tr:hover td { background: #1d3a50; }
+        #results-table.player-search-table .person-link { gap: 6px; }
+        #results-table.player-search-table .person-avatar { flex-basis: 32px; height: 32px; width: 32px; }
+        #results-table.player-search-table .profile-link { font-size: 10px; }
+        #results-table.player-search-table .note { border-radius: 10px; font-size: 9px; min-width: 28px; padding: 3px 6px; }
+        #results-table.player-search-table tbody tr td:first-child { color: #f0f4f7; }
+        #results-table.player-search-table .search-club, #results-table.player-search-table .search-nationality { align-items: center; display: inline-flex; gap: 5px; max-width: 100%; min-width: 0; vertical-align: middle; }
+        #results-table.player-search-table .search-club > .profile-link, #results-table.player-search-table .search-nationality > span:last-child { overflow: hidden; text-overflow: ellipsis; }
+        #results-table.player-search-table .search-logo { border-radius: 5px; clip-path: none; flex: 0 0 26px; font-size: 13px; height: 25px; width: 26px; }
+        #results-table.player-search-table .search-logo.profile-club-mark { border-radius: 5px; }
+        #results-table.player-search-table .search-logo.profile-flag-mark { border-radius: 4px; font-size: 16px; }
+        #results-table.player-search-table .search-logo .profile-logo-image { object-fit: contain; padding: 1px; }
+        #player-filters .player-filter-checkbox { align-items: center; flex-direction: row; gap: 7px; padding-top: 17px; }
+        #player-filters .player-filter-checkbox input { accent-color: #7fbf43; margin: 0; width: auto; }
+        .status { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 8px; color: #fff; font-size: 12px; font-weight: 650; margin-bottom: 14px; padding: 9px 10px; text-align: center; }
+        .note { font-weight: bold; padding: 2px 5px; border-radius: 4px; text-align: center; display: inline-block; min-width: 20px; }
+        .elite { background: #1b5e20; color: #2ecc71; } .excellent { background: #33691e; color: #aed581; } .moyen { background: #f57f17; color: #fff59d; } .faible { background: #b71c1c; color: #ef9a9a; }
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+        .tab-btn { background: #252c35; border: 1px solid #39424f; border-radius: 8px; color: #c5ceda; font-size: 11px; padding: 8px 11px; width: auto; }
+        .tab-btn.active { background: var(--accent-soft); border-color: var(--accent); color: #fff; box-shadow: inset 0 -2px var(--accent); }
+        .checkbox-container { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 10px; cursor: pointer; } .checkbox-container input { width: auto; }
+        .badge-role { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent); border-radius: 5px; color: #fff; font-size: 11px; font-weight: bold; padding: 3px 6px; }
+        .modal { align-items: center; background: rgba(5, 8, 12, .78); display: none; inset: 0; justify-content: center; position: fixed; z-index: 100; }
+        .modal-content { background: linear-gradient(155deg, rgba(255,255,255,.025), transparent 42%), var(--panel); border: 1px solid var(--accent); border-radius: 14px; box-shadow: var(--shadow); max-height: 94vh; max-width: 1360px; overflow-y: auto; padding: 22px; position: relative; width: min(97vw, 1360px); }
+        .desktop-pack-heading { align-items: baseline; display: flex; gap: 8px; justify-content: space-between; }
+        .desktop-pack-heading a { color: var(--accent); font-size: 10px; font-weight: 650; }
+        .tcmlogos-credit { align-items: center; border-top: 1px solid var(--line); display: grid; gap: 6px; justify-items: center; margin-top: 12px; padding-top: 10px; text-align: center; }
+        .tcmlogos-credit p { margin: 0; }
+        .tcmlogos-credit img { background: #e8e8e8; border-radius: 4px; height: auto; max-width: min(100%, 150px); }
+        .modal-content.profile-modal #modal-title { display: none; }
+        .profile-link { background: transparent; border: 0; border-radius: 3px; color: #f2f5fa; cursor: pointer; display: inline; font: inherit; font-weight: 650; max-width: 100%; overflow: hidden; padding: 0; text-align: left; text-overflow: ellipsis; vertical-align: baseline; white-space: nowrap; width: auto; }
+        .profile-link:hover { background: transparent; color: var(--accent); text-decoration: underline; transform: none; }
+        .profile-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        #stat-modal .profile-link[data-profile-copy-name="true"] { cursor: copy; }
+        .profile-copy-status { color: var(--accent); font-size: 12px; margin: 4px 0 8px; }
+        .club-profile-link { color: #c6d0df; font-weight: 500; }
+        .competition-mark-link { background: transparent; border: 0; border-radius: 6px; flex: 0 0 auto; padding: 0; width: auto; }
+        .competition-mark-link:hover { background: transparent; transform: none; }
+        .competition-mark-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+        .competition-table-wrap { max-width: 100%; overflow-x: auto; }
+        .competition-table { border-collapse: collapse; width: 100%; }
+        .competition-table th { cursor: default; position: static; }
+        .competition-table tr { cursor: default; }
+        .person-link { align-items: center; display: inline-flex; gap: 7px; max-width: 100%; vertical-align: middle; }
+        .person-avatar { align-items: center; background: linear-gradient(145deg, #313d4d, #171d25); border: 1px solid rgba(255,255,255,.2); border-radius: 50%; color: #e8edf5; display: inline-flex; flex: 0 0 40px; font-size: 12px; font-weight: 750; height: 40px; justify-content: center; overflow: hidden; position: relative; width: 40px; }
+        .person-avatar img { height: 100%; inset: 0; object-fit: contain; position: absolute; width: 100%; }
+        .person-avatar.profile-avatar { flex-basis: 88px; font-size: 20px; height: 88px; width: 88px; }
+        .profile-person-heading { align-items: center; display: flex; gap: 12px; min-width: 0; }
+        .profile-person-heading > div { min-width: 0; }
+        .profile-hero { align-items: center; background: linear-gradient(110deg, var(--accent-soft), rgba(255,255,255,.025) 65%); border: 1px solid var(--line); border-radius: 10px; display: grid; gap: 16px; grid-template-columns: minmax(180px, 1.8fr) minmax(150px, 1fr) minmax(150px, .8fr); margin-bottom: 12px; padding: 14px; }
+        .profile-tabs .profile-hero { gap: 12px; grid-template-columns: minmax(0, 1.8fr) minmax(125px, .65fr) minmax(140px, .8fr); padding: 12px; }
+        .profile-pieds { display: flex; flex-direction: column; gap: 10px; }
+        .profile-stats-col { display: flex; flex-direction: column; gap: 8px; }
+        .profile-tab-nav { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+        .profile-tab-panel[hidden] { display: none; }
+        .career-table { overflow-x: auto; }
+        .profile-tab-panel .profile-hero { margin-top: 0; }
+        .profile-tab-nav .profile-follow-button { margin-left: auto; }
+        .profile-identity h2 { font-size: clamp(18px, 2vw, 24px); margin: 0 0 5px; }
+        .profile-identity p { color: var(--muted); font-size: 12px; line-height: 1.55; margin: 3px 0; }
+        .profile-tabs .profile-identity { min-width: 0; }
+        .profile-inline-assets { align-items: center; display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 9px; min-width: 0; }
+        .profile-inline-asset { align-items: center; display: flex; gap: 5px; min-width: 0; }
+        .profile-inline-asset > span:last-child { color: #d3dce4; font-size: 10px; line-height: 1.25; overflow-wrap: anywhere; }
+        .profile-inline-asset .profile-visual-mark { flex: 0 0 36px; height: 34px; width: 36px; }
+        .profile-contract-summary { align-items: baseline; color: var(--muted); display: flex; flex-wrap: wrap; font-size: 10px; gap: 4px 12px; margin-top: 8px; }
+        .profile-contract-summary strong { color: var(--text); font-size: 11px; }
+        .profile-metric small { color: var(--muted); display: block; font-size: 10px; margin-bottom: 5px; text-transform: uppercase; }
+        .profile-metric strong { display: block; font-size: clamp(16px, 1.8vw, 23px); font-weight: 750; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .profile-ability-metric strong { font-size: clamp(17px, 1.35vw, 20px); }
+        .profile-ability-metric .profile-ability-track { height: 5px; }
+        .profile-ability-metric .profile-potential-line { font-size: 9px; margin-top: 6px; }
+        .profile-finances { display: grid; gap: 9px; }
+        .profile-finances .profile-metric + .profile-metric { border-top: 1px solid var(--line); padding-top: 8px; }
+        .profile-finances .profile-metric small { font-size: 9px; margin-bottom: 3px; }
+        .profile-finances .profile-metric strong { font-size: clamp(14px, 1.25vw, 18px); }
+        .profile-visual-assets { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); margin: 10px 0 12px; }
+        .profile-visual-card { align-items: center; background: var(--panel-raised); border: 1px solid var(--line); border-radius: 9px; display: flex; gap: 10px; min-width: 0; padding: 9px; }
+        .profile-visual-mark { align-items: center; background: linear-gradient(145deg, var(--accent), var(--accent-strong)); border: 1px solid rgba(255,255,255,.35); box-shadow: 0 4px 12px var(--accent-soft); color: #fff; display: flex; flex: 0 0 54px; font-size: 14px; font-weight: 800; height: 54px; justify-content: center; overflow: hidden; position: relative; }
+        .profile-logo-image { background: transparent; height: 100%; inset: 0; object-fit: contain; padding: 0; position: absolute; width: 100%; }
+        .profile-visual-mark.has-logo { background: transparent; border-color: transparent; border-radius: 0; box-shadow: none; clip-path: none; }
+        .profile-nation-flag { object-fit: cover; }
+        .profile-flag-mark { background: linear-gradient(135deg, #253449, #41536b); border-radius: 8px; font-size: 23px; height: 38px; }
+        .profile-club-mark { border-radius: 14px 14px 14px 4px; clip-path: polygon(4% 0, 96% 0, 88% 70%, 50% 100%, 12% 70%); }
+        .profile-division-mark { background: linear-gradient(145deg, #63718a, #37445a); border-radius: 50%; font-size: 12px; }
+        .profile-visual-text { min-width: 0; }
+        .profile-visual-text small { color: var(--muted); display: block; font-size: 9px; margin-bottom: 3px; text-transform: uppercase; }
+        .profile-visual-text strong, .profile-visual-text > span { display: block; font-size: 11px; line-height: 1.35; overflow-wrap: anywhere; white-space: normal; }
+        .profile-visual-text > span { color: var(--muted); font-size: 10px; margin-top: 2px; }
+        .profile-visual-note { color: var(--muted); font-size: 9px; grid-column: 1 / -1; line-height: 1.4; margin: 0; }
+        .profile-ability-track { background: #10151a; border-radius: 4px; height: 6px; margin-top: 5px; overflow: hidden; }
+        .profile-ability-fill { height: 100%; }
+        .profile-ability-fill.current { background: var(--accent); }
+        .profile-ability-fill.potential { background: #e5bf45; }
+        .career-table-wrap { overflow-x: auto; margin-top: 8px; }
+        .career-table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
+        .career-table th { background: #10151a; color: #b7c4d2; font-size: 10px; text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+        .career-table th:nth-child(6), .career-table th:nth-child(7), .career-table th:nth-child(8), .career-table th:nth-child(9), .career-table th:nth-child(10), .career-table th:nth-child(11), .career-table th:nth-child(12) { text-align: center; }
+        .career-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,.06); color: #c8d2de; vertical-align: middle; }
+        .career-table tbody tr:hover { background: rgba(255,255,255,.04); }
+        .career-cell-comp { min-width: 150px; text-align: left; }
+        .career-cell-club { min-width: 160px; text-align: left; }
+        .career-cell-infos { width: 70px; text-align: center; }
+        .career-cell-nation { width: 70px; text-align: center; }
+        .career-cell-division { width: 110px; text-align: left; }
+        .career-cell-annee { width: 70px; text-align: center; }
+        .career-cell-stat { width: 55px; text-align: center; }
+        .career-cell-note { width: 60px; text-align: center; font-weight: 700; color: #8df0a1; }
+        .career-table-wrap img { width: 16px; height: 16px; margin-right: 4px; vertical-align: middle; border-radius: 2px; }
+        .carriere-cell-selection { width: 30px; text-align: center; }
+        .carriere-cell-annee { width: 55px; }
+        .carriere-cell-stat { width: 60px; text-align: center; }
+        .carriere-cell-note { width: 60px; text-align: center; font-weight: 700; color: #8df0a1; }
+        .carriere-selection { display: block; width: 16px; height: 16px; margin: 0 auto; cursor: pointer; position: relative; }
+        .carriere-radio { width: 16px; height: 16px; border: 2px solid #64748b; border-radius: 50%; display: block; margin: 0 auto; }
+        .carriere-selection input:checked + .carriere-radio { border-color: var(--accent); background: var(--accent); }
+        .carriere-selection input { position: absolute; opacity: 0; cursor: pointer; width: 100%; height: 100%; margin: 0; }
+        .pied-bloc { min-width: 90px; }
+        .pied-titre { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+        .pied-libelle { font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+        .pied-valeur { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+        .pied-track { height: 4px; background: #10151a; border-radius: 3px; overflow: hidden; }
+        .pied-fill { height: 100%; border-radius: 3px; }
+        .pied-capacites { display: flex; gap: 12px; justify-content: center; margin: 10px 0; }
+        .pied-gauges { display: flex; gap: 10px; margin-top: 8px; }
+        .pied-gauge { display: flex; flex-direction: column; gap: 3px; align-items: center; min-width: 70px; }
+        .pied-gauge-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .pied-gauge-value { font-size: 13px; font-weight: 800; color: #fff; }
+        .pied-gauge-track { width: 100%; background: #10151a; border-radius: 3px; height: 4px; overflow: hidden; }
+        .pied-gauge-fill { height: 100%; border-radius: 3px; }
+        .selections-nationales { margin-top: 2px; font-size: 9px; color: var(--accent); }
+        .pied-metric { min-width: 0; }
+        .pied-metric .profile-ability-track { height: 4px; margin-top: 4px; }
+        .pied-metric .profile-ability-fill { border-radius: 3px; }
+        .profile-potential-line { color: var(--muted); font-size: 10px; margin-top: 8px; }
+        .profile-layout { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(190px, .9fr); }
+        .profile-section { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 9px; min-width: 0; padding: 11px; }
+        .profile-section h3 { font-size: 13px; margin: 0 0 10px; }
+        .comparateur-layout { display: grid; gap: 12px; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+        .comparateur-results { display: grid; gap: 12px; margin-top: 12px; }
+        .comparateur-picker { display: grid; gap: 4px; max-height: 320px; overflow: auto; }
+        .comparateur-picker-item { align-items: center; border-bottom: 1px solid rgba(255,255,255,.05); display: grid; gap: 2px 8px; grid-template-columns: auto minmax(0, 1fr); padding: 5px 2px; }
+        .comparateur-picker-item input { grid-row: span 2; }
+        .comparateur-picker-item span { color: var(--text); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .comparateur-picker-item small { color: var(--muted); font-size: 10px; }
+        .comparateur-picker-item:has(input:disabled) { opacity: .45; }
+        .comparateur-radar { display: block; margin: 0 auto; max-width: 320px; width: 100%; }
+        .comparateur-legende { display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: center; margin-top: 6px; }
+        .comparateur-selection { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 8px 0; padding: 0; }
+        .comparateur-selection li { align-items: center; background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 999px; display: inline-flex; gap: 6px; padding: 3px 4px 3px 10px; }
+        .comparateur-selection li span { font-size: 11px; }
+        .comparateur-selection li .tab-btn { padding: 3px 8px; }
+        .comparateur-legende-item { align-items: center; color: var(--muted); display: inline-flex; font-size: 11px; gap: 5px; }
+        .comparateur-legende-item i { border-radius: 50%; display: inline-block; height: 9px; width: 9px; }
+        .suivi-tag { background: rgba(91,155,213,.16); border: 1px solid rgba(91,155,213,.3); border-radius: 999px; color: #a8c8ee; display: inline-block; font-size: 10px; margin: 2px 4px 0 0; padding: 2px 8px; }
+        .suivi-tags { display: flex; flex-wrap: wrap; margin: 6px 0 0; }
+        .profile-stat { border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 7px; padding-bottom: 5px; }
+        .profile-stat-line { align-items: center; display: flex; font-size: 12px; gap: 6px; justify-content: space-between; }
+        .profile-stat-label { cursor: help; text-decoration: underline dotted rgba(255,255,255,.35); text-underline-offset: 3px; }
+        .profile-stat-line strong { align-items: center; color: #fff; display: flex; flex: 0 0 auto; font-size: 11px; gap: 4px; justify-content: flex-end; min-width: 42px; text-align: right; }
+        .profile-stat-line .profile-stat-values { background: transparent; padding: 0; }
+        .profile-stat-line .profile-stat-values.comparison-better { color: #8df0a1; }
+        .profile-stat-line .profile-stat-values.comparison-worse { color: #ff9696; }
+        .profile-stat-line .profile-stat-values.comparison-equal { color: #d7d7a0; }
+        .comparison-delta { border-radius: 4px; font-size: 9px; font-weight: 800; margin-left: 2px; padding: 2px 4px; }
+        .profile-stat-line .comparison-delta.comparison-better { background: rgba(25, 135, 64, .25); color: #8df0a1; }
+        .profile-stat-line .comparison-delta.comparison-worse { background: rgba(175, 35, 45, .25); color: #ff9696; }
+        .profile-stat-line .comparison-delta.comparison-equal { background: rgba(145, 145, 60, .2); color: #d7d7a0; }
+        .profile-stat-separator { color: var(--muted); font-weight: 400; }
+        .profile-stat-potential.missing { color: var(--muted); font-weight: 500; }
+        .profile-benchmark-summary { align-items: center; color: #d3dce4; display: flex; flex-wrap: wrap; font-size: 11px; gap: 5px; grid-column: 1 / -1; margin: 0; }
+        .profile-benchmark-summary select { max-width: 100%; min-width: 210px; padding: 5px 8px; width: auto; }
+        .profile-stat.priority .profile-stat-line { color: #fff1bd; font-weight: 750; }
+        .profile-stat-track { background: #10151a; border-radius: 3px; height: 3px; margin-top: 4px; overflow: hidden; }
+        .profile-stat-fill { background: #d3b342; height: 100%; }
+        .profile-stat.priority .profile-stat-fill { background: var(--accent); }
+        .profile-position-list, .profile-role-list { display: grid; gap: 5px; }
+        .profile-attribute-tabs { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
+        .profile-attribute-panel[hidden] { display: none; }
+        .position-map { background: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 30px, transparent 30px 60px), linear-gradient(0deg, #1d603c, #286e48); border: 1px solid #91b6a1; border-radius: 6px; display: grid; gap: 2px; grid-template-columns: repeat(var(--pitch-columns), minmax(0, 1fr)); grid-template-rows: repeat(var(--pitch-rows), 35px); isolation: isolate; margin-bottom: 8px; min-width: 0; overflow: hidden; padding: 6px; position: relative; }
+        .position-map::before { background: linear-gradient(rgba(255,255,255,.48), rgba(255,255,255,.48)) center / 100% 1px no-repeat, radial-gradient(circle, transparent 0 28px, rgba(255,255,255,.45) 29px 30px, transparent 31px) center / 62px 62px no-repeat, linear-gradient(rgba(255,255,255,.45), rgba(255,255,255,.45)) top center / 42% 1px no-repeat, linear-gradient(rgba(255,255,255,.45), rgba(255,255,255,.45)) bottom center / 42% 1px no-repeat, linear-gradient(rgba(255,255,255,.45), rgba(255,255,255,.45)) top center / 1px 18% no-repeat, linear-gradient(rgba(255,255,255,.45), rgba(255,255,255,.45)) bottom center / 1px 18% no-repeat; content: ""; inset: 5px; pointer-events: none; position: absolute; z-index: 0; }
+        .position-map-marker { align-content: center; background: #39434c; border: 1px solid #83909b; border-radius: 50%; color: #fff; display: grid; font-size: 9px; font-weight: 700; height: 32px; justify-items: center; justify-self: center; line-height: 1; margin: 0; padding: 1px; position: relative; width: 32px; z-index: 1; }
+        .position-map-marker small { font-size: 9px; }
+        .position-map-marker.naturel { background: #167645; border-color: #b6f1c5; }
+        .position-map-marker.bon { background: #086e79; border-color: #9ee8e9; }
+        .position-map-marker.moyen { background: #80600c; border-color: #f5df8b; }
+        .position-map-marker.faible { background: #87392f; border-color: #ffbeb2; }
+        .position-map-marker.selected { outline: 2px solid #fff; outline-offset: 1px; }
+        button.position-map-marker:hover:not(:disabled) { transform: none; }
+        .position-map-legend { color: #d3dce4; display: flex; flex-wrap: wrap; font-size: 10px; gap: 5px 10px; line-height: 1.5; margin: 0; }
+        .position-map-legend-item { align-items: center; display: inline-flex; gap: 4px; }
+        .position-map-legend-dot { border: 1px solid rgba(255,255,255,.48); border-radius: 50%; display: inline-block; flex: 0 0 8px; height: 8px; width: 8px; }
+        .position-map-legend-dot.naturel { background: #167645; }
+        .position-map-legend-dot.bon { background: #086e79; }
+        .position-map-legend-dot.moyen { background: #80600c; }
+        .position-map-legend-dot.faible { background: #87392f; }
+        .position-map-legend-dot.inconnu { background: #39434c; }
+        .profile-position, .profile-role { align-items: center; background: rgba(0,0,0,.14); border: 1px solid transparent; border-radius: 6px; display: flex; font-size: 11px; justify-content: space-between; padding: 6px 7px; }
+        .profile-position.researched, .profile-role.selected { background: var(--accent-soft); border-color: var(--accent); color: #fff; }
+        .profile-stars { color: #e5bf45; font-size: 12px; letter-spacing: 1px; white-space: nowrap; }
+        .profile-controls { display: grid; gap: 9px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 10px 0; }
+        .profile-controls label { display: grid; gap: 5px; }
+        .profile-control-hint { color: var(--muted); font-size: 10px; font-weight: 400; }
+        .profile-contract { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 10px; }
+        .profile-highlight { border-left: 3px solid var(--accent); padding-left: 8px; }
+        .profile-roles-heading { align-items: baseline; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; }
+        .profile-role-details { grid-column: 1 / -1; }
+        .profile-role-details .profile-role-list { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+        .profile-disclaimer { color: var(--muted); font-size: 10px; line-height: 1.45; margin: 8px 0 0; }
+        .profile-club-button { color: var(--accent); }
+        .staff-overview-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
+        .staff-overview-panel[hidden] { display: none; }
+        .club-view-tabs, .club-squad-filters, .club-position-filters { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 10px; }
+        .club-view-panel[hidden] { display: none; }
+        .club-roster-layout { align-items: start; display: grid; gap: 12px; grid-template-columns: minmax(0, 1.8fr) minmax(280px, .9fr); }
+        .club-roster-main { min-width: 0; }
+        .club-roster-main h3 { margin-top: 0; }
+        .club-roster-tactics { min-width: 0; }
+        .club-roster-tactics h3 { margin-top: 0; }
+        .club-squad-table-wrap { max-height: 65vh; }
+        .club-squad-table { border-collapse: collapse; font-size: 11px; min-width: 760px; width: 100%; }
+        .club-squad-table th { background: var(--panel-raised); color: #b7c4d2; font-size: 10px; position: sticky; text-align: left; top: 0; z-index: 1; }
+        .club-squad-table th, .club-squad-table td { border-bottom: 1px solid var(--line); padding: 5px 6px; }
+        .club-squad-table .club-sort-button { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; font-weight: 700; margin: 0; padding: 4px 0; text-align: left; width: auto; }
+        .club-squad-table .club-sort-button:disabled { cursor: not-allowed; opacity: .6; }
+        .club-squad-table .club-sort-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .club-squad-table tbody tr:hover { background: rgba(255,255,255,.045); }
+        .club-squad-positions, .club-squad-status { align-items: center; display: flex; flex-wrap: wrap; gap: 3px; }
+        .club-squad-status { margin-top: 3px; }
+        .club-squad-table th:nth-child(2), .club-squad-table td:nth-child(2) { min-width: 260px; width: 32%; }
+        .club-squad-table th:nth-child(1), .club-squad-table td:nth-child(1) { width: 7%; }
+        .club-squad-table th:nth-child(3), .club-squad-table td:nth-child(3) { width: 6%; white-space: nowrap; }
+        .club-squad-table th:nth-child(4), .club-squad-table td:nth-child(4),
+        .club-squad-table th:nth-child(5), .club-squad-table td:nth-child(5) { width: 7%; white-space: nowrap; }
+        .club-squad-table th:nth-child(6), .club-squad-table td:nth-child(6),
+        .club-squad-table th:nth-child(7), .club-squad-table td:nth-child(7) { width: 7%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .squad-position-pill { border: 1px solid transparent; border-radius: 4px; color: #fff; display: inline-block; font-size: 9px; font-weight: 750; line-height: 1.25; padding: 2px 4px; }
+        .squad-position-pill.goalkeeper { background: #d59212; }
+        .squad-position-pill.defense { background: #147c86; }
+        .squad-position-pill.midfield { background: #267c48; }
+        .squad-position-pill.attack { background: #ad315c; }
+        .status-pill { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 999px; color: #d7dde5; font-size: 9px; line-height: 1.4; padding: 2px 7px; white-space: nowrap; }
+        .status-pill.inline-team, .status-pill.inline-status { margin-left: 6px; opacity: 0.85; font-size: 8px; padding: 1px 6px; }
+        .status-pill.loan { background: rgba(16, 199, 207, .14); border-color: rgba(16,199,207,.4); color: #8ee8eb; }
+        .status-pill.injured { background: rgba(175, 35, 45, .18); border-color: rgba(255,120,120,.45); color: #ffb0aa; }
+        .club-transfer-groups { display: grid; gap: 10px; }
+        .club-transfer-season { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 9px; padding: 10px; }
+        .close-btn { color: var(--muted); cursor: pointer; font-size: 22px; position: absolute; right: 15px; top: 10px; } .stat-row { border-bottom: 1px solid var(--line); display: flex; font-size: 13px; justify-content: space-between; margin-bottom: 8px; padding-bottom: 5px; }
+        #tactique-detail { font-size: 12px; color: var(--muted); }
+        .tactic-role-controls { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+        .tactic-slot { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 8px; display: grid; gap: 6px; padding: 9px; }
+        .recommendations { line-height: 1.6; color: #ddd; }
+        #tactic-view { border: 1px solid var(--line); border-radius: 9px; display: none; flex: 1; min-height: 0; overflow-y: auto; padding: 16px; }
+        .pitch-mode-controls { display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0; }
+        .pitch-mode-button { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 7px; color: var(--text); cursor: pointer; flex: 0 1 auto; padding: 8px 12px; width: auto; }
+        .pitch-mode-button.active { background: var(--accent); border-color: var(--accent); color: #101510; font-weight: 700; }
+        .football-pitch-scroll { margin: 14px 0 20px; overflow-x: auto; padding: 2px; }
+        .football-pitch { background: repeating-linear-gradient(0deg, rgba(38,107,65,.78) 0 100px, rgba(30,90,54,.78) 100px 200px), #1b5937; border: 2px solid rgba(255,255,255,.82); border-radius: 10px; isolation: isolate; margin: 0; min-height: 1950px; min-width: 820px; overflow: hidden; position: relative; }
+        .football-pitch::before { background: linear-gradient(rgba(255,255,255,.58), rgba(255,255,255,.58)) center / 100% 1px no-repeat, radial-gradient(circle, transparent 0 63px, rgba(255,255,255,.58) 64px 65px, transparent 66px) center / 132px 132px no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) top center / 36% 1px no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) bottom center / 36% 1px no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) top center / 1px 17% no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) top left / 32% 1px no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) top right / 32% 1px no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) bottom center / 1px 17% no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) bottom left / 32% 1px no-repeat, linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)) bottom right / 32% 1px no-repeat; content: ""; inset: 9px; pointer-events: none; position: absolute; z-index: 0; }
+        .pitch-position { background: rgba(12,21,16,.94); border: 1px solid rgba(255,255,255,.72); border-radius: 9px; color: #fff; left: var(--pitch-x); min-width: 0; padding: 7px; position: absolute; top: var(--pitch-y); transform: translate(-50%, -50%); width: clamp(176px, 21%, 220px); z-index: 1; }
+        .pitch-position-title { display: grid; gap: 2px; margin-bottom: 5px; text-align: center; }
+        .pitch-position-title strong { font-size: 12px; line-height: 1.25; }
+        .pitch-position-title > span { color: #f0d978; font-size: 10px; line-height: 1.25; overflow-wrap: anywhere; }
+        .pitch-slot-index { color: #c9d4e4; font-size: 9px; line-height: 1.2; }
+        .pitch-secondary-position { color: #c9d4e4; font-size: 9px; line-height: 1.2; }
+        .pitch-player-list { display: grid; gap: 7px; min-width: 0; }
+        .pitch-player { background: rgba(255,255,255,.06); border-radius: 6px; display: grid; font-size: 11px; gap: 3px; min-width: 0; padding: 5px; }
+        .pitch-role-line, .pitch-candidate-line, .pitch-benchmark-line { align-items: center; display: flex; gap: 4px; justify-content: space-between; min-width: 0; }
+        .pitch-role-line { color: #f0d978; font-size: 10px; }
+        .pitch-candidate-line .profile-link, .pitch-benchmark-line .profile-link { flex: 1; min-width: 0; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
+        .pitch-candidate-line > strong { color: #c9efc8; flex: 0 0 auto; white-space: nowrap; }
+        .pitch-benchmark-line { align-items: start; border-top: 1px solid rgba(255,255,255,.18); color: #d3d7dc; display: grid; font-size: 9px; gap: 2px; padding-top: 3px; }
+        .pitch-benchmark-line > div { align-items: center; display: flex; gap: 4px; justify-content: space-between; min-width: 0; }
+        .pitch-benchmark-line .profile-link { flex: 1; min-width: 0; overflow-wrap: anywhere; white-space: normal; }
+        .pitch-benchmark-line strong { color: #c9efc8; flex: 0 0 auto; }
+        .pitch-reason { color: #c7d0c8; font-size: 9px; line-height: 1.25; }
+        .pitch-player .profile-stars { color: #f0d978; font-size: 10px; white-space: nowrap; }
+        .pitch-empty { color: #fff; left: 50%; position: absolute; text-align: center; top: 50%; transform: translate(-50%, -50%); }
+        .club-overview-layout { align-items: start; display: grid; gap: 12px; grid-template-columns: minmax(0, 1.15fr) minmax(270px, .85fr); }
+        .club-tactics-card { min-width: 0; overflow: hidden; }
+        .club-tactics-card .football-pitch-scroll { margin-bottom: 4px; }
+        .club-tactics-card .football-pitch { min-height: 1250px; min-width: 540px; }
+        .club-tactics-card .pitch-position { padding: 5px; width: clamp(116px, 23%, 138px); }
+        .club-tactics-card .pitch-position-title strong { font-size: 10px; }
+        .club-tactics-card .pitch-position-title > span { font-size: 9px; }
+        .club-tactics-card .pitch-player { font-size: 10px; padding: 4px; }
+        .club-side-panels { display: grid; gap: 12px; min-width: 0; }
+        .club-side-panels > .dashboard-card { margin: 0; min-width: 0; }
+        .club-set-pieces-grid { display: grid; gap: 7px; }
+        .club-set-piece-card { margin: 0; padding: 9px; }
+        .club-set-piece-card h3 { font-size: 12px; margin-bottom: 4px; }
+        .club-set-piece-card .dashboard-item { font-size: 11px; padding: 4px 0; }
+        .club-set-piece-card .person-avatar { flex-basis: 34px; height: 34px; width: 34px; }
+        .club-set-pieces > .caveat { font-size: 10px; margin: 0 0 6px; }
+        .club-loan-list { max-height: 420px; overflow-y: auto; }
+        .club-overview-layout + h3 { margin-top: 20px; }
+        #club-view, #planner-view, #bargains-view, #staff-overview { display: none; }
+        #club-view, #planner-view, #bargains-view { border: 1px solid var(--line); border-radius: 9px; flex: 1; min-height: 0; overflow-y: auto; padding: 16px; }
+        #staff-overview { border: 1px solid var(--line); border-radius: 9px; font-size: 12px; margin-bottom: 10px; max-height: 35vh; overflow-y: auto; padding: 12px; }
+        .dashboard-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); }
+        .dashboard-card { background: linear-gradient(145deg, rgba(255,255,255,.025), transparent 60%), var(--panel-raised); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; padding: 13px; }
+        .dashboard-card h3 { color: #fff; font-size: 14px; margin: 0 0 9px; }
+        .dashboard-item:last-child { border-bottom: 0; }
+        .dashboard-item { border-bottom: 1px solid var(--line); line-height: 1.55; padding: 7px 0; }
+        .caveat { color: #efd17d; font-size: 12px; line-height: 1.55; }
+        #recruitment-subnav { display: none; }
+        #staff-filter { display: none; margin-bottom: 10px; }
+        .comparison-row { font-size: 12px; }
+        .comparison-better { background: rgba(25, 135, 64, .18); color: #8df0a1; }
+        .comparison-worse { background: rgba(175, 35, 45, .18); color: #ff9696; }
+        .comparison-equal { background: rgba(145, 145, 60, .14); color: #d7d7a0; }
+        .staff-stats { line-height: 1.5; color: #ddd; white-space: normal; }
+        #save-select { margin-top: 8px; }
+        #extract-button { margin-top: 8px; }
+        .extract-progress { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 6px; margin-top: 9px; padding: 9px; }
+        .extract-progress progress { display: block; width: 100%; height: 12px; accent-color: var(--accent); }
+        .extract-progress progress[hidden] { display: none; }
+        .extract-progress p { margin: 6px 0 0; font-size: 12px; line-height: 1.4; }
+        #player-filters { background: rgba(255,255,255,.015); border: 1px solid var(--line); border-radius: 9px; font-size: 12px; margin: 0 0 10px; max-height: 45vh; overflow-y: auto; padding: 9px 11px; }
+        #player-filters summary { color: var(--accent); cursor: pointer; font-weight: bold; }
+        .player-filter-grid { display: grid; grid-template-columns: repeat(4, minmax(100px, 1fr)); gap: 8px; padding-top: 10px; }
+        .player-filter { display: flex; flex-direction: column; gap: 4px; }
+        .player-filter input, .player-filter select { min-width: 0; padding: 6px; }
+        .player-filter input[type="range"] { padding: 0; width: min(100%, 180px); }
+        .player-filter > span { align-items: center; display: flex; gap: 6px; }
+        #clear-player-filters { align-self: end; padding: 7px; }
+        .attribute-filters { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 9px; }
+        .attribute-filter-row { align-items: end; display: grid; gap: 8px; grid-template-columns: minmax(110px, 2fr) minmax(65px, 1fr) minmax(65px, 1fr) auto; margin: 8px 0; }
+        .attribute-filter-row button, #add-attribute-filter { padding: 7px; width: auto; }
+        #player-filter-status { color: var(--muted); margin: 8px 0 0; }
+        #player-filter-status.error { color: #ffb7a9; }
+        .saved-filter-controls { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+        .saved-filter-controls input { flex: 1 1 140px; width: auto; }
+        .saved-filter-controls button, .scouting-view button { width: auto; }
+        .scouting-view { border: 1px solid var(--line); border-radius: 9px; display: none; flex: 1; min-height: 0; overflow-y: auto; padding: 16px; }
+        .scouting-view label input[type="checkbox"] { width: auto; }
+        .scouting-view label { display: inline-flex; gap: 8px; align-items: center; }
+        .scouting-view label select { margin-left: 8px; width: auto; }
+        .mode-decouverte #ca-min, .mode-decouverte #ca-max, .mode-decouverte #pa-min, .mode-decouverte #pa-max { opacity: .45; }
+        .right > h2, #club-view > h2, #planner-view > h2, #bargains-view > h2 { letter-spacing: -.025em; }
+        #club-view > h2 { white-space: nowrap; }
+        #club-view > h2 .profile-logo-image { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; vertical-align: middle; margin-left: 8px; }
+        #club-view > h2 .club-profile-link { vertical-align: middle; line-height: 28px; display: inline-block; padding: 0 4px; }
+        hr { border: 0; border-top: 1px solid var(--line); }
+        ::selection { background: var(--accent); color: #fff; }
+        body { gap: 0; grid-template-columns: 220px minmax(0, 1fr); padding: 0; background: #10091b; }
+        .panel { border: 0; border-radius: 0; box-shadow: none; }
+        .left { background: linear-gradient(145deg, #1d102a, #10091b 55%); border-right: 1px solid #34283d; padding: 14px 10px; }
+        .right { background: #171b2c; padding: 0 16px 16px; }
+        .club-brand { margin: 0 2px 18px; }
+        .club-brand h2 { font-size: 15px; }
+        .primary-nav { display: grid; gap: 3px; margin: 0 -10px 16px; }
+        .primary-nav .tab-btn { background: transparent; border: 0; border-radius: 0; box-shadow: none; color: #e0dce8; min-height: 40px; padding: 10px 16px; text-align: left; width: 100%; }
+        .primary-nav .tab-btn.active { background: #243042; border-right: 3px solid var(--accent); color: var(--accent); }
+        .primary-nav .tab-btn:hover { background: #263040; transform: none; }
+        .sidebar-tools { border-top: 1px solid #382c42; margin-top: 8px; padding-top: 10px; }
+        .sidebar-tools summary { color: #d7d6e0; cursor: pointer; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+        .workspace-header { align-items: center; background: linear-gradient(105deg, #314760, #1c2234 46%, #191d2d); border-bottom: 1px solid #394252; display: flex; gap: 20px; margin: 0 -16px 12px; min-height: 66px; padding: 12px 18px; }
+        .workspace-header h1 { font-size: 17px; letter-spacing: .02em; margin: 0; text-transform: uppercase; }
+        .workspace-header p { color: #a6b5c5; font-size: 10px; margin: 4px 0 0; }
+        .header-club { display: flex; align-items: center; gap: 10px; }
+        .header-club-crest { position: relative; width: 40px; height: 40px; border-radius: 50%; background: #1a2230; border: 1px solid #394252; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: #8aa; flex-shrink: 0; overflow: hidden; }
+        .header-club-crest img { width: 100%; height: 100%; object-fit: cover; }
+        .header-club-info { min-width: 0; }
+        .header-save-date { color: #8aa; font-size: 11px; margin: 2px 0 0; font-weight: 500; }
+        .workspace-header .global-search { flex: 0 1 420px; margin: 0 0 0 auto; }
+        .workspace-header input { background: rgba(13, 19, 30, .65); }
+        .discord-link { align-items: center; border: 1px solid #53677d; border-radius: 5px; color: #e2f9fa; display: inline-flex; flex: 0 0 auto; gap: 7px; padding: 8px 10px; text-decoration: none; }
+        .discord-link:hover, .discord-link:focus-visible { background: #263d50; border-color: var(--accent); color: #fff; }
+        .discord-link svg { height: 20px; width: 20px; }
+        .donate-link { align-items: center; border: 1px solid #b37f2d; border-radius: 5px; color: #ffe8b8; display: inline-flex; flex: 0 0 auto; gap: 7px; padding: 8px 10px; text-decoration: none; }
+        .donate-link:hover, .donate-link:focus-visible { background: #3d2f0a; border-color: #f5a623; color: #fff; }
+        .donate-link svg { height: 20px; width: 20px; }
+        .update-link { align-items: center; border: 1px solid #2d7bb3; border-radius: 5px; color: #b8e8ff; display: inline-flex; flex: 0 0 auto; gap: 7px; padding: 8px 10px; text-decoration: none; }
+        .update-link:hover, .update-link:focus-visible { background: #0a2f3d; border-color: #23a6f5; color: #fff; }
+        .update-link svg { height: 20px; width: 20px; }
+        .update-link.pulse { animation: update-pulse 2s infinite; }
+        .update-link.updating svg { animation: spin 1s linear infinite; }
+        .update-link.update-done { border-color: #2d9e2d; color: #b8ff9e; }
+        @keyframes update-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(35, 166, 245, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(35, 166, 245, 0); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .tab-btn { background: #303546; border-color: #3a4050; border-radius: 5px; }
+        .tab-btn.active { background: #087f87; border-color: #0ba8b0; box-shadow: none; }
+        input, select { background: #242a3b; border-color: #3c4354; border-radius: 5px; }
+        #club-view, #planner-view, #bargains-view, .scouting-view, #tactic-view { background: #191d2e; border-color: #2a3040; border-radius: 5px; }
+        .dashboard-card { background: #232839; border-color: #303747; border-radius: 5px; }
+        th { background: #252b3b; }
+        body.sidebar-collapsed .left > .primary-nav { display: grid !important; }
+        body.sidebar-collapsed .primary-nav { width: 58px; }
+        body.sidebar-collapsed .primary-nav .tab-btn { overflow: hidden; padding: 10px; text-align: center; white-space: nowrap; }
+        body.sidebar-collapsed .primary-nav .nav-label { display: none; }
+        .planner-header { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+        .planner-header h2 { font-size: 17px; margin: 0; }
+        .planner-header .planner-chip { background: #087f87; border-radius: 4px; font-size: 11px; padding: 8px 12px; }
+        .planner-layout { display: grid; gap: 10px; grid-template-columns: minmax(300px, 320px) minmax(0, 1fr); margin-top: 12px; }
+        .rp-layout { display: grid; gap: 16px; grid-template-columns: minmax(290px, 320px) minmax(0, 1fr); margin-top: 12px; }
+        .rp-layout > * { min-width: 0; }
+        .rp-table { overflow-x: auto; }
+        .rp-table table { min-width: 850px; table-layout: auto; }
+        .rp-table th { position: static; }
+        .rp-table td { vertical-align: top; }
+        .rp-table summary { cursor: pointer; color: #b9f4f3; }
+        #recrutement-poste-view .decision-controls { gap: 10px; margin: 12px 0; }
+        #recrutement-poste-view .decision-controls label { display: grid; gap: 4px; }
+        #recrutement-poste-view .decision-controls input { min-width: 0; width: 100%; }
+        #optimisation-view .decision-controls { gap: 10px; margin: 12px 0; }
+        #optimisation-view .decision-controls label { display: grid; gap: 4px; }
+        #optimisation-view .rp-layout label { align-items: stretch; display: grid; gap: 4px; margin: 10px 0; }
+        #optimisation-view .rp-layout select { margin: 0; max-width: 100%; width: 100%; }
+        .planner-side { background: #222637; border-radius: 5px; min-width: 0; padding: 10px; }
+        .planner-side label { display: grid; gap: 6px; }
+        .planner-positions { display: flex; flex-wrap: wrap; gap: 4px; }
+        .planner-positions button { background: #313749; border: 1px solid #414a5d; border-radius: 4px; font-size: 10px; padding: 5px 7px; width: auto; }
+        .planner-positions button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+        .planner-content { min-width: 0; }
+        .planner-content h3 { font-size: 13px; margin: 12px 0; text-transform: uppercase; }
+        .planner-info { background: #24293a; border-radius: 4px; color: #b2bdca; font-size: 11px; padding: 11px; }
+        .planner-table { border: 0; border-radius: 0; overflow-x: auto; }
+        .planner-table table { min-width: 680px; table-layout: auto; }
+        .planner-table th { background: transparent; color: #9ba6b7; font-size: 10px; position: static; text-transform: uppercase; }
+        .planner-table td { background: #222739; border: 0; font-size: 11px; }
+        .planner-table tbody tr:first-child td { background: #304b5a; }
+        .planner-table tr:hover { cursor: default; }
+        .planner-table .person-link { min-width: 150px; }
+        .planner-table .person-avatar { flex-basis: 36px; height: 36px; width: 36px; }
+        .planner-scenario { background: #222637; border: 1px solid #343b4b; border-radius: 5px; margin-top: 15px; padding: 10px; }
+        .planner-scenario summary { color: #dbe3eb; cursor: pointer; font-size: 12px; font-weight: 700; }
+        .planner-scenario button { width: auto; }
+        @media (max-width: 900px) { body { gap: 0; grid-template-columns: 180px minmax(0, 1fr); padding: 0; } }
+        @media (max-width: 680px) { body { display: flex; } .left { padding: 10px; } .primary-nav { display: flex; margin: 0 0 8px; } .primary-nav .tab-btn { border-radius: 4px; padding: 8px; text-align: center; } .primary-nav .tab-btn.active { border-bottom: 2px solid var(--accent); border-right: 0; } .workspace-header { flex-wrap: wrap; } .workspace-header .global-search { flex: 1 1 100%; } body.sidebar-collapsed .left { max-height: none; } body.sidebar-collapsed .primary-nav { width: 100%; } }
+        @media (max-width: 900px) {
+            body { grid-template-columns: minmax(220px, 250px) minmax(0, 1fr); gap: 10px; padding: 10px; }
+            .panel { padding: 13px; }
+            .filter-bar { gap: 5px; }
+            .tab-btn { padding: 7px 8px; }
+            .player-filter-grid { grid-template-columns: repeat(2, minmax(100px, 1fr)); }
+            .profile-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .profile-hero { grid-template-columns: repeat(3, minmax(75px, 1fr)); }
+            .profile-tabs .profile-hero { grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(110px, .7fr)); }
+            .profile-identity { grid-column: 1 / -1; }
+            .club-overview-layout { grid-template-columns: minmax(0, 1fr); }
+        }
+        body {
+            background:
+                radial-gradient(ellipse at 2% 2%, rgba(87, 105, 255, .18), transparent 34%),
+                radial-gradient(ellipse at 96% 92%, rgba(33, 210, 192, .12), transparent 36%),
+                var(--bg);
+            gap: 14px;
+            grid-template-columns: minmax(250px, 280px) minmax(0, 1fr);
+            padding: 14px;
+        }
+        .panel {
+            background: linear-gradient(155deg, rgba(255,255,255,.035), transparent 48%), var(--panel);
+            border: 1px solid rgba(126, 158, 203, .2);
+            border-radius: 22px;
+            box-shadow: 0 18px 52px rgba(2, 7, 22, .3);
+        }
+        .left {
+            background: linear-gradient(155deg, #182543, #11182c 58%, #17162f);
+            border: 1px solid rgba(126, 158, 203, .2);
+            padding: 16px 12px;
+        }
+        .right { background: linear-gradient(145deg, #131d32, #10182a 65%); padding: 0 18px 18px; }
+        .club-crest:not(.has-logo) {
+            background: linear-gradient(145deg, #5b7cff, #41d9c8);
+            border: 2px solid rgba(255,255,255,.42);
+            border-radius: 15px;
+        }
+        .club-brand h2 { color: #fff; font-size: 16px; }
+        .club-brand p { color: #a9bdd9; }
+        .primary-nav { gap: 7px; margin: 0 -3px 18px; }
+        .primary-nav .tab-btn {
+            background: rgba(255,255,255,.035);
+            border: 1px solid transparent;
+            border-radius: 14px;
+            color: #c5d2e7;
+            min-height: 44px;
+            padding: 10px 13px;
+            transition: background .18s ease, border-color .18s ease, transform .18s ease;
+        }
+        .primary-nav .tab-btn:hover { background: rgba(104, 132, 186, .16); transform: translateX(2px); }
+        .primary-nav .tab-btn.active {
+            background: linear-gradient(110deg, rgba(91, 155, 213, .22), rgba(91, 124, 255, .16));
+            border-color: rgba(91, 155, 213, .34);
+            box-shadow: inset 3px 0 #5b9bd5, 0 7px 18px rgba(58, 110, 165, .08);
+            color: #a8c8ee;
+        }
+        .sidebar-tools { border-color: rgba(141, 164, 205, .2); border-top: 1px solid rgba(141, 164, 205, .2); }
+        .sidebar-tools summary, #desktop-paths summary {
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(141, 164, 205, .16);
+            border-radius: 12px;
+            color: #dce7fa;
+            margin-bottom: 10px;
+            padding: 10px 11px;
+            transition: background .18s ease, border-color .18s ease;
+        }
+        .sidebar-tools summary:hover, #desktop-paths summary:hover { background: rgba(98, 134, 194, .13); border-color: rgba(91, 155, 213, .28); }
+        .workspace-header {
+            background: linear-gradient(105deg, rgba(79, 111, 183, .38), rgba(58, 68, 122, .26) 52%, rgba(58, 110, 165, .2));
+            border: 1px solid rgba(133, 164, 218, .22);
+            border-radius: 0 0 20px 20px;
+            margin: 0 -18px 12px;
+            padding: 13px 20px;
+        }
+        .workspace-header h1 { color: #f7fbff; font-size: 18px; letter-spacing: .035em; }
+        .workspace-header p { color: #bdd0e8; }
+        .workspace-header input, input, select {
+            background: rgba(9, 17, 33, .72);
+            border: 1px solid #3a4b6b;
+            border-radius: 13px;
+            color: var(--text);
+        }
+        input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(91, 155, 213, .15); }
+        button { border-radius: 13px; }
+        button:hover:not(:disabled) { box-shadow: 0 7px 18px rgba(58, 110, 165, .16); }
+        .sidebar-toggle { background: linear-gradient(145deg, #30466d, #263453); border: 1px solid #4b6187; border-radius: 12px; }
+        .discord-link { background: rgba(93, 117, 171, .18); border-color: rgba(157, 181, 222, .38); border-radius: 13px; }
+        .discord-link:hover, .discord-link:focus-visible { background: rgba(91, 155, 213, .16); }
+        .tab-btn {
+            background: rgba(91, 109, 151, .2);
+            border-color: rgba(139, 158, 201, .23);
+            border-radius: 999px;
+            color: #d2def2;
+            padding: 8px 13px;
+        }
+        .tab-btn.active {
+            background: linear-gradient(120deg, rgba(91, 155, 213, .3), rgba(84, 119, 234, .28));
+            border-color: rgba(91, 155, 213, .55);
+            box-shadow: 0 5px 16px rgba(58, 110, 165, .12);
+            color: #e8fffb;
+        }
+        #recruitment-subnav > details {
+            background: rgba(255,255,255,.025);
+            border: 1px solid rgba(117, 145, 190, .18);
+            border-radius: 15px;
+            padding: 7px 10px;
+        }
+        #recruitment-subnav > details > summary { color: #a9c2e0; cursor: pointer; font-size: 11px; font-weight: 750; padding: 3px 4px 7px; }
+        #list-toolbar, #player-filters { background: linear-gradient(110deg, rgba(91, 155, 213, .09), rgba(93, 111, 202, .08)); border-color: rgba(105, 156, 196, .24); border-radius: 16px; }
+        #player-filters > summary { color: #a8c8ee; }
+        #results-table.player-search-table { border-color: rgba(115, 150, 195, .28); border-radius: 16px; }
+        #results-table.player-search-table th { background: linear-gradient(100deg, #203551, #202c4a); color: #c0d8ec; }
+        #results-table.player-search-table tbody tr:nth-child(even) td { background: #14243a; }
+        #results-table.player-search-table tbody tr:hover td { background: #203d56; }
+        .support-banner { background: linear-gradient(110deg, rgba(91, 155, 213, .15), rgba(83, 112, 218, .13)); border-color: rgba(91, 155, 213, .3); border-radius: 15px; }
+        .status { background: linear-gradient(120deg, rgba(91, 155, 213, .15), rgba(79, 117, 229, .12)); border-color: rgba(91, 155, 213, .28); border-radius: 14px; }
+        #st:empty { display: none; }
+        #club-view, #planner-view, #bargains-view, .scouting-view, #tactic-view {
+            background: linear-gradient(145deg, rgba(255,255,255,.025), transparent 45%), #141f34;
+            border-color: rgba(117, 145, 190, .25);
+            border-radius: 18px;
+        }
+        .dashboard-card, .profile-section, .planner-side, .planner-scenario, .diagnostic-card, .mercato-card {
+            background: linear-gradient(145deg, rgba(255,255,255,.035), transparent 65%), #1a2941;
+            border-color: rgba(130, 157, 198, .22);
+            border-radius: 16px;
+        }
+        .dashboard-card h3, .profile-section h3 { color: #a8c8ee; }
+        .modal-content { background: linear-gradient(145deg, #1a2942, #121b30); border-color: rgba(91, 155, 213, .65); border-radius: 24px; }
+        .global-results { background: #17243b; border-color: #425779; border-radius: 16px; }
+        .profile-visual-card { background: #192942; border-radius: 15px; }
+        .planner-header .planner-chip { background: linear-gradient(110deg, #3a6ea5, #4a65cf); border-radius: 999px; }
+        .planner-positions button { background: rgba(94, 120, 170, .22); border-color: #435b80; border-radius: 999px; }
+        .planner-positions button[aria-pressed="true"] { background: rgba(91, 155, 213, .16); border-color: var(--accent); color: #a8c8ee; }
+        th { background: #20324d; color: #c2d5ec; }
+        ::selection { background: #5b9bd5; color: #102037; }
+        @media (max-width: 900px) {
+            body { gap: 10px; padding: 10px; }
+            .workspace-header { margin-left: -13px; margin-right: -13px; }
+        }
+        @media (max-width: 680px) {
+            body { gap: 8px; padding: 8px; }
+            .left, .right { border-radius: 18px; }
+            .primary-nav .tab-btn { border-radius: 13px; min-height: 40px; }
+            .primary-nav .tab-btn.active { border-right: 1px solid rgba(91, 155, 213, .34); box-shadow: inset 0 -3px #5b9bd5; }
+            .workspace-header { border-radius: 0 0 17px 17px; margin-left: -13px; margin-right: -13px; }
+        }
+        @media (max-width: 680px) {
+            body { display: flex; flex-direction: column; height: auto; min-height: 100vh; overflow: auto; }
+            .panel { overflow: visible; }
+            .left { max-height: none; }
+            body.sidebar-collapsed .left { max-height: 58px; }
+            .right { flex: 0 0 auto; height: 78vh; min-height: 560px; }
+            .filter-bar { align-items: stretch; }
+            .tab-btn { flex: 1 1 auto; }
+            .modal-content { max-height: 96vh; padding: 14px; width: 97vw; }
+            .profile-hero { gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .profile-tabs .profile-hero { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .profile-identity { grid-column: 1 / -1; }
+            .profile-layout { grid-template-columns: minmax(0, 1fr); }
+            .football-pitch { min-height: 1950px; min-width: 820px; }
+            .club-tactics-card .football-pitch { min-height: 1250px; min-width: 540px; }
+            .pitch-position { width: clamp(164px, 21%, 205px); }
+            .profile-role-details { grid-column: auto; }
+            .profile-controls { grid-template-columns: minmax(0, 1fr); }
+            #list-toolbar { align-items: stretch !important; flex-direction: column; gap: 0 !important; }
+            .player-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            #tactic-view, #club-view, #planner-view, #bargains-view { min-height: 0; }
+        }
+        /* Dense views use wider cards and a compact pitch rather than shrinking text. */
+        .diagnostic-grid, .mercato-grid, .labo-grid, .pitch-recommendation-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+        }
+        .diagnostic-grid, .mercato-grid { grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); }
+        .diagnostic-card, .mercato-card, .labo-grid .dashboard-card, .pitch-recommendation-grid .dashboard-card {
+            min-width: 0;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .diagnostic-card-heading { align-items: start; display: flex; gap: 12px; justify-content: space-between; }
+        .diagnostic-card-heading h3 { margin-bottom: 2px; }
+        .diagnostic-card-heading span, .diagnostic-label, .diagnostic-candidate small { color: #b7c4d2; }
+        .diagnostic-status { background: #1c5048; border-radius: 12px; color: #b2f3d9; flex: none; font-size: 11px; padding: 3px 9px; }
+        .diagnostic-status.shortage { background: #66472b; color: #ffe2aa; }
+        .diagnostic-card details, .mercato-card details { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 10px; }
+        .diagnostic-card summary, .mercato-card summary { color: #b9f4f3; cursor: pointer; font-size: 12px; font-weight: 700; }
+        .diagnostic-candidate { border-bottom: 1px solid var(--line); padding: 8px 0; }
+        .diagnostic-candidate:last-child { border-bottom: 0; }
+        .diagnostic-candidate small { display: block; line-height: 1.5; margin-top: 4px; }
+        .mercato-card label, .labo-grid .dashboard-card label {
+            align-items: stretch;
+            display: grid;
+            gap: 4px;
+            margin-top: 9px;
+            min-width: 0;
+        }
+        .mercato-card label select, .labo-grid .dashboard-card label select { margin: 0; max-width: 100%; min-width: 0; width: 100%; }
+        .mercato-card label input { min-width: 0; }
+        .mercato-avance { border: 1px solid var(--line); border-radius: 6px; margin: 10px 0; padding: 10px; }
+        .mercato-avance summary { color: #b9f4f3; cursor: pointer; font-weight: 700; }
+        .mercato-resume { background: var(--panel-raised); border-left: 3px solid var(--accent); line-height: 1.5; padding: 10px; }
+        .mercato-card .diagnostic-card-heading h3 { line-height: 1.4; }
+        .mercato-card .diagnostic-status { white-space: normal; }
+        .decision-controls { align-items: stretch; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); }
+        .decision-controls label { align-items: stretch; display: grid; min-width: 0; }
+        .decision-controls label select { margin: 0; max-width: 100%; width: 100%; }
+        .tactical-pitch-layout { align-items: start; display: grid; gap: 14px; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
+        .compact-pitch-scroll { margin: 10px 0 16px; max-width: 100%; }
+        .football-pitch.compact-pitch {
+            background: #222738;
+            border: 0;
+            border-radius: 4px;
+            display: grid;
+            gap: 2px;
+            grid-template-columns: repeat(var(--pitch-columns), minmax(0, 1fr));
+            grid-template-rows: repeat(var(--pitch-rows), minmax(48px, 1fr));
+            height: auto;
+            min-height: 310px;
+            min-width: max(290px, calc(var(--pitch-columns) * 48px + 16px));
+            padding: 12px 8px;
+            width: max(290px, calc(var(--pitch-columns) * 48px + 16px));
+        }
+        .football-pitch.compact-pitch::before { background: linear-gradient(#343947, #505561); clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%); inset: 0; opacity: 1; }
+        .football-pitch.compact-pitch::after { border: 1px solid rgba(255,255,255,.2); background: linear-gradient(transparent calc(50% - .5px), rgba(255,255,255,.22) 50%, transparent calc(50% + .5px)), radial-gradient(ellipse at center, transparent 0 32px, rgba(255,255,255,.22) 33px, transparent 34px); content: ""; inset: 12px 25px; pointer-events: none; position: absolute; z-index: 0; }
+        .compact-pitch-slot { align-content: center; align-self: center; background: linear-gradient(#283143, #111625); border: 1px solid var(--shirt-secondary, #536879); border-bottom: 2px solid var(--shirt-primary, #bdc9cb); border-radius: 50%; color: #fff; display: grid; font-family: inherit; gap: 1px; height: 40px; justify-items: center; justify-self: center; line-height: 1.05; margin: 0; min-width: 0; padding: 2px; position: relative; text-align: center; width: 40px; z-index: 1; }
+        .compact-pitch-position { color: #fff; font-size: 11px; }
+        .compact-pitch-role { color: #c4cfdb; font-size: 10px; }
+        button.compact-pitch-slot:hover:not(:disabled) { transform: none; filter: brightness(1.2); }
+        .planner-marker[aria-pressed="true"] { background: #087f87; border-color: #6de8eb; box-shadow: 0 0 0 2px rgba(16,199,207,.35); }
+        .pitch-player-details { display: grid; gap: 0; min-width: 0; }
+        .pitch-player-details h3 { margin: 8px 0; }
+        .pitch-player-detail { border-bottom: 1px solid var(--line); display: grid; gap: 3px; padding: 5px 0; }
+        .pitch-player-detail span { color: #b7c4d2; font-size: 11px; }
+        .pitch-player-detail strong { font-size: 12px; }
+        .club-colors-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+        .club-colors-controls label { display: grid; gap: 4px; }
+        .club-colors-controls input[type="color"] { height: 36px; padding: 3px; }
+        .club-colors-controls button { grid-column: 1 / -1; }
+        .club-tactics-card .football-pitch.compact-pitch, #laboratoire-view .football-pitch.compact-pitch, #tactic-view .football-pitch.compact-pitch { min-height: 310px; min-width: max(290px, calc(var(--pitch-columns) * 48px + 16px)); }
+        .labo-layout { align-items: start; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin: 12px 0; max-width: 900px; }
+        #laboratoire-view .football-pitch.compact-pitch.labo-pitch { min-width: 0; width: 100%; }
+        #laboratoire-view .labo-pitch .compact-pitch-slot { max-width: 100%; }
+        .labo-detail { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; display: grid; gap: 8px; min-width: 0; padding: 14px; }
+        .labo-detail h3, .labo-detail p, .labo-suggestions { margin: 0; }
+        .labo-detail label { display: grid; gap: 4px; }
+        .labo-detail select { margin: 0; max-width: 100%; min-width: 0; width: 100%; }
+        .labo-suggestions { display: grid; gap: 6px; padding-left: 20px; }
+        #club-view { position: relative; }
+        .club-menu { position: relative; }
+        .club-menu summary { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 7px; color: var(--text); cursor: pointer; font-size: 12px; font-weight: 700; list-style: none; padding: 9px 12px; }
+        .club-menu summary::-webkit-details-marker { display: none; }
+        .club-menu summary::after { content: " ▾"; }
+        .club-menu.active summary, .club-menu[open] summary { border-color: var(--accent); }
+        .club-menu summary:focus-visible, .club-menu-options button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .club-menu-options { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); display: grid; left: 0; min-width: min(220px, calc(100vw - 48px)); padding: 5px; position: absolute; top: calc(100% + 4px); z-index: 20; }
+        .club-menu:last-child .club-menu-options { left: auto; right: 0; }
+        .club-menu-options button { background: transparent; border: 0; border-radius: 5px; color: var(--text); cursor: pointer; font: inherit; margin: 0; padding: 9px 10px; text-align: left; width: 100%; }
+        .club-menu-options button:hover, .club-menu-options button[aria-current="page"] { background: var(--accent-soft); }
+        .copyright-joey { background: var(--panel); border-radius: 5px 0 0 0; bottom: 0; color: var(--muted); font-size: 11px; padding: 4px 8px; pointer-events: none; position: fixed; right: 0; z-index: 4; }
+        .club-overview-layout { grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); }
+        .club-set-pieces-grid { grid-template-columns: minmax(0, 1fr); }
+        .club-set-piece-card { padding: 8px; }
+        .club-set-piece-card .dashboard-item { overflow-wrap: anywhere; }
+        #actions-club .dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        #actions-club .dashboard-item button { width: auto; margin-top: 5px; }
+        @media (max-width: 1250px) {
+            .club-overview-layout { grid-template-columns: minmax(0, 1fr); }
+            .club-roster-layout { grid-template-columns: minmax(0, 1fr); }
+            .club-set-pieces-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (max-width: 900px) {
+            .planner-layout, .rp-layout { grid-template-columns: minmax(0, 1fr); }
+        }
+        @media (max-width: 680px) {
+            .club-set-pieces-grid, #actions-club .dashboard-grid { grid-template-columns: minmax(0, 1fr); }
+            .tactical-pitch-layout, .labo-layout { grid-template-columns: minmax(0, 1fr); }
+            .decision-controls { grid-template-columns: minmax(0, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="panel left">
+        <div class="club-brand">
+            <div class="club-crest" id="club-crest" aria-hidden="true">FM</div>
+            <div><h2>Assistant FM27</h2><p id="managed-club-name">Club en attente de chargement</p></div>
+            <button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="Réduire le panneau latéral" aria-expanded="true" title="Réduire le panneau latéral">‹</button>
+        </div>
+        <nav class="primary-nav" aria-label="Navigation principale">
+            <button type="button" class="tab-btn active" id="btn-recrutement" onclick="ouvrirRecrutement()" aria-label="Recrutement">⭐ <span class="nav-label">Recrutement</span></button>
+            <button type="button" class="tab-btn" id="btn-club" onclick="changerOnglet('club')" aria-label="Mon club">🏠 <span class="nav-label">Mon club</span></button>
+            <button type="button" class="tab-btn" id="btn-espace-suivi" onclick="ouvrirSuivi()" aria-label="Suivi">📌 <span class="nav-label">Suivi</span></button>
+        </nav>
+        <details class="sidebar-tools" open>
+            <summary>Données et outils du club</summary>
+        <div id="st" class="status"></div>
+        <div class="form">
+            <label for="save-fi">Extraire directement depuis une sauvegarde FM</label>
+            <input type="file" id="save-fi" accept=".fm,.fmf">
+            <button type="button" id="extract-button" disabled>Choisir une sauvegarde .fm</button>
+            <button type="button" id="desktop-open-saves" hidden>Ouvrir le dossier des sauvegardes</button>
+            <div id="extract-progress" class="extract-progress" hidden>
+                <progress id="extract-progress-bar" max="100" aria-label="Progression de l'extraction"></progress>
+                <p id="extract-progress-stage" role="status" aria-live="polite"></p>
+                <p id="extract-progress-time"></p>
+            </div>
+        </div>
+        <hr style="border-color:#333; margin:15px 0;">
+        <label class="checkbox-container" style="margin-top:14px"><input type="checkbox" id="discovery-mode"> Mode découverte · masquer CA et PA</label>
+        <p id="discovery-status" role="status" class="caveat"></p>
+        <p id="evolution-status" role="status" class="caveat"></p>
+        <details id="desktop-paths">
+            <summary>Dossiers Football Manager</summary>
+            <p id="desktop-paths-browser-hint" class="profile-disclaimer">Les dossiers se configurent dans la version installée. Les packs peuvent être téléchargés ci-dessous.</p>
+            <p class="profile-disclaimer" data-desktop-only hidden>Laissez les packs vides si vous n’en avez pas. Redémarrez l’application après modification.</p>
+            <div class="form">
+                <div class="desktop-pack-heading"><label for="desktop-logos">Logos</label><a href="https://www.tcmlogos.com/fr/tcm27-logos-fm27/" target="_blank" rel="noopener noreferrer">Télécharger le pack</a></div>
+                <div data-desktop-only hidden>
+                    <input id="desktop-logos" type="text" readonly>
+                    <button type="button" data-desktop-path="logos">Choisir le dossier</button>
+                    <button type="button" data-desktop-clear="logos">Sans logos</button>
+                </div>
+            </div>
+            <div class="form">
+                <div class="desktop-pack-heading"><label for="desktop-visages">Visages</label><a href="https://www.tcmlogos.com/fr/df11-facepack/" target="_blank" rel="noopener noreferrer">Télécharger le pack</a></div>
+                <div data-desktop-only hidden>
+                    <input id="desktop-visages" type="text" readonly>
+                    <button type="button" data-desktop-path="visages">Choisir le dossier</button>
+                    <button type="button" data-desktop-clear="visages">Sans visages</button>
+                </div>
+            </div>
+            <div class="tcmlogos-credit">
+                <p class="profile-disclaimer">Merci à TCMLogos pour les packs de logos et de visages.</p>
+                <a href="https://www.tcmlogos.com/" target="_blank" rel="noopener noreferrer" aria-label="Visiter TCMLogos">
+                    <img src="tcmlogos-logo.png" alt="TCM Logos">
+                </a>
+            </div>
+            <div data-desktop-only hidden>
+                <label class="form">Sauvegardes<input id="desktop-sauvegardes" type="text" readonly><button type="button" data-desktop-path="sauvegardes">Choisir le dossier</button></label>
+                <label class="form">Tactiques<input id="desktop-tactiques" type="text" readonly><button type="button" data-desktop-path="tactiques">Choisir le dossier</button></label>
+                <p class="profile-disclaimer" id="tactiques-hint" hidden>Le dossier des tactiques se trouve généralement dans <code>Documents/Sports Interactive/Football Manager 27/tactics</code>. Spécifiez-le ici pour accéder à vos tactiques personnalisées.</p>
+                <button type="button" id="desktop-save-paths">Enregistrer les dossiers</button>
+                <p id="desktop-paths-status" role="status" class="caveat"></p>
+            </div>
+        </details>
+        <details class="sidebar-tools">
+            <summary>Couleurs de la tactique</summary>
+            <p class="profile-disclaimer" id="club-colors-name">Chargez un club pour choisir ses couleurs.</p>
+            <div class="club-colors-controls">
+                <label for="club-color-primary">Couleur principale<input type="color" id="club-color-primary" value="#bdc9cb"></label>
+                <label for="club-color-secondary">Couleur secondaire<input type="color" id="club-color-secondary" value="#536879"></label>
+                <button type="button" id="club-colors-save">Enregistrer pour ce club</button>
+                <button type="button" id="club-colors-reset" class="tab-btn">Utiliser les couleurs neutres</button>
+            </div>
+            <p id="club-colors-status" role="status" class="profile-disclaimer"></p>
+        </details>
+    </div>
+    <div class="panel right">
+        <header class="workspace-header">
+            <div class="header-club">
+                <div class="header-club-crest" id="header-club-crest" aria-hidden="true">FM</div>
+                <div class="header-club-info">
+                    <h1 id="workspace-title">Recrutement</h1>
+                    <p id="header-save-date" class="header-save-date">—</p>
+                </div>
+            </div>
+            <div class="global-search">
+            <input id="global-search" type="search" placeholder="Rechercher un joueur, staff, club ou poste · /" aria-label="Recherche globale" autocomplete="off">
+<div id="global-results" class="global-results" role="region" aria-label="Résultats de recherche"></div>
+        </div>
+            <a class="update-link" id="update-btn" href="#" style="display:none;" aria-label="Mise à jour disponible" title="Mise à jour disponible">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                <span>Mise à jour</span>
+            </a>
+            <a class="donate-link" href="https://www.paypal.com/donate/?hosted_button_id=WPEXLXLENU4C2" target="_blank" rel="noopener noreferrer" aria-label="Soutenir le développement d'Assistant FM" title="Soutenir le développement">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <span>Soutenir</span>
+            </a>
+            <a class="discord-link" href="https://discord.gg/YR2e8kMHeF" target="_blank" rel="noopener noreferrer" aria-label="Rejoindre le Discord communautaire d'Assistant FM" title="Rejoindre le Discord communautaire">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 10h8M8 13h5"/></svg>
+                <span>Discord</span>
+            </a>
+        </header>
+        <nav id="recruitment-subnav" class="filter-bar" aria-label="Vues du recrutement" style="display:flex">
+            <details open><summary>Rechercher</summary>
+            <button type="button" class="tab-btn active" data-recruitment-view="joueurs" onclick="changerOnglet('joueurs')" aria-current="page">🏃 Joueurs</button>
+            <button type="button" class="tab-btn" data-recruitment-view="staff" onclick="changerOnglet('staff')">👔 Staff technique</button>
+            <button type="button" class="tab-btn" data-recruitment-view="similaires" onclick="changerOnglet('similaires')">🔎 Similaires</button>
+            <button type="button" class="tab-btn" data-recruitment-view="recrutement-poste" onclick="changerOnglet('recrutement-poste')">Recruter par poste</button>
+            </details><details><summary>Planifier</summary>
+            <button type="button" class="tab-btn" data-recruitment-view="planificateur" onclick="changerOnglet('planificateur')">Planificateur d'effectif</button>
+            <button type="button" class="tab-btn" data-recruitment-view="mercato" onclick="changerOnglet('mercato')">Copilote mercato</button>
+            <button type="button" class="tab-btn" data-recruitment-view="affaires" onclick="changerOnglet('affaires')">Bonnes affaires</button>
+            </details>
+        </nav>
+        <nav id="suivi-subnav" class="filter-bar" aria-label="Vues du suivi" style="display:none">
+            <button type="button" class="tab-btn" id="btn-suivi" onclick="changerOnglet('suivi')">📌 Suivi & comparaison</button>
+            <button type="button" class="tab-btn" id="btn-alertes" onclick="changerOnglet('alertes')">🔔 Alertes</button>
+            <button type="button" class="tab-btn" id="btn-journal" onclick="changerOnglet('journal')">Historique de partie</button>
+        </nav>
+        <div id="list-toolbar" style="display:flex; justify-content:space-between; align-items:center; gap:15px;">
+            <input type="text" id="se" placeholder="🔍 Rechercher nom, poste, club..." style="margin-bottom:10px; padding:10px; flex:2;" oninput="filtrerTout()">
+            <label class="checkbox-container" style="flex:1;"><input type="checkbox" id="chk-mon-club" onchange="filtrerTout()"> ⭐ Mon effectif uniquement</label>
+        </div>
+        <details id="player-filters">
+            <summary>Filtres joueurs · âge, poste, nationalité, pied, CA, PA, contrat, valeur et attributs</summary>
+            <div class="player-filter-grid">
+                <label class="player-filter">Âge minimum<input id="age-min" type="number" min="0" max="100" placeholder="Sans minimum"></label>
+                <label class="player-filter">Âge maximum<input id="age-max" type="number" min="0" max="100" placeholder="Sans maximum"></label>
+                <label class="player-filter">Poste
+                    <select id="poste-filter">
+                        <option value="">Tous les postes</option>
+                        <option value="gk">Gardien</option><option value="sw">Libéro</option>
+                        <option value="dr">Défenseur droit</option><option value="dc">Défenseur central</option>
+                        <option value="dl">Défenseur gauche</option><option value="wbr">Piston droit</option>
+                        <option value="wbl">Piston gauche</option><option value="dm">Milieu défensif</option>
+                        <option value="mc">Milieu central</option><option value="mr">Milieu droit</option>
+                        <option value="ml">Milieu gauche</option><option value="amr">Milieu offensif droit</option>
+                        <option value="amc">Milieu offensif axial</option><option value="aml">Milieu offensif gauche</option>
+                        <option value="stc">Buteur</option>
+                    </select>
+                </label>
+                <label class="player-filter">Pied préféré
+                    <select id="pied-filter">
+                        <option value="">Tous</option>
+                        <option value="droite">Droit</option>
+                        <option value="gauche">Gauche</option>
+                        <option value="ambidextre">Ambidextre</option>
+                    </select>
+                </label>
+                <label class="player-filter player-filter-checkbox"><input id="ue-only" type="checkbox"> Nationalité de l’Union européenne</label>
+                <label class="player-filter">CA minimum<input id="ca-min" type="number" min="0" max="200" placeholder="Sans minimum"></label>
+                <label class="player-filter">CA maximum<input id="ca-max" type="number" min="0" max="200" placeholder="Sans maximum"></label>
+                <label class="player-filter">PA minimum<input id="pa-min" type="number" min="0" max="200" placeholder="Sans minimum"></label>
+                <label class="player-filter">PA maximum<input id="pa-max" type="number" min="0" max="200" placeholder="Sans maximum"></label>
+                <label class="player-filter">Valeur marchande min. (€)<input id="valeur-min" type="number" min="0" step="1" placeholder="Sans minimum"></label>
+                <label class="player-filter">Valeur marchande max. (€)<input id="valeur-max" type="number" min="0" step="1" placeholder="Sans maximum"></label>
+                <label class="player-filter">Coût estimé max. (€)<input id="cout-max" type="number" min="0" step="1" placeholder="Sans maximum"></label>
+                <label class="player-filter">Salaire actuel min. (€/sem.)<input id="salaire-min" type="number" min="0" step="1" placeholder="Sans minimum"></label>
+                <label class="player-filter">Salaire actuel max. (€/sem.)<input id="salaire-max" type="number" min="0" step="1" placeholder="Sans maximum"></label>
+                <label class="player-filter">Écart de réputation max. au club
+                    <span><input id="marge-reputation" type="range" min="0" max="6000" step="250" value="1000"> <output id="marge-reputation-valeur">+1000</output></span>
+                </label>
+                <label class="player-filter">Contrat
+                    <select id="contrat-filter">
+                        <option value="">Tous</option>
+                        <option value="yes">Sous contrat</option>
+                        <option value="no">Sans contrat</option>
+                    </select>
+                </label>
+                <button type="button" id="clear-player-filters">Effacer les filtres</button>
+            </div>
+            <div class="attribute-filters">
+                <strong>Attributs actuels</strong>
+                <p id="attribute-filter-help">Tous les critères renseignés doivent être satisfaits. Les données manquantes sont exclues. Le coût est une estimation, pas le prix demandé ; le salaire est celui actuellement exporté, pas les exigences du joueur.</p>
+                <div id="attribute-filter-rows"></div>
+                <button type="button" id="add-attribute-filter">Ajouter un attribut</button>
+                <p id="player-filter-status" role="status" aria-live="polite"></p>
+                <div id="saved-filter-controls">
+                    <div class="saved-filter-controls"><input id="saved-filter-name" type="text" maxlength="80" placeholder="Nom de la recherche" aria-label="Nom de la recherche"><button type="button" id="save-player-filter">Enregistrer la recherche</button></div>
+                    <p id="saved-filter-status" role="status"></p>
+                </div>
+            </div>
+        </details>
+        <div id="active-player-filters" class="filter-bar" aria-live="polite"></div>
+        <p id="alertes-status" role="status" class="caveat"></p>
+        <div id="staff-filter">
+            <label for="staff-job-filter">Métier recherché</label>
+            <select id="staff-job-filter" aria-label="Filtrer le staff par métier">
+                <option value="">Tous les métiers</option>
+            </select>
+        </div>
+        <section id="staff-overview"></section>
+        <section id="planner-view"></section>
+<section id="recrutement-poste-view" class="scouting-view"></section>
+<section id="bargains-view"></section>
+        <section id="club-view"></section>
+        <section id="diagnostic-view" class="scouting-view"></section>
+        <section id="similaires-view" class="scouting-view"></section>
+        <section id="performances-view" class="scouting-view"></section>
+        <section id="alertes-view" class="scouting-view"></section>
+        <section id="suivi-view" class="scouting-view"></section>
+        <section id="mercato-view" class="scouting-view"></section>
+        <section id="laboratoire-view" class="scouting-view"></section>
+        <section id="optimisation-view" class="scouting-view"></section>
+        <section id="jeunes-view" class="scouting-view"></section>
+        <section id="confiance-view" class="scouting-view"></section>
+        <section id="journal-view" class="scouting-view"></section>
+        <details id="column-options" class="column-options"><summary>Personnaliser les colonnes du tableau</summary><div id="column-options-list"></div></details>
+        <div class="scroll player-search-table" id="results-table">
+            <table>
+                <thead><tr id="th-dynamique"></tr></thead>
+                <tbody id="tb"><tr><td colspan="9" style="text-align:center; color:#aaa; padding:20px;">Glissez le fichier players_data.json mis à jour.</td></tr></tbody>
+            </table>
+        </div>
+        <section id="tactic-view" aria-hidden="true">
+            <select id="tactique-select" hidden>
+                <option value="">Chargez vos tactiques depuis la sauvegarde</option>
+            </select>
+            <div id="tactique-detail"></div>
+        </section>
+    </div>
+    <div id="stat-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="fermerBulle()">&times;</span>
+            <h2 id="modal-title" style="color:var(--accent);margin-top:0;">Fiche Profil</h2>
+            <p id="profile-copy-status" class="profile-copy-status" role="status" aria-live="polite" hidden></p>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+    <div id="update-debug" style="position:fixed; bottom:4px; right:8px; font-size:10px; color:#888; z-index:9999; pointer-events:none;"></div>
+    <div class="copyright-joey">v<span id="app-version-display">1.0.7-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <script src="donnees_locales.js"></script>
+    <script src="app.js"></script>
+    <script src="ponderations.js"></script>
+    <script src="plan_sportif.js"></script>
+    <script src="performances.js"></script>
+    <script src="analyse_recrutement.js"></script>
+    <script src="alertes.js"></script>
+    <script src="suivi.js"></script>
+    <script src="comparateur.js"></script>
+    <script src="directeur_sportif.js"></script>
+    <script src="recrutement_poste.js"></script>
+    <script src="optimisation_tactique.js"></script>
+    <script src="outils_persistants.js"></script>
+    <script src="desktop_bridge.js"></script>
+</body>
+</html>
