@@ -20,7 +20,7 @@ from noms_fm import noms_competitions
 
 ROOT = Path(__file__).resolve().parent
 HOST = "127.0.0.1"
-PORT = 8765
+PORT = 8766
 MAX_UPLOAD_BYTES = 2 * 1024 * 1024 * 1024
 GRAPHICS_ROOT = (
     Path.home()
@@ -302,6 +302,10 @@ class AssistantHandler(BaseHTTPRequestHandler):
             self.send_header("Cache-Control", "no-store")
             self.end_headers()
             self.wfile.write(content)
+            return
+
+        if path == "/favicon.ico":
+            self._send_transparent_pixel()
             return
 
         if path == "/api/extract-status":

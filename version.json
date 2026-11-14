@@ -1,6 +1,6 @@
 {
-  "version": "1.0.10-beta",
+  "version": "1.0.11-beta",
   "date": "2026-11-14",
-  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.10-beta/AssistantFM-setup.exe",
-  "changelog": "- CORRECTIF D'AFFICHAGE : la version affichée en bas à droite était figée à 1.0.6-beta (constante figée dans app.js) ; elle suit désormais le numéro réel de l'application\n- LISIBILITÉ : le bandeau de version en bas à droite ne se superpose plus au message de vérification de mise à jour (texte placé au même endroit, 10 px gris) ; contraste et taille de police augmentés\n- Le message de débogage de mise à jour est supprimé de l'interface"
+  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.11-beta/AssistantFM-setup.exe",
+  "changelog": "- TACTIQUES : le poste axial M(C) est reconnu dans les deux phases (avec et sans ballon) ; les tactiques 4-2-3-1 « GenPress » et « 4231 genpress » ne renvoient plus aucun slot « unknown »\n- COMPÉTITIONS : les classements sont désormais rattachés au club via son équipe (et non via un numéro d'équipe confondu avec le numéro de club) ; 1 058 clubs retrouvent leur championnat au lieu de 74\n- COMPÉTITIONS : quand la sauvegarde ne détaille pas le championnat d'un club (divisions inférieures), il est déduit de ses matchs — South Shields retrouve « Enterprise National League North »\n- La bibliothèque fmsave ne nomme pas le poste M(C) (bit 10) : il est identifié à partir des données réelles des sauvegardes, entre DM (bit 7) et AM (bits 11/12/13)"
 }
