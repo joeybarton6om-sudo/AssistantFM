@@ -12,7 +12,7 @@ Unicode true
 !endif
 
 ; --- Version / Date ---
-!define VERSION "1.0.8-beta"
+!define VERSION "1.0.9-beta"
 !define VERSION_DATE "2026-11-14"
 !define APP_NAME "Assistant FM"
 
@@ -164,7 +164,7 @@ Section "Application Assistant FM (obligatoire)" MainSection
   ClearErrors
   FileOpen $0 "$INSTDIR\dossiers-initiaux.txt" w
   IfErrors chemins_erreur
-  FileWriteUTF16LE /BOM $0 "$Logos$\r$\n$Visages$\r$\n$Sauvegardes$\r$\n"
+  FileWriteUTF16LE /BOM $0 "$Logos$\r$\n$Visages$\r$\n$Sauvegardes$\r$\n$\r$\n"
   FileClose $0
   IfErrors chemins_erreur chemins_ok
   chemins_erreur:

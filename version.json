@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8-beta",
+  "version": "1.0.9-beta",
   "date": "2026-11-14",
-  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.8-beta/AssistantFM-setup.exe",
-  "changelog": "- COMPARATEUR DE JOUEURS : nouveau module dans le recrutement (bouton Comparateur)\n- Comparaison de 2 à 4 joueurs : radar d'attributs sur 20, tableau des écarts attribut par attribut face au joueur de référence\n- Export CSV de la comparaison et accès direct au suivi des joueurs comparés\n- EXTRACTION RÉPARÉE : le moteur d'extraction ne compilait plus (erreurs d'indentation dans parser.py)\n- Toutes les sections sont de nouveau fonctionnelles : profils, sélections, carrière, blessures, classements, nationalités, transferts et événements de match\n- CORRECTIFS D'AFFICHAGE : fiche joueur (bloc tactique), bandeau de support, assistant_desktop (ligne 222)\n- NETTOYAGE : .gitignore (build, dist et temp exclus du dépôt), README mis à jour"
+  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.9-beta/AssistantFM-setup.exe",
+  "changelog": "- CORRECTIF : Assistant FM ne démarrait plus après une installation neuve (message « La configuration initiale des dossiers est invalide »)\n- L'application accepte désormais un fichier de configuration à 3 lignes (dossier tactiques laissé vide) au lieu de refuser de démarrer\n- L'installeur écrit maintenant les 4 dossiers attendus (logos, visages, sauvegardes, tactiques)"
 }
