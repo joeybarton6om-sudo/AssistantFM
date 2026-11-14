@@ -418,6 +418,7 @@ class AssistantHandler(BaseHTTPRequestHandler):
             "/analyse_recrutement.js": ROOT / "analyse_recrutement.js",
             "/alertes.js": ROOT / "alertes.js",
             "/suivi.js": ROOT / "suivi.js",
+            "/comparateur.js": ROOT / "comparateur.js",
             "/donnees_locales.js": ROOT / "donnees_locales.js",
             "/ponderations.js": ROOT / "ponderations.js",
             "/plan_sportif.js": ROOT / "plan_sportif.js",

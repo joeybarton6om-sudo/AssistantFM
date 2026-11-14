@@ -9,8 +9,8 @@ import subprocess
 from pathlib import Path
 
 # Version de l'application (mettre à jour à chaque release)
-APP_VERSION = "1.0.7-beta"
-APP_VERSION_DATE = "2026-11-12"
+APP_VERSION = "1.0.8-beta"
+APP_VERSION_DATE = "2026-11-14"
 # URL du fichier version.json (repo releases dédié)
 UPDATE_CHECK_URL = "https://raw.githubusercontent.com/joeybarton6om-sudo/releases/main/version.json"
 RELEASES_API_URL = "https://api.github.com/repos/joeybarton6om-sudo/releases/releases?per_page=100"

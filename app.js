@@ -1169,10 +1169,10 @@ function changerOnglet(nouveauMode) {
         club: "Mon club", similaires: "Joueurs similaires", diagnostic: "Diagnostic",
         performances: "Performances", laboratoire: "Laboratoire tactique", optimisation: "Optimiseur tactique",
         jeunes: "Développement des jeunes", confiance: "Confiance des données", suivi: "Suivi & comparaison",
-        alertes: "Alertes", journal: "Historique de partie"
+        alertes: "Alertes", journal: "Historique de partie", comparateur: "Comparateur de joueurs"
     };
     document.getElementById("workspace-title").textContent = titres[mode] || "Assistant FM";
-    const recrutementActif = ["joueurs", "staff", "similaires", "planificateur", "affaires", "mercato", "recrutement-poste"].includes(mode);
+    const recrutementActif = ["joueurs", "staff", "similaires", "planificateur", "affaires", "mercato", "recrutement-poste", "comparateur"].includes(mode);
     const suiviActif = ["suivi", "alertes", "journal"].includes(mode);
     if (recrutementActif) derniereVueRecrutement = mode;
     if (suiviActif) derniereVueSuivi = mode;
@@ -1210,7 +1210,7 @@ function changerOnglet(nouveauMode) {
     Object.entries(vuesClub).forEach(([tab, id]) => {
         document.getElementById(id).style.display = mode === "club" && clubActiveTab === tab ? "block" : "none";
     });
-    ["similaires", "alertes", "suivi", "journal"].forEach(name => {
+    ["similaires", "alertes", "suivi", "journal", "comparateur"].forEach(name => {
         const view = document.getElementById(`${name}-view`);
         if (!vuesClub[name]) view.style.display = mode === name ? "block" : "none";
     });
@@ -1374,6 +1374,7 @@ function filtrerTout() {
     if (mode === "similaires") { afficherSimilaires(); return; }
     if (mode === "alertes") { afficherAlertes(); return; }
     if (mode === "suivi") { afficherSuivi(); return; }
+    if (mode === "comparateur") { afficherComparateur(); return; }
     if (mode === "planificateur") {
         afficherPlanSportif();
         return;
