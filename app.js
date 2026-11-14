@@ -9,6 +9,8 @@ let profilePosition = "", profileRole = "", profileActiveTab = "profile", profil
 let profileComparisonPlayerIndex = null;
 let competitionActiveTab = "classement";
 let staffOverviewTab = "recommendations";
+let staffSort = "";
+let staffScope = "division";
 let clubActiveTab = "effectif", clubRosterFilter = "all", clubRosterPositionFilter = "all";
 let clubRosterSort = "poste", clubRosterAscending = true;
 let clubIndexByName = new Map(), clubIndexById = new Map();
@@ -602,6 +604,11 @@ document.getElementById("marge-reputation").addEventListener("input", event => {
     if (mode === "joueurs" || mode === "club") filtrerTout();
 });
 document.getElementById("staff-job-filter").addEventListener("change", filtrerTout);
+document.getElementById("staff-contract-filter").addEventListener("change", filtrerTout);
+document.getElementById("staff-sort").addEventListener("change", event => {
+    staffSort = event.target.value;
+    filtrerTout();
+});
 
 if (scr) {
     scr.addEventListener("scroll", () => {
@@ -1218,7 +1225,7 @@ function changerOnglet(nouveauMode) {
     document.getElementById("recrutement-poste-view").style.display = mode === "recrutement-poste" ? "block" : "none";
     document.getElementById("column-options").style.display = ["joueurs", "staff"].includes(mode) ? "block" : "none";
     document.getElementById("recruitment-subnav").style.display = recrutementActif ? "flex" : "none";
-    document.getElementById("staff-filter").style.display = mode === "staff" ? "block" : "none";
+    document.getElementById("staff-filter").style.display = mode === "staff" ? "flex" : "none";
     document.getElementById("staff-overview").style.display = mode === "staff" && !modeDecouverte ? "block" : "none";
     document.getElementById("chk-mon-club").parentElement.style.display =
         mode === "joueurs" || mode === "staff" ? "flex" : "none";
@@ -1273,7 +1280,7 @@ function fermerAccesPremium() {
 
 function configEnTetes() {
     const headerConfig = mode === "staff"
-        ? { headers: [["nom", "Nom"], ["nationalite", "Nationalité"], ["metier", "Métier"], ["age", "Âge"], ["ca", "CA"], ["pa", "PA"], ["ligue", "Ligue"], ["salaire_hebdomadaire", "Salaire actuel"], ["club", "Club"]], widths: [17, 11, 18, 6, 6, 6, 10, 10, 16] }
+        ? { headers: [["nom", "Nom"], ["nationalite", "Nationalité"], ["metier", "Métier"], ["age", "Âge"], ["contrat", "Contrat"], ["ca", "CA"], ["pa", "PA"], ["ligue", "Ligue"], ["salaire_hebdomadaire", "Salaire actuel"], ["club", "Club"]], widths: [15, 10, 16, 5, 10, 5, 5, 10, 10, 14] }
         : mode === "joueurs"
             ? { headers: [["nom", "Nom"], ["poste", "Poste"], ["nationalite", "Nationalité"], ["ligue", "Ligue"], ["club", "Club"], ["age", "Âge"], ["taille_cm", "Taille"], ["pied_fort", "Pied"], ["salaire_hebdomadaire", "Salaire actuel"], ["ca", "CA"], ["pa", "PA"], ["reputation", "Réputation"], ["cout_estime", "Frais estimés"], ["role_recrutement", "Compatibilité"]], widths: [13, 6, 9, 10, 13, 4, 5, 6, 8, 4, 4, 5, 7, 6] }
             : { headers: [], widths: [] };
@@ -1307,11 +1314,17 @@ function configEnTetes() {
 function trier(property) {
     asc = sortProp === property ? !asc : true;
     sortProp = property;
+    if (mode === "staff") {
+        staffSort = "";
+        const selectTri = document.getElementById("staff-sort");
+        if (selectTri) selectTri.value = "";
+    }
     listAct.sort((a, b) => {
         const valeur = person => property === "role_recrutement" ? person.role_recrutement?.score
             : property === "nationalite" ? nomNation(person)
                 : property === "ligue" ? liguePersonne(person)
-                    : person[property];
+                    : property === "contrat" ? String(person.fin_contrat ?? "9999-12-31")
+                        : person[property];
         const left = valeur(a);
         const right = valeur(b);
         if (property === "poste") {
@@ -1447,6 +1460,8 @@ function filtrerTout() {
         if (mode === "staff") {
             const metier = document.getElementById("staff-job-filter").value;
             if (metier && person.metier !== metier) return false;
+            const contrat = document.getElementById("staff-contract-filter").value;
+            if (contrat && contratStaff(person) !== contrat) return false;
         }
         if (!query) return true;
         const found = [
@@ -1462,6 +1477,7 @@ function filtrerTout() {
     }).map(person => mode === "joueurs"
         ? { ...person, role_recrutement: resumeRecrutement(person), cout_estime: coutEstime(person) }
         : person);
+    if (mode === "staff") appliquerTriStaff(listAct);
     statusFiltres.classList.toggle("error", Boolean(erreurFiltres || erreurFiltresRecrutement));
     statusFiltres.textContent = erreurFiltres || erreurFiltresRecrutement || `${listAct.length.toLocaleString("fr-FR")} profil(s) correspondant(s).`;
     if (mode === "joueurs") actualiserFiltresActifs(listAct.length);
@@ -1777,46 +1793,104 @@ function afficherBonnesAffaires() {
 function afficherEvaluationStaff() {
     const target = document.getElementById("staff-overview");
     const ownStaff = rawData.staff.filter(member => member.est_mon_club === true);
-    const jobs = [...new Set(rawData.staff.map(member => member.metier).filter(estMetierBackroom))];
+    const monClub = clubIndexById.get(String(rawData.club_gere?.uid ?? "")) || null;
+    const maCompetition = monClub ? classementClubActuel(monClub)?.competition_uid ?? null : null;
+    const maNation = monClub?.nation_id ?? rawData.club_gere?.nation_id ?? null;
+    const reputationMonClub = monClub?.reputation ?? null;
+    const nomMaDivision = nomCompetition(classementClubActuel(monClub), monClub || {});
+    const jobs = [...new Set(rawData.staff.map(member => member.metier).filter(estMetierBackroom))]
+        .sort((a, b) => traduireMetier(a).localeCompare(traduireMetier(b), "fr"));
     const evaluations = jobs.map(job => {
-        const jobStaff = rawData.staff.filter(member => member.metier === job);
-        const currentBest = ownStaff
-            .filter(member => member.metier === job)
-            .reduce((best, member) => !best || Number(member.ca || 0) > Number(best.ca || 0) ? member : best, null);
-        const globalBest = jobStaff
-            .reduce((best, member) => !best || Number(member.ca || 0) > Number(best.ca || 0) ? member : best, null);
-        const bestExternal = jobStaff
-            .filter(member => member.est_mon_club !== true)
-            .reduce((best, member) => !best || Number(member.ca || 0) > Number(best.ca || 0) ? member : best, null);
+        const mesMembres = ownStaff.filter(member => member.metier === job && estNombre(member.ca));
+        const currentBest = mesMembres.reduce((best, member) =>
+            !best || Number(member.ca) > Number(best.ca) ? member : best, null);
+        const externes = rawData.staff
+            .filter(member => member.metier === job && member.est_mon_club !== true && estNombre(member.ca))
+            .map(member => ({ member, portee: porteeStaff(member) }));
+        let groupe = externes.filter(item => dansPortee(item.portee, staffScope, maCompetition, maNation));
+        let portee = porteeEffective(groupe, staffScope, maCompetition);
+        let niveauFiltre = false;
+        if (portee !== staffScope) {
+            groupe = externes.filter(item => dansPortee(item.portee, portee, maCompetition, maNation));
+        }
+        if (portee !== "division" && groupe.length) {
+            const comparables = groupe.filter(item => niveauComparable(item.member, reputationMonClub));
+            if (comparables.length >= 3) {
+                groupe = comparables;
+                niveauFiltre = true;
+            }
+        }
+        const tries = groupe.slice().sort((a, b) =>
+            Number(b.member.ca) - Number(a.member.ca) || contratStaff(a.member).localeCompare(contratStaff(b.member)));
+        const valeurs = groupe.map(item => Number(item.member.ca));
         return {
             job,
             currentBest,
-            globalBest,
-            bestExternal,
-            gap: Number(globalBest?.ca || 0) - Number(currentBest?.ca || 0)
+            cible: tries[0]?.member || null,
+            candidats: tries.slice(0, 3).map(item => item.member),
+            portee,
+            porteeDemandee: staffScope,
+            niveauFiltre,
+            statistiques: statistiquesValeurs(valeurs),
+            rang: percentileValeur(currentBest?.ca, valeurs)
         };
     });
-    const recommendations = evaluations
-        .sort((a, b) => Number(Boolean(a.currentBest)) - Number(Boolean(b.currentBest))
-            || Number(b.bestExternal?.ca || 0) - Number(a.bestExternal?.ca || 0));
-    const weaknesses = evaluations
-        .filter(item => item.currentBest && item.globalBest && item.gap >= 15)
-        .sort((a, b) => b.gap - a.gap);
-    const renderRecommendation = item => `<div class="dashboard-item"><strong>${escapeHtml(traduireMetier(item.job))}</strong> · ${item.bestExternal ? `profil externe de référence : ${linkStaff(item.bestExternal)} CA ${escapeHtml(item.bestExternal.ca ?? "—")}` : "aucun profil externe disponible"} · ${item.currentBest ? `effectif actuel : ${linkStaff(item.currentBest)} CA ${escapeHtml(item.currentBest.ca ?? "—")}` : "métier non couvert"}</div>`;
-    const renderWeakness = item => `<div class="dashboard-item"><strong>${escapeHtml(traduireMetier(item.job))}</strong> · ${linkStaff(item.currentBest)} CA ${escapeHtml(item.currentBest.ca ?? "—")} vs ${linkStaff(item.globalBest)} CA ${escapeHtml(item.globalBest.ca ?? "—")}</div>`;
-    target.innerHTML = `<h3>Recommandations et évaluation du staff</h3>
+    const recommandations = evaluations
+        .slice()
+        .sort((a, b) => Number(!a.currentBest) - Number(!b.currentBest)
+            || (a.rang ?? 101) - (b.rang ?? 101)
+            || Number(b.cible?.ca ?? 0) - Number(a.cible?.ca ?? 0));
+    const faiblesses = evaluations
+        .filter(item => !item.currentBest || (item.rang !== null && item.rang < 40))
+        .sort((a, b) => (a.rang ?? -1) - (b.rang ?? -1));
+    const renderCandidat = member => member
+        ? `${linkStaff(member)} · CA ${escapeHtml(member.ca ?? "—")} · ${escapeHtml(member.age ?? "—")} ans · ${escapeHtml(finContratLisible(member))} · ${estNombre(member.salaire_hebdomadaire) ? `${formatMoney(member.salaire_hebdomadaire)}/sem.` : "salaire inconnu"}`
+        : "aucun profil comparable dans cette portée";
+    const renderRecommandation = item => {
+        const stats = item.statistiques;
+        const porteeLabel = intitulePortee(item.portee, nomMaDivision);
+        const comparaison = item.rang === null
+            ? "votre staff n’a pas de profil pour ce métier"
+            : `${item.rang}e percentile${stats ? ` · médiane ${stats.mediane} · top 10 % ${stats.p90}` : ""}`;
+        const notes = [];
+        if (item.portee !== item.porteeDemandee && item.porteeDemandee === "division") {
+            notes.push("référence élargie : trop peu de profils en division");
+        }
+        if (item.niveauFiltre) notes.push("profils de réputation comparable à votre club");
+        const elargissement = notes.length ? ` <em>(${notes.join(" · ")})</em>` : "";
+        const cible = item.cible && (!item.currentBest || Number(item.cible.ca) > Number(item.currentBest.ca))
+            ? item.cible
+            : null;
+        const ligneCible = cible
+            ? `Cible : ${renderCandidat(cible)}`
+            : item.currentBest
+                ? `Aucune cible crédible : votre staff dépasse déjà les profils de ce niveau (meilleur : ${linkStaff(item.currentBest)} · CA ${escapeHtml(item.currentBest.ca ?? "—")})`
+                : `Cible : ${renderCandidat(null)}`;
+        return `<div class="dashboard-item"><strong>${escapeHtml(traduireMetier(item.job))}</strong> · ${escapeHtml(porteeLabel)}${elargissement} · ${escapeHtml(comparaison)} · ${stats ? `${stats.effectif} profil(s) comparé(s)` : "aucun profil comparable"}<br>${ligneCible}${item.currentBest ? `<br>Votre meilleur : ${linkStaff(item.currentBest)} · CA ${escapeHtml(item.currentBest.ca ?? "—")}` : ""}<br><button type="button" class="tab-btn" data-staff-cible="${escapeHtml(item.job)}">Voir les profils de ce métier</button></div>`;
+    };
+    const renderFaiblesse = item => `<div class="dashboard-item"><strong>${escapeHtml(traduireMetier(item.job))}</strong> · ${item.currentBest
+        ? `${item.rang}e percentile dans ${escapeHtml(intitulePortee(item.portee, nomMaDivision))}${item.statistiques ? ` — médiane ${item.statistiques.mediane}, votre meilleur ${escapeHtml(item.currentBest.ca ?? "—")}` : ""}`
+        : "métier non couvert dans votre staff"}${item.cible && (!item.currentBest || Number(item.cible.ca) > Number(item.currentBest.ca)) ? ` · cible accessible : ${linkStaff(item.cible)} CA ${escapeHtml(item.cible.ca ?? "—")}` : ""}</div>`;
+    const porteeOptions = [["division", "Ma division"], ["nation", "Ma nation"], ["monde", "Monde entier"]]
+        .map(([value, label]) => `<option value="${value}"${staffScope === value ? " selected" : ""}>${label}</option>`).join("");
+    target.innerHTML = `<div class="staff-overview-heading"><h3>Recommandations et évaluation du staff</h3>
+        <label for="staff-scope">Référence de comparaison <select id="staff-scope" class="staff-scope-select" aria-label="Portée de comparaison du staff">${porteeOptions}</select></label></div>
         <div class="staff-overview-tabs" role="tablist" aria-label="Recommandations et évaluation du staff">
             <button type="button" class="tab-btn${staffOverviewTab === "recommendations" ? " active" : ""}" role="tab" aria-selected="${staffOverviewTab === "recommendations"}" aria-controls="staff-overview-recommendations" data-staff-overview-tab="recommendations">Recommandations</button>
             <button type="button" class="tab-btn${staffOverviewTab === "evaluation" ? " active" : ""}" role="tab" aria-selected="${staffOverviewTab === "evaluation"}" aria-controls="staff-overview-evaluation" data-staff-overview-tab="evaluation">Évaluation</button>
         </div>
         <section class="staff-overview-panel" id="staff-overview-recommendations" role="tabpanel"${staffOverviewTab === "recommendations" ? "" : " hidden"}>
-            <div class="dashboard-card"><h3>Profils externes de référence par métier</h3>${recommendations.length ? recommendations.map(renderRecommendation).join("") : "<div class=\"dashboard-item\">Aucun métier de backroom identifié dans l’export.</div>"}</div>
-            <p class="caveat">Les profils externes sont des références, pas des candidats dont l’acceptation est connue.</p>
+            <div class="dashboard-card"><h3>Cibles du même niveau que votre club</h3>${recommandations.length ? recommandations.map(renderRecommandation).join("") : "<div class=\"dashboard-item\">Aucun métier de backroom identifié dans l’export.</div>"}</div>
+            <p class="caveat">Les cibles sont les meilleurs profils du même niveau que votre club (division par défaut, élargis à la nation s’il y a trop peu de profils), pas les meilleurs du monde. Un profil « sans contrat » est libre de tout engagement ; les autres demandent un accord de leur club.</p>
         </section>
         <section class="staff-overview-panel" id="staff-overview-evaluation" role="tabpanel"${staffOverviewTab === "evaluation" ? "" : " hidden"}>
-            <div class="dashboard-card"><h3>Écarts de CA à examiner</h3>${weaknesses.length ? weaknesses.map(renderWeakness).join("") : "<div class=\"dashboard-item\">Aucun écart de 15 points ou plus par métier détecté.</div>"}</div>
-            <p class="caveat">Évaluation indicative basée uniquement sur le CA global par métier. Les attributs spécifiques aux entraîneurs/recruteurs et les étoiles d’entraînement ne sont pas disponibles dans cet export; les préférences et l’adaptabilité ne sont pas assimilées à ces compétences.</p>
+            <div class="dashboard-card"><h3>Écarts à examiner</h3>${faiblesses.length ? faiblesses.map(renderFaiblesse).join("") : "<div class=\"dashboard-item\">Aucun métier sous la médiane de votre niveau de référence.</div>"}</div>
+            <p class="caveat">Évaluation basée sur le CA global par métier, comparé aux profils du même niveau que votre club. Les attributs spécifiques aux entraîneurs/recruteurs et les étoiles d’entraînement ne sont pas disponibles dans cet export ; les préférences et l’adaptabilité ne sont pas assimilées à ces compétences.</p>
         </section>`;
+    target.querySelector("#staff-scope").addEventListener("change", event => {
+        staffScope = event.target.value;
+        afficherEvaluationStaff();
+    });
     target.querySelectorAll("[data-staff-overview-tab]").forEach(button => button.addEventListener("click", () => {
         staffOverviewTab = button.dataset.staffOverviewTab;
         target.querySelectorAll("[data-staff-overview-tab]").forEach(tab => {
@@ -1828,6 +1902,15 @@ function afficherEvaluationStaff() {
             panel.hidden = panel.id !== `staff-overview-${staffOverviewTab}`;
         });
     }));
+    target.querySelectorAll("[data-staff-cible]").forEach(button => button.addEventListener("click", () => {
+        const job = button.dataset.staffCible;
+        document.getElementById("staff-job-filter").value = job;
+        document.getElementById("staff-contract-filter").value = "";
+        document.getElementById("staff-sort").value = "ca_desc";
+        staffSort = "ca_desc";
+        filtrerTout();
+        document.getElementById("results-table")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }));
 }
 
 function estMetierBackroom(job) {
@@ -1835,6 +1918,101 @@ function estMetierBackroom(job) {
     return Boolean(normalized)
         && !["unknown", "fonction non renseignée", "chairperson", "director", "managing director"]
             .includes(normalized);
+}
+
+function contratStaff(member) {
+    return String(member?.fin_contrat ?? "").trim() ? "sous_contrat" : "sans_contrat";
+}
+
+function finContratLisible(member) {
+    const fin = String(member?.fin_contrat ?? "").trim();
+    return fin || "Sans contrat";
+}
+
+function appliquerTriStaff(liste) {
+    if (!staffSort) return liste;
+    const cle = person => {
+        switch (staffSort) {
+            case "ca_desc": return -Number(person.ca ?? 0);
+            case "age_asc": return person.age == null ? Number.MAX_SAFE_INTEGER : Number(person.age);
+            case "salaire_desc": return -Number(person.salaire_hebdomadaire ?? 0);
+            case "contrat_asc": return String(person.fin_contrat ?? "9999-12-31");
+            case "nom_asc": return String(person.nom ?? "").toLocaleLowerCase("fr");
+            default: return 0;
+        }
+    };
+    liste.sort((a, b) => {
+        const gauche = cle(a), droite = cle(b);
+        const comparaison = typeof gauche === "number" && typeof droite === "number"
+            ? gauche - droite
+            : String(gauche).localeCompare(String(droite), "fr");
+        return comparaison || String(a.nom ?? "").localeCompare(String(b.nom ?? ""), "fr");
+    });
+    return liste;
+}
+
+function statistiquesValeurs(valeurs) {
+    const nombres = valeurs.map(Number).filter(Number.isFinite).sort((a, b) => a - b);
+    if (!nombres.length) return null;
+    const quantile = part => {
+        const position = (nombres.length - 1) * part;
+        const base = Math.floor(position);
+        const reste = position - base;
+        return nombres[base + 1] === undefined
+            ? nombres[base]
+            : nombres[base] + reste * (nombres[base + 1] - nombres[base]);
+    };
+    return {
+        effectif: nombres.length,
+        mediane: Math.round(quantile(0.5)),
+        p90: Math.round(quantile(0.9)),
+        maximum: nombres[nombres.length - 1]
+    };
+}
+
+function percentileValeur(valeur, valeurs) {
+    const nombres = valeurs.map(Number).filter(Number.isFinite);
+    if (!nombres.length || !Number.isFinite(Number(valeur))) return null;
+    const inferieures = nombres.filter(item => item < Number(valeur)).length;
+    const egales = nombres.filter(item => item === Number(valeur)).length;
+    return Math.round((inferieures + egales / 2) / nombres.length * 100);
+}
+
+function porteeStaff(member) {
+    const club = clubPourPersonne(member);
+    const classement = club ? classementClubActuel(club) : null;
+    return {
+        competition: classement?.competition_uid ?? null,
+        nation: member?.nation_id ?? club?.nation_id ?? null
+    };
+}
+
+function dansPortee(portee, porteeDemandee, competition, nation) {
+    if (porteeDemandee === "monde") return true;
+    if (porteeDemandee === "nation") return portee.nation != null && portee.nation === nation;
+    if (portee.competition != null && competition != null) return portee.competition === competition;
+    return portee.nation != null && portee.nation === nation;
+}
+
+function niveauComparable(member, reputationMonClub) {
+    const club = clubPourPersonne(member);
+    const reputation = Number(club?.reputation);
+    const reference = Number(reputationMonClub);
+    if (!Number.isFinite(reputation) || !Number.isFinite(reference) || reputation <= 0 || reference <= 0) return true;
+    const ratio = reputation / reference;
+    return ratio >= 0.5 && ratio <= 2;
+}
+
+function porteeEffective(groupe, porteeDemandee, competition) {
+    if (porteeDemandee !== "division") return porteeDemandee;
+    if (competition == null) return "nation";
+    return groupe.length >= 3 ? "division" : "nation";
+}
+
+function intitulePortee(portee, nomDivision) {
+    if (portee === "division") return `votre division (${nomDivision || "non identifiée"})`;
+    if (portee === "nation") return "votre nation";
+    return "le monde entier";
 }
 
 function traduireStatutEffectif(status) {
@@ -2732,6 +2910,7 @@ function render(append) {
             celluleRechercheHtml(row, celluleNationalite(person));
             cellule(row, traduireMetier(person.metier));
             cellule(row, person.age == null ? null : `${person.age} ans`);
+            cellule(row, finContratLisible(person));
             celluleNote(row, person.ca);
             celluleNote(row, person.pa);
             celluleRechercheHtml(row, linkCompetition(classementPersonne(person), clubPourPersonne(person) || {}, liguePersonne(person) || "—")).title = "Nom de compétition issu des données ou corrections locales ; non vérifié.";

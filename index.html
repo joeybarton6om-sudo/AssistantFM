@@ -347,6 +347,10 @@
         .profile-disclaimer { color: var(--muted); font-size: 10px; line-height: 1.45; margin: 8px 0 0; }
         .profile-club-button { color: var(--accent); }
         .staff-overview-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
+        .staff-overview-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+        .staff-overview-heading h3 { margin: 0; }
+        .staff-overview-heading label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; }
+        .staff-scope-select { background: #1b1b1b; color: #eee; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; font-size: 11px; }
         .staff-overview-panel[hidden] { display: none; }
         .club-view-tabs, .club-squad-filters, .club-position-filters { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 10px; }
         .club-view-panel[hidden] { display: none; }
@@ -442,7 +446,9 @@
         .dashboard-item { border-bottom: 1px solid var(--line); line-height: 1.55; padding: 7px 0; }
         .caveat { color: #efd17d; font-size: 12px; line-height: 1.55; }
         #recruitment-subnav { display: none; }
-        #staff-filter { display: none; margin-bottom: 10px; }
+        #staff-filter { display: none; margin-bottom: 10px; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px; }
+        #staff-filter label { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+        #staff-filter select { background: #1b1b1b; color: #eee; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; font-size: 12px; }
         .comparison-row { font-size: 12px; }
         .comparison-better { background: rgba(25, 135, 64, .18); color: #8df0a1; }
         .comparison-worse { background: rgba(175, 35, 45, .18); color: #ff9696; }
@@ -1040,6 +1046,21 @@
             <select id="staff-job-filter" aria-label="Filtrer le staff par métier">
                 <option value="">Tous les métiers</option>
             </select>
+            <label for="staff-contract-filter">Contrat</label>
+            <select id="staff-contract-filter" aria-label="Filtrer le staff par situation contractuelle">
+                <option value="">Tous</option>
+                <option value="sous_contrat">Sous contrat</option>
+                <option value="sans_contrat">Sans contrat</option>
+            </select>
+            <label for="staff-sort">Trier par</label>
+            <select id="staff-sort" aria-label="Trier le staff">
+                <option value="">Pertinence (CA)</option>
+                <option value="ca_desc">CA décroissant</option>
+                <option value="age_asc">Âge croissant</option>
+                <option value="salaire_desc">Salaire décroissant</option>
+                <option value="contrat_asc">Fin de contrat la plus proche</option>
+                <option value="nom_asc">Nom (A → Z)</option>
+            </select>
         </div>
         <section id="staff-overview"></section>
         <section id="planner-view"></section>
@@ -1080,7 +1101,7 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">v<span id="app-version-display">1.0.11-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">v<span id="app-version-display">1.0.12-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
     <script src="donnees_locales.js"></script>
     <script src="app.js"></script>
     <script src="ponderations.js"></script>

@@ -11,7 +11,7 @@ const start = source.indexOf("function configEnTetes()");
 const end = source.indexOf("\nfunction trier(", start);
 assert.ok(start >= 0 && end > start);
 
-test("le tableau de recherche du staff n’affiche plus la colonne Stats", () => {
+test("le tableau de recherche du staff affiche le contrat et plus la colonne Stats", () => {
     let headers = [];
     let colgroup;
     const table = {
@@ -50,6 +50,6 @@ test("le tableau de recherche du staff n’affiche plus la colonne Stats", () =>
     context.configEnTetes();
 
     const labels = headers.map(header => header.textContent);
-    assert.deepEqual(labels, ["Nom", "Nationalité", "Métier", "Âge", "CA", "PA", "Ligue", "Salaire actuel", "Club"]);
+    assert.deepEqual(labels, ["Nom", "Nationalité", "Métier", "Âge", "Contrat", "CA", "PA", "Ligue", "Salaire actuel", "Club"]);
     assert.equal(colgroup.children.length, labels.length);
 });
