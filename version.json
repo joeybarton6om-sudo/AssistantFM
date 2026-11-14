@@ -1,0 +1,6 @@
+{
+  "version": "1.0.7-beta",
+  "date": "2026-11-14",
+  "url": "https://github.com/joeybarton6om-sudo/AssistantFM/releases/download/v1.0.7-beta/AssistantFM-Beta-2026-11-14-tactiques-fm27.exe",
+  "changelog": "- TACTIQUE FM27 : 4 vues (combinée, avec le ballon, sans le ballon, les deux)\n- SEXE AUTOMATIQUE : filtre de genre basé sur club_gere_gender (0=H, 1=F, -1=Inconnu), plus de dropdown manuel\n- CORRECTION POSITIONS INCONNUES : éditeur Avec/Sans ballon par slot, corrections sauvegardées dans localStorage\n- ASSIGNATION JOUEURS : sélecteur de joueur par slot dans les rôles de tactique, affectations manuelles prioritaires\n- EXTRACTION SAUVEGARDE : patch fmsave.read_summary_clock et read_summary_facts pour contourner ReaderCheckError FM27, filtrage tactiques par club_uid\n- CONFIGURATION : 4 dossiers (logos, visages, sauvegardes, tactiques)\n- NETTOYAGE : retrait import .fmf (format binaire non lisible), retrait message dossier tactiques inutile"
+}
