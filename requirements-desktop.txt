@@ -1,0 +1,5 @@
+fmsave==0.9.3
+pyinstaller>=6.11,<7
+pywebview>=5.4,<7
+cryptography>=42
+pywin32>=306
