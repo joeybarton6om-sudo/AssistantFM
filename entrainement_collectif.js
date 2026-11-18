@@ -703,6 +703,8 @@
         let chargeCumul = 0;
         const limite = contexte.phase && contexte.phase.budget ? contexte.phase.budget : 15;
         const depuisBase = reglages.depuisMatch == null ? null : Number(reglages.depuisMatch);
+        let semaineCompteur = 0;
+        let prochaineSpeciale = "esprit_equipe";
         for (let i = 0; i < longueur; i += 1) {
             const date = ajouterJours(dateDebut, i);
             const avantMatch = longueur - i - 1;
@@ -716,6 +718,10 @@
                     ? { condition_intensive: 0.4, condition: 0.25 }
                     : {}
             });
+            const recuperation = estJourRecuperation(avantMatch, depuisMatch, longueur, contexte.phase);
+            const jourSemaine = date.getDay();
+            if (jourSemaine === 0 && i > 0) semaineCompteur += 1;
+            const estSemaineSpeciale = semaineCompteur > 0 && semaineCompteur % 3 === 0;
             const jour = construireJour(date, avantMatch, longueur, contexteJour, depuisMatch);
             for (const seance of jour.seances) {
                 utilisations.set(seance.id, (utilisations.get(seance.id) || 0) + 1);
@@ -733,6 +739,35 @@
                         charge: 0
                     }));
                     jour.bloc = "developpement";
+                }
+            }
+            if (estSemaineSpeciale && !recuperation && avantMatch > 1) {
+                const specialeId = prochaineSpeciale;
+                prochaineSpeciale = prochaineSpeciale === "esprit_equipe" ? "programme_proximite" : "esprit_equipe";
+                const seanceSpeciale = seanceDepuisId(specialeId);
+                if (seanceSpeciale) {
+                    const idxDev = jour.seances.findIndex(s => s.type === "developpement");
+                    if (idxDev !== -1) {
+                        jour.seances[idxDev] = {
+                            id: seanceSpeciale.id,
+                            nom: seanceSpeciale.nom,
+                            onglet: seanceSpeciale.onglet,
+                            type: seanceSpeciale.type,
+                            description: seanceSpeciale.description,
+                            charge: seanceSpeciale.charge || 0
+                        };
+                    } else if (jour.seances.length < 3) {
+                        jour.seances.push({
+                            id: seanceSpeciale.id,
+                            nom: seanceSpeciale.nom,
+                            onglet: seanceSpeciale.onglet,
+                            type: seanceSpeciale.type,
+                            description: seanceSpeciale.description,
+                            charge: seanceSpeciale.charge || 0
+                        });
+                    }
+                    jour.bloc = "developpement";
+                    jour.charge = jour.seances.reduce((s, se) => s + (se.charge || 0), 0);
                 }
             }
             jours.push(jour);
