@@ -873,12 +873,16 @@ def extraire_sauvegarde_totale(chemin_save):
             statistiques_saison = None
             statistiques_championnat = None
             statistiques_joueurs = None
+            historique_table = None
             erreur_statistiques = str(error)
             print(f"Statistiques de saison indisponibles : {error}", file=sys.stderr)
 
         try:
             signaler_etape("Extraction de l'historique de carrière des joueurs")
-            historique_carriere, err_hc = historique_carriere_par_joueur(historique_table)
+            if historique_table is None:
+                historique_carriere, err_hc = None, "Table historique indisponible"
+            else:
+                historique_carriere, err_hc = historique_carriere_par_joueur(historique_table)
             erreur_historique_carriere = err_hc
         except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
             historique_carriere = None
