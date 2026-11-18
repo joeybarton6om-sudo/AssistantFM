@@ -1,4 +1,4 @@
-"""Poste la notification de la release v1.0.23-beta sur le Discord communautaire.
+"""Poste la notification de la release v1.0.24-beta sur le Discord communautaire.
 
 Prérequis :
   1. Avoir créé un webhook Discord dans le salon « update » de votre serveur
@@ -21,9 +21,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
-VERSION = "1.0.23-beta"
+VERSION = "1.0.24-beta"
 DATE = "2026-11-18"
-DOWNLOAD_URL = "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.23-beta/AssistantFM-27-Setup.exe"
+DOWNLOAD_URL = "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.24-beta/AssistantFM-27-Setup.exe"
 
 
 def charger_changelog() -> str:
