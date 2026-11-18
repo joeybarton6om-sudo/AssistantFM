@@ -71,10 +71,11 @@ def poster(webhook_url: str, payload: dict) -> bool:
     donnees = json.dumps(payload).encode("utf-8")
     requete = urllib.request.Request(
         webhook_url,
-        data=données,
+        data=donnees,
         method="POST",
     )
     requete.add_header("Content-Type", "application/json")
+    requete.add_header("User-Agent", "AssistantFM/1.0 (https://github.com/joeybarton6om-sudo/AssistantFM)")
     try:
         with urllib.request.urlopen(requete, timeout=30) as reponse:
             corps = reponse.read()
