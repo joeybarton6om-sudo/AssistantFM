@@ -5,3 +5,8 @@ releases/
 __pycache__/
 *.pyc
 *.log
+construction-desktop/
+construction-editeur/
+build/
+dist/
+distribution/
