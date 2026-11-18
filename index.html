@@ -904,7 +904,18 @@
     </style>
 </head>
 <body>
-    <div class="panel left">
+    <div id="app-loading">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;color:var(--muted);gap:12px;">
+            <div style="width:40px;height:40px;border:3px solid var(--accent-soft);border-top:3px solid var(--accent);border-radius:50%;animation:spin 1s linear infinite;"></div>
+            <div>Chargement de Assistant FM…</div>
+        </div>
+    </div>
+    <style>
+        #app-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .app-ready { display: none !important; }
+    </style>
+    <div class="panel left" id="app-body" class="app-ready">
         <div class="club-brand">
             <div class="club-crest" id="club-crest" aria-hidden="true">FM</div>
             <div><h2>Assistant FM27</h2><p id="managed-club-name">Club en attente de chargement</p></div>
@@ -1151,7 +1162,7 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">v<span id="app-version-display">1.0.29-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">v<span id="app-version-display">1.0.30-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
     <script src="donnees_locales.js"></script>
     <script src="analyse_tactique.js"></script>
     <script src="app.js"></script>
@@ -1169,5 +1180,16 @@
     <script src="optimisation_tactique.js"></script>
     <script src="outils_persistants.js"></script>
     <script src="desktop_bridge.js"></script>
+    <script>
+        // Masque l'écran de chargement dès que l'application est initialisée
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                const loading = document.getElementById("app-loading");
+                const body = document.getElementById("app-body");
+                if (loading) loading.style.display = "none";
+                if (body) body.classList.remove("app-ready");
+            }, 800);
+        });
+    </script>
 </body>
 </html>

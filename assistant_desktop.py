@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 
 # Version de l'application (mettre à jour à chaque release)
-APP_VERSION = "1.0.29-beta"
+APP_VERSION = "1.0.30-beta"
 APP_VERSION_DATE = "2026-11-18"
 # URL du fichier version.json (repo releases dédié)
 UPDATE_CHECK_URL = "https://raw.githubusercontent.com/joeybarton6om-sudo/releases/main/version.json"
@@ -367,13 +367,23 @@ class DesktopApi:
 
 
 def serveur_repondu():
-    """Indique si un serveur Assistant FM écoute déjà sur le port local."""
+    """Indique si un serveur Assistant FM répond déjà sur le port local (vérification HTTP réelle)."""
     import socket
+    import urllib.request
 
+    host, port = server_host(), server_port()
     try:
-        with socket.create_connection((server_host(), server_port()), timeout=0.6):
-            return True
+        with socket.create_connection((host, port), timeout=0.6):
+            pass
     except OSError:
+        return False
+
+    # Vérification HTTP réelle : le port peut être ouvert par un processus zombie
+    try:
+        req = urllib.request.Request(f"http://{host}:{port}/", headers={"User-Agent": "AssistantFM/1.0"})
+        with urllib.request.urlopen(req, timeout=1.5) as response:
+            return response.status == 200
+    except Exception:
         return False
 
 
@@ -424,6 +434,7 @@ def main():
     url = f"http://{server_host()}:{port}/"
 
     if deja_la:
+        time.sleep(0.8)
         api.window = webview.create_window(
             "Assistant FM",
             url,
@@ -438,6 +449,7 @@ def main():
     httpd = server.AssistantServer((server_host(), port), server.AssistantHandler)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()
+    time.sleep(1.0)
     try:
         api.window = webview.create_window(
             "Assistant FM",
