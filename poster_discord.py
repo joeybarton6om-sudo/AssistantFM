@@ -24,9 +24,17 @@ ROOT = Path(__file__).resolve().parent
 VERSION = "1.0.24-beta"
 DATE = "2026-11-18"
 DOWNLOAD_URL = "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.24-beta/AssistantFM-27-Setup.exe"
+VERSION_JSON_URL = "https://raw.githubusercontent.com/joeybarton6om-sudo/releases/main/version.json"
 
 
-def charger_changelog() -> str:
+def charger_changelog(version_url: str | None = None) -> str:
+    if version_url:
+        try:
+            with urllib.request.urlopen(version_url, timeout=10) as response:
+                data = json.loads(response.read().decode("utf-8"))
+            return data.get("changelog", "")
+        except (OSError, json.JSONDecodeError, urllib.error.URLError):
+            pass
     version_path = ROOT / "version.json"
     if version_path.is_file():
         try:
@@ -80,6 +88,7 @@ def poster(webhook_url: str, payload: dict) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Poster la release Assistant FM sur Discord.")
     parser.add_argument("webhook", nargs="?", help="URL du webhook Discord")
+    parser.add_argument("--version-url", default=VERSION_JSON_URL, help="URL du fichier version.json")
     args = parser.parse_args()
 
     webhook_url = args.webhook or os.environ.get("DISCORD_WEBHOOK_URL", "")
@@ -88,7 +97,7 @@ def main() -> int:
         print("Définissez DISCORD_WEBHOOK_URL ou passez l'URL en argument.", file=sys.stderr)
         return 1
 
-    changelog = charger_changelog()
+    changelog = charger_changelog(args.version_url)
     payload = construire_embed(changelog)
     print(f"Publication de la release {VERSION} sur Discord...")
     if poster(webhook_url, payload):
