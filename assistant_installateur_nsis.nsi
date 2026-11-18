@@ -161,6 +161,7 @@ Section "Application Assistant FM (obligatoire)" MainSection
   File "${BUILD_DIR}\Licences-tierces.txt"
   File "${BUILD_DIR}\Licences-NSIS.txt"
   File "assistantfm.ico"
+  File "modeles\squelette.fmf"
   ClearErrors
   FileOpen $0 "$INSTDIR\dossiers-initiaux.txt" w
   IfErrors chemins_erreur
