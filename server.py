@@ -524,9 +524,16 @@ class AssistantHandler(BaseHTTPRequestHandler):
             _EXTRACTION_LOCK.release()
 
     def _squelette(self):
+        # Chercher d'abord a cote de l'exe (installe NSIS, mode congele)
+        exe_dir = Path(sys.executable).parent if getattr(sys, "frozen", False) else ROOT
+        modele = exe_dir / "modeles" / "squelette.fmf"
+        if modele.is_file():
+            return modele.read_bytes()
+        # Puis dans ROOT (code source)
         modele = ROOT / "modeles" / "squelette.fmf"
         if modele.is_file():
             return modele.read_bytes()
+        # Enfin dans le dossier schedules de l'utilisateur
         dossier = Path.home() / "Documents" / "Sports Interactive" / "Football Manager 27" / "schedules"
         for candidat in sorted(dossier.glob("*.fmf")) if dossier.is_dir() else []:
             try:
