@@ -560,8 +560,8 @@
         const bonusPhase = contexte.phaseBonus && contexte.phaseBonus[seance.id] ? contexte.phaseBonus[seance.id] : 0;
         if (bloc === "recuperation") return 0.3 + tactique * 0.1 + bonusPhase - penalite;
         if (bloc === "preparation") return 0.35 + tactique * 0.45 + bonusPhase - penalite;
-        if (bloc === "physique") return gain * 1.2 + tactique * 0.05 + bonusPhase - penalite;
-        return gain * 1.1 + tactique * 0.12 + bonusPhase - penalite;
+        if (bloc === "physique") return Math.max(0.2, gain * 1.2) + tactique * 0.05 + bonusPhase - penalite;
+        return Math.max(0.25, gain * 1.1) + tactique * 0.12 + bonusPhase - penalite;
     }
 
     function seancesAutorisees(bloc) {
@@ -636,7 +636,6 @@
         if (avantMatch <= 1) return true;
         if (depuisMatch == null || depuisMatch < 1) return false;
         if (depuisMatch === 1) return true;
-        if (depuisMatch === 2 && avantMatch >= 4) return true;
         return false;
     }
 
@@ -657,7 +656,8 @@
         const recuperation = estJourRecuperation(avantMatch, depuisMatch, longueurCycle, contexte.phase);
         const exclus = new Set();
         const seances = [];
-        const nombre = recuperation ? 1 : 3;
+        const surcharge = contexte.surcharge === true;
+        const nombre = recuperation ? 1 : surcharge ? 2 : 3;
         if (recuperation) {
             const seance = seanceDepuisId(contexte.recuperationId || "recuperation");
             if (seance) seances.push(seance);
