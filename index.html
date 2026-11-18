@@ -79,6 +79,7 @@
         .club-crest.has-logo { background: transparent; border-color: transparent; border-radius: 0; box-shadow: none; }
         .club-brand h2 { font-size: 18px; letter-spacing: -.03em; margin: 0; }
         .club-brand p { color: var(--muted); font-size: 11px; margin: 4px 0 0; }
+        #workspace-title { position: relative; display: inline-flex; align-items: center; gap: 8px; }
         .form { margin-bottom: 12px; }
         #n[readonly] { cursor: pointer; }
         label { color: #d7dde5; font-size: 12px; font-weight: 650; }
@@ -215,7 +216,7 @@
         .profile-visual-assets { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); margin: 10px 0 12px; }
         .profile-visual-card { align-items: center; background: var(--panel-raised); border: 1px solid var(--line); border-radius: 9px; display: flex; gap: 10px; min-width: 0; padding: 9px; }
         .profile-visual-mark { align-items: center; background: linear-gradient(145deg, var(--accent), var(--accent-strong)); border: 1px solid rgba(255,255,255,.35); box-shadow: 0 4px 12px var(--accent-soft); color: #fff; display: flex; flex: 0 0 54px; font-size: 14px; font-weight: 800; height: 54px; justify-content: center; overflow: hidden; position: relative; }
-        .profile-logo-image { background: transparent; height: 100%; inset: 0; object-fit: contain; padding: 0; position: absolute; width: 100%; }
+        .profile-logo-image { background: transparent; height: 100%; inset: 0; object-fit: contain; padding: 0; position: absolute; max-width: 48px; max-height: 48px; width: 100%; }
         .profile-visual-mark.has-logo { background: transparent; border-color: transparent; border-radius: 0; box-shadow: none; clip-path: none; }
         .profile-nation-flag { object-fit: cover; }
         .profile-flag-mark { background: linear-gradient(135deg, #253449, #41536b); border-radius: 8px; font-size: 23px; height: 38px; }
@@ -1150,7 +1151,7 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">v<span id="app-version-display">1.0.28-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">v<span id="app-version-display">1.0.29-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
     <script src="donnees_locales.js"></script>
     <script src="analyse_tactique.js"></script>
     <script src="app.js"></script>
