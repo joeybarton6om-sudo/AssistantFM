@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -351,6 +351,14 @@
         .staff-overview-heading h3 { margin: 0; }
         .staff-overview-heading label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; }
         .staff-scope-select { background: #1b1b1b; color: #eee; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; font-size: 11px; }
+        .entrainement-table { border-collapse: collapse; font-size: 12px; width: 100%; }
+        .entrainement-table th, .entrainement-table td { border-bottom: 1px solid var(--line); padding: 7px 8px; text-align: left; vertical-align: top; }
+        .entrainement-table tbody tr { cursor: pointer; }
+        .entrainement-table tbody tr:hover { background: rgba(255,255,255,.04); }
+        .entrainement-focus + .entrainement-focus { margin-top: 4px; }
+        .tag { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 999px; display: inline-block; font-size: 11px; margin: 2px 4px 2px 0; padding: 2px 8px; }
+        .tag-manuel { background: rgba(91,155,213,.18); border-radius: 4px; color: #9ecbff; font-size: 10px; padding: 1px 5px; }
+        .muted { color: var(--muted); }
         .staff-overview-panel[hidden] { display: none; }
         .club-view-tabs, .club-squad-filters, .club-position-filters { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 10px; }
         .club-view-panel[hidden] { display: none; }
@@ -376,6 +384,45 @@
         .club-squad-table th:nth-child(5), .club-squad-table td:nth-child(5) { width: 7%; white-space: nowrap; }
         .club-squad-table th:nth-child(6), .club-squad-table td:nth-child(6),
         .club-squad-table th:nth-child(7), .club-squad-table td:nth-child(7) { width: 7%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .club-squad-table.entrainement-table { font-size: 12px; min-width: 660px; table-layout: fixed; width: 100%; }
+        .club-squad-table.entrainement-table th,
+        .club-squad-table.entrainement-table td { overflow: visible; padding: 7px 8px; text-overflow: clip; vertical-align: top; white-space: normal; overflow-wrap: anywhere; word-break: normal; }
+        .club-squad-table.entrainement-table th { font-size: 10px; }
+        .club-squad-table.entrainement-table th:nth-child(1), .club-squad-table.entrainement-table td:nth-child(1) { width: 17%; min-width: 0; }
+        .club-squad-table.entrainement-table th:nth-child(2), .club-squad-table.entrainement-table td:nth-child(2) { width: 5%; min-width: 0; text-align: center; white-space: nowrap; }
+        .club-squad-table.entrainement-table th:nth-child(3), .club-squad-table.entrainement-table td:nth-child(3),
+        .club-squad-table.entrainement-table th:nth-child(4), .club-squad-table.entrainement-table td:nth-child(4) { width: 22%; min-width: 0; }
+        .club-squad-table.entrainement-table th:nth-child(5), .club-squad-table.entrainement-table td:nth-child(5) { width: 26%; min-width: 0; }
+        .club-squad-table.entrainement-table th:nth-child(6), .club-squad-table.entrainement-table td:nth-child(6) { width: 8%; min-width: 0; }
+        .entrainement-table .role-detail { display: block; margin-top: 2px; }
+        .entrainement-table .role-note { display: inline-block; margin-left: 4px; white-space: nowrap; }
+        .entrainement-table .focus-ligne + .focus-ligne { margin-top: 5px; }
+        .entrainement-table .focus-titre { display: block; }
+        .entrainement-table .focus-attributs { display: block; font-size: 11px; line-height: 1.4; }
+        .programme-entete { align-items: center; display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+        .programme-entete select { background: #1b1b1b; border: 1px solid var(--line); border-radius: 6px; color: #eee; font-size: 12px; padding: 4px 6px; }
+        .programme-metrics { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin-bottom: 12px; }
+        .programme-metric { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+        .programme-metric strong { display: block; font-size: 16px; }
+        .programme-semaine { border: 1px solid var(--line); border-radius: 8px; margin-bottom: 12px; padding: 10px 12px; }
+        .programme-semaine > h3 { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+        .programme-export { background: var(--accent-soft); border: 1px solid var(--accent-strong); border-radius: 8px; color: var(--text); cursor: pointer; font-size: 11px; margin-left: auto; padding: 3px 10px; }
+        .programme-export:hover { background: var(--accent-strong); }
+        .programme-jours { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+        .programme-jour { background: #161616; border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; }
+        .programme-jour[data-match="1"] { border-color: #4b7bec; }
+        .programme-jour h4 { font-size: 12px; margin: 0 0 4px; }
+        .programme-jour .programme-bloc { color: var(--muted); display: block; font-size: 10px; margin-bottom: 5px; text-transform: uppercase; }
+        .programme-seance { border-top: 1px dashed var(--line); display: block; font-size: 12px; padding: 3px 0; }
+        .programme-seance:first-of-type { border-top: 0; }
+        .programme-seance .programme-seance-type { color: var(--muted); display: block; font-size: 10px; }
+        .programme-charge { color: var(--muted); font-size: 10px; }
+        .programme-aucun { color: var(--muted); font-size: 12px; }
+        .programme-saisie { border: 1px solid var(--line); border-radius: 8px; margin: 12px 0; padding: 10px 12px; }
+        .programme-saisie pre { background: #111; border: 1px solid var(--line); border-radius: 6px; font-size: 12px; max-height: 340px; overflow: auto; padding: 10px; white-space: pre-wrap; }
+        .programme-item { border-top: 1px dashed var(--line); padding: 5px 0; }
+        .programme-item span { display: block; font-size: 11px; }
+        button.programme-saison { background: #2f6b4f; border-color: #3f8a66; font-weight: 650; }
         .squad-position-pill { border: 1px solid transparent; border-radius: 4px; color: #fff; display: inline-block; font-size: 9px; font-weight: 750; line-height: 1.25; padding: 2px 4px; }
         .squad-position-pill.goalkeeper { background: #d59212; }
         .squad-position-pill.defense { background: #147c86; }
@@ -1077,6 +1124,8 @@
         <section id="laboratoire-view" class="scouting-view"></section>
         <section id="optimisation-view" class="scouting-view"></section>
         <section id="jeunes-view" class="scouting-view"></section>
+        <section id="entrainement-view" class="scouting-view"></section>
+        <section id="programme-collectif-view" class="scouting-view"></section>
         <section id="confiance-view" class="scouting-view"></section>
         <section id="journal-view" class="scouting-view"></section>
         <details id="column-options" class="column-options"><summary>Personnaliser les colonnes du tableau</summary><div id="column-options-list"></div></details>
@@ -1101,9 +1150,12 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">v<span id="app-version-display">1.0.12-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">v<span id="app-version-display">1.0.13-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
     <script src="donnees_locales.js"></script>
+    <script src="analyse_tactique.js"></script>
     <script src="app.js"></script>
+    <script src="entrainement.js"></script>
+    <script src="entrainement_collectif.js"></script>
     <script src="ponderations.js"></script>
     <script src="plan_sportif.js"></script>
     <script src="performances.js"></script>

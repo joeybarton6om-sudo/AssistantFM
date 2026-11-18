@@ -420,6 +420,146 @@ def blessures_toutes(sauvegarde):
 
 
 # ---------------------------------------------------------------------------
+# Calendrier et entrainement collectif du club geré
+# ---------------------------------------------------------------------------
+NOMS_SEANCES_COLLECTIVES = {
+    0: "Style de passes",
+    1: "Construction",
+    2: "Création d’occasions",
+    5: "Intensité du pressing",
+    6: "Piège du pressing",
+    300: "Repos",
+    301: "Récupération physique",
+    302: "Condition physique légère",
+    303: "Condition physique",
+    402: "Déplacement",
+    500: "Match",
+}
+
+
+def _code_seance(valeur):
+    """Num\u00e9ro brut d'une s\u00e9ance encod\u00e9e, ou None si la valeur est vide."""
+    if valeur is None:
+        return None
+    code = getattr(valeur, "raw", None)
+    if code is None:
+        code = getattr(valeur, "value", valeur)
+    try:
+        return int(code)
+    except (TypeError, ValueError):
+        return None
+
+
+def extraire_calendrier(sauvegarde, club_uid, date_jeu, limite=40):
+    """Matchs \u00e0 venir du club g\u00e9r\u00e9, du plus proche au plus lointain.
+
+    Le calendrier FM27 ne stocke que des rencontres : la p\u00e9riode de la saison et
+    l'encha\u00eenement des semaines se d\u00e9duisent des dates, pas d'un champ d\u00e9di\u00e9.
+    """
+    if club_uid is None:
+        return [], "Club g\u00e9r\u00e9 introuvable"
+    try:
+        table = sauvegarde.fixtures()
+    except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
+        return [], str(error)
+
+    matchs = []
+    for match in table:
+        if getattr(match, "played", False):
+            continue
+        if club_uid not in (getattr(match, "home_club_uid", None), getattr(match, "away_club_uid", None)):
+            continue
+        # Une équipe réserve du club dispute ses propres rencontres le même jour :
+        # seul le créneau 0 correspond à l'équipe première gérée.
+        if getattr(match, "home_club_uid", None) == club_uid:
+            if (getattr(match, "home_team_slot", None) or 0) != 0:
+                continue
+        elif (getattr(match, "away_team_slot", None) or 0) != 0:
+            continue
+        jour = getattr(match, "date", None)
+        if jour is None:
+            continue
+        if date_jeu is not None and jour < date_jeu:
+            continue
+        if getattr(match, "home_club_uid", None) == club_uid:
+            adversaire = (getattr(match, "away_club_name", None)
+                          or getattr(match, "away_club_short_name", None) or "Adversaire")
+            lieu = "Domicile"
+        else:
+            adversaire = (getattr(match, "home_club_name", None)
+                          or getattr(match, "home_club_short_name", None) or "Adversaire")
+            lieu = "Ext\u00e9rieur"
+        if getattr(match, "is_neutral_venue", False):
+            lieu = "Terrain neutre"
+        matchs.append({
+            "date": jour.isoformat(),
+            "adversaire": adversaire,
+            "lieu": lieu,
+            "competition": getattr(match, "competition_name", None) or "",
+            "journee": getattr(match, "round_index", None),
+            "domicile": getattr(match, "home_goals", None),
+            "exterieur": getattr(match, "away_goals", None),
+        })
+    matchs.sort(key=lambda item: item["date"])
+    return matchs[:limite], None
+
+
+def extraire_entrainement_collectif(sauvegarde, club_uid, date_jeu, nb_semaines=10):
+    """Calendrier d\u2019entra\u00eenement enregistr\u00e9 dans la sauvegarde du club g\u00e9r\u00e9.
+
+    Le jeu stocke un calendrier par \u00e9quipe ; seule la premi\u00e8re \u00e9quipe du club
+    est retenue. Chaque semaine porte le nom du planning appliqu\u00e9 et sept jours
+    de trois s\u00e9ances, dans l'ordre de l'\u00e9cran Entra\u00eenement.
+    """
+    if club_uid is None:
+        return None, "Club g\u00e9r\u00e9 introuvable"
+    try:
+        tables = sauvegarde.training()
+    except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
+        return None, str(error)
+
+    for equipe in tables:
+        if getattr(equipe, "club_uid", None) != club_uid:
+            continue
+        if (getattr(equipe, "team_slot", None) or 0) != 0:
+            continue
+        semaines = []
+        for semaine in getattr(equipe, "weeks", ()):
+            debut = getattr(semaine, "week_start", None)
+            if debut is None:
+                continue
+            if date_jeu is not None and debut < date_jeu:
+                continue
+            jours = []
+            for jour in getattr(semaine, "days", ()):
+                seances = []
+                for valeur in getattr(jour, "sessions", ()):
+                    code = _code_seance(valeur)
+                    seances.append({
+                        "code": code,
+                        "nom": NOMS_SEANCES_COLLECTIVES.get(code) if code is not None else None,
+                    })
+                jours.append({"date": jour.day.isoformat() if jour.day else None, "seances": seances})
+            semaines.append({
+                "debut": debut.isoformat(),
+                "planning": getattr(semaine, "schedule_name", "") or "",
+                "jours": jours,
+            })
+        bibliotheque = []
+        for planning in (getattr(equipe, "schedule_library", None) or ()):
+            entree = {"dossier": getattr(planning, "folder", "") or "", "nom": getattr(planning, "name", "") or ""}
+            if entree not in bibliotheque:
+                bibliotheque.append(entree)
+        return {
+            "equipe_id": getattr(equipe, "team_id", None),
+            "club": getattr(equipe, "club_name", None),
+            "semaines": semaines[:nb_semaines],
+            "plannings": bibliotheque,
+        }, None
+    return None, "Calendrier d\u2019entra\u00eenement du club introuvable"
+
+
+# ---------------------------------------------------------------------------
 # Proposition 3 : Finances du club (via s.finances() au lieu de transfer_windows)
 # ---------------------------------------------------------------------------
 def extraire_finances(sauvegarde, clubs_geres):
@@ -805,6 +945,22 @@ def extraire_sauvegarde_totale(chemin_save):
             nations = []
             print(f"Pays indisponibles : {error}", file=sys.stderr)
 
+        club_gerer_uid = clubs[0].get("uid") if clubs else None
+        try:
+            signaler_etape("Extraction du calendrier et de l’entraînement collectif")
+            calendrier, erreur_calendrier = extraire_calendrier(sauvegarde, club_gerer_uid, date_jeu)
+            entrainement_collectif, erreur_entrainement_collectif = extraire_entrainement_collectif(
+                sauvegarde, club_gerer_uid, date_jeu
+            )
+        except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
+            calendrier, erreur_calendrier = [], str(error)
+            entrainement_collectif, erreur_entrainement_collectif = None, str(error)
+            print(f"Calendrier indisponible : {error}", file=sys.stderr)
+        if erreur_calendrier:
+            print(f"Calendrier indisponible : {erreur_calendrier}", file=sys.stderr)
+        if erreur_entrainement_collectif:
+            print(f"Entraînement collectif indisponible : {erreur_entrainement_collectif}", file=sys.stderr)
+
         try:
             signaler_etape("Extraction des tactiques")
             tactiques, erreur_tactiques = extraire_tactiques(sauvegarde, clubs_geres)
@@ -959,6 +1115,10 @@ def extraire_sauvegarde_totale(chemin_save):
             "clubs": clubs_exportes,
             "club_gere": club_gere,
             "date_sauvegarde": date_sauvegarde,
+            "calendrier": calendrier,
+            "erreur_calendrier": erreur_calendrier,
+            "entrainement_collectif": entrainement_collectif,
+            "erreur_entrainement_collectif": erreur_entrainement_collectif,
             "version_jeu": version_jeu,
             "statistiques_saison": statistiques_saison,
             "statistiques_championnat_equipes": statistiques_championnat,

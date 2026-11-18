@@ -11,6 +11,7 @@ import unicodedata
 import webbrowser
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from urllib.parse import quote
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -308,6 +309,28 @@ class AssistantHandler(BaseHTTPRequestHandler):
             self._send_transparent_pixel()
             return
 
+        if path == "/api/data-status":
+            try:
+                data_path = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", ROOT)) / "players_data.json"
+                if data_path.is_file():
+                    st = data_path.stat()
+                    self._json(200, {"exists": True, "mtime": int(st.st_mtime), "size": st.st_size})
+                else:
+                    self._json(200, {"exists": False})
+            except Exception as error:
+                self._json(500, {"error": str(error)})
+            return
+
+        if path == "/api/schedules":
+            try:
+                import schedules_fmf
+
+                dossier = Path.home() / "Documents" / "Sports Interactive" / "Football Manager 27" / "schedules"
+                self._json(200, {"dossier": str(dossier), "plannings": schedules_fmf.lire_dossier(dossier)})
+            except Exception as error:
+                self._json(500, {"error": str(error)})
+            return
+
         if path == "/api/extract-status":
             token = parse_qs(urlsplit(self.path).query).get("id", [""])[0]
             with _EXTRACTION_STATUS_LOCK:
@@ -431,6 +454,8 @@ class AssistantHandler(BaseHTTPRequestHandler):
             "/recrutement_poste.js": ROOT / "recrutement_poste.js",
             "/optimisation_tactique.js": ROOT / "optimisation_tactique.js",
             "/outils_persistants.js": ROOT / "outils_persistants.js",
+            "/entrainement.js": ROOT / "entrainement.js",
+        "/entrainement_collectif.js": ROOT / "entrainement_collectif.js",
             "/desktop_bridge.js": ROOT / "desktop_bridge.js",
             "/tcmlogos-logo.png": ROOT / "tcmlogos-logo.png",
             "/players_data.json": Path(os.environ.get("ASSISTANT_FM_DATA_DIR", ROOT)) / "players_data.json",
@@ -459,6 +484,9 @@ class AssistantHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = urlsplit(self.path).path
+        if path == "/api/programme-fmf":
+            self._exporter_fmf()
+            return
         if path != "/api/extract":
             self.send_error(404)
             return
@@ -495,6 +523,166 @@ class AssistantHandler(BaseHTTPRequestHandler):
                     _EXTRACTION_STATUS.pop(token, None)
             _EXTRACTION_LOCK.release()
 
+    def _squelette(self):
+        modele = ROOT / "modeles" / "squelette.fmf"
+        if modele.is_file():
+            return modele.read_bytes()
+        dossier = Path.home() / "Documents" / "Sports Interactive" / "Football Manager 27" / "schedules"
+        for candidat in sorted(dossier.glob("*.fmf")) if dossier.is_dir() else []:
+            try:
+                return candidat.read_bytes()
+            except OSError:
+                continue
+        raise FileNotFoundError("Aucun modele .fmf disponible.")
+
+    def _dossier_schedules(self):
+        dossier = Path.home() / "Documents" / "Sports Interactive" / "Football Manager 27" / "schedules"
+        return dossier if dossier.is_dir() else None
+
+    def _nom_fichier(self, nom):
+        base = re.sub(r"[^\w .()-]", "", str(nom or ""), flags=re.UNICODE).strip()
+        base = re.sub(r"\s+", " ", base)[:60].strip(" .")
+        return base or "AssistantFM"
+
+    def _nom_libre(self, dossier, nom):
+        base = self._nom_fichier(nom)
+        candidat = dossier / f"{base}.fmf"
+        if not candidat.exists():
+            return candidat
+        for rang in range(2, 100):
+            autre = dossier / f"{base} ({rang}).fmf"
+            if not autre.exists():
+                return autre
+        return None
+
+    def _charge_json(self):
+        try:
+            taille = int(self.headers.get("Content-Length", "0"))
+        except (TypeError, ValueError):
+            taille = 0
+        if taille <= 0 or taille > 8 * 1024 * 1024:
+            raise ValueError("Requête d’export invalide.")
+        return json.loads(self.rfile.read(taille).decode("utf-8"))
+
+    def _valider_semaines(self, charge):
+        if not isinstance(charge, dict):
+            raise ValueError("Requête d’export invalide.")
+        brut = charge.get("semaines")
+        if not isinstance(brut, list) or not brut:
+            if isinstance(charge.get("grille"), list):
+                brut = [charge]
+            else:
+                raise ValueError("Aucune semaine à exporter.")
+        semaines = []
+        for entree in brut:
+            if not isinstance(entree, dict):
+                raise ValueError("Chaque semaine doit être un objet.")
+            grille = entree.get("grille")
+            if not isinstance(grille, list) or len(grille) != 7:
+                raise ValueError("Chaque semaine doit comporter 7 jours.")
+            if any(not isinstance(jour, list) or len(jour) != 3 for jour in grille):
+                raise ValueError("Chaque jour doit comporter 3 créneaux.")
+            try:
+                grille = [[int(code) for code in jour] for jour in grille]
+            except (TypeError, ValueError):
+                raise ValueError("Chaque créneau doit être un code de séance.")
+            semaines.append({
+                "nom": (str(entree.get("nom") or "").strip() or "AssistantFM")[:80],
+                "description": str(entree.get("description") or "").strip()[:200],
+                "grille": grille,
+            })
+        return semaines
+
+    def _exporter_fmf(self):
+        try:
+            charge = self._charge_json()
+            semaines = self._valider_semaines(charge)
+            modele = self._squelette()
+        except FileNotFoundError as error:
+            self._json(500, {"error": str(error)})
+            return
+        except Exception as error:
+            self._json(400, {"error": f"Export impossible : {error}"})
+            return
+        mode = charge.get("mode") or "fichier"
+        if mode == "disque":
+            self._ecrire_sur_disque(semaines, modele)
+            return
+        self._renvoyer_archive(semaines, modele)
+
+    def _ecrire_sur_disque(self, semaines, modele):
+        import ecrire_fmf
+
+        dossier = self._dossier_schedules()
+        if dossier is None:
+            self._json(404, {"error": "Dossier « schedules » du jeu introuvable."})
+            return
+        ecrits = []
+        for semaine in semaines:
+            cible = self._nom_libre(dossier, semaine["nom"])
+            if cible is None:
+                continue
+            try:
+                cible.write_bytes(ecrire_fmf.construire(modele, semaine["grille"],
+                                                        semaine["description"], cible.stem))
+            except Exception as error:
+                self._json(500, {"error": f"Export impossible : {error}"})
+                return
+            ecrits.append(cible.name)
+        self._json(200, {"dossier": str(dossier), "fichiers": ecrits})
+
+    def _renvoyer_archive(self, semaines, modele):
+        import ecrire_fmf
+
+        try:
+            fichiers = [
+                (semaine["nom"],
+                 ecrire_fmf.construire(modele, semaine["grille"],
+                                       semaine["description"], semaine["nom"]))
+                for semaine in semaines
+            ]
+        except Exception as error:
+            self._json(500, {"error": f"Export impossible : {error}"})
+            return
+
+        if len(fichiers) == 1:
+            nom, octets = fichiers[0]
+            self.send_response(200)
+            self.send_header("Content-Type", "application/octet-stream")
+            self.send_header("Content-Length", str(len(octets)))
+            self.send_header(
+                "Content-Disposition",
+                f'attachment; filename="{self._nom_fichier(nom)}.fmf"; '
+                f"filename*=UTF-8''{quote(self._nom_fichier(nom) + '.fmf')}",
+            )
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(octets)
+            return
+
+        import io
+        import zipfile
+
+        tampon = io.BytesIO()
+        deja = {}
+        with zipfile.ZipFile(tampon, "w", zipfile.ZIP_DEFLATED) as archive:
+            for nom, octets in fichiers:
+                base = self._nom_fichier(nom)
+                nom_archive = f"{base}.fmf"
+                if nom_archive in deja:
+                    deja[nom_archive] += 1
+                    nom_archive = f"{base} ({deja[nom_archive]}).fmf"
+                else:
+                    deja[nom_archive] = 1
+                archive.writestr(nom_archive, octets)
+        contenu = tampon.getvalue()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/zip")
+        self.send_header("Content-Length", str(len(contenu)))
+        self.send_header("Content-Disposition", 'attachment; filename="programme-collectif.zip"')
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(contenu)
     def _extraire(self, filename, content_length, token):
         try:
             with tempfile.TemporaryDirectory(prefix="assistantfm_save_") as temporary_dir:

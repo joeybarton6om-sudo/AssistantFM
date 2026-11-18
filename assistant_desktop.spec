@@ -6,6 +6,8 @@ root = Path(SPECPATH)
 assets = ["index.html", "app.js", "donnees_locales.js", "ponderations.js", "plan_sportif.js",
           "performances.js", "analyse_recrutement.js", "alertes.js", "suivi.js", "comparateur.js",
           "directeur_sportif.js", "recrutement_poste.js", "optimisation_tactique.js", "outils_persistants.js",
+          "entrainement.js",
+        "entrainement_collectif.js",
           "desktop_bridge.js", "tcmlogos-logo.png"]
 
 a = Analysis(
@@ -13,7 +15,7 @@ a = Analysis(
     pathex=[str(root)],
     binaries=[],
     datas=[(str(root / asset), ".") for asset in assets],
-    hiddenimports=collect_submodules("fmsave") + ["webview.platforms.edgechromium"],
+    hiddenimports=collect_submodules("fmsave") + ["webview.platforms.edgechromium", "schedules_fmf"],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

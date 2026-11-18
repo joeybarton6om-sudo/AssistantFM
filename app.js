@@ -11,6 +11,10 @@ let competitionActiveTab = "classement";
 let staffOverviewTab = "recommendations";
 let staffSort = "";
 let staffScope = "division";
+let entrainementTacticId = "";
+let entrainementSort = "priorite";
+let programmeCollectifTacticId = "";
+let programmeCollectifHorizon = 56;
 let clubActiveTab = "effectif", clubRosterFilter = "all", clubRosterPositionFilter = "all";
 let clubRosterSort = "poste", clubRosterAscending = true;
 let clubIndexByName = new Map(), clubIndexById = new Map();
@@ -70,7 +74,9 @@ const vuesClub = {
     laboratoire: "laboratoire-view",
     optimisation: "optimisation-view",
     jeunes: "jeunes-view",
-    confiance: "confiance-view"
+    confiance: "confiance-view",
+    entrainement: "entrainement-view",
+    programme_collectif: "programme-collectif-view"
 };
 const attributsGardien = [
     "handling", "aerial_reach", "command_of_area", "communication", "kicking",
@@ -619,6 +625,50 @@ if (scr) {
     });
 }
 
+
+let _afmAuto = { mtime: null, calSig: null, timer: null, busy: false, dernierAlerte: "" };
+function _afmCalSig(cal) {
+    try { return window.AssistantFMAnalyseTactique ? AssistantFMAnalyseTactique.signatureCalendrier(cal || []) : JSON.stringify((cal || []).length); }
+    catch (e) { return ""; }
+}
+async function _afmVerifierDonnees() {
+    if (_afmAuto.busy || !rawData || !Array.isArray(rawData.joueurs)) return;
+    if (typeof fetch !== "function" || window.location.protocol === "file:") return;
+    try {
+        const rs = await fetch("/api/data-status?t=" + Date.now(), { cache: "no-store" });
+        if (!rs.ok) return;
+        const st = await rs.json();
+        if (!st || !st.exists || st.mtime == null) return;
+        if (_afmAuto.mtime == null) { _afmAuto.mtime = st.mtime; _afmAuto.calSig = _afmCalSig(rawData.calendrier || []); return; }
+        if (st.mtime === _afmAuto.mtime) return;
+        _afmAuto.busy = true;
+        const dr = await fetch("/players_data.json?t=" + Date.now(), { cache: "no-store" });
+        if (!dr.ok) { _afmAuto.busy = false; return; }
+        const nd = await dr.json();
+        const oldSig = _afmAuto.calSig || _afmCalSig(rawData.calendrier || []);
+        const newSig = _afmCalSig(nd.calendrier || []);
+        _afmAuto.mtime = st.mtime;
+        _afmAuto.calSig = newSig;
+        afficherDonnees(nd, true);
+        const status = document.getElementById("st");
+        if (newSig !== oldSig) {
+            if (status) { status.textContent = "Données mises à jour : changement détecté dans le calendrier/matchs — planning et analyses régénérés."; status.style.color = "#f1c40f"; }
+        } else if (status) {
+            status.textContent = "Données mises à jour automatiquement.";
+            status.style.color = "#2ecc71";
+        }
+    } catch (e) { console.warn("auto-refresh", e); }
+    finally { _afmAuto.busy = false; }
+}
+function _afmDemarrerAutoRefresh() {
+    if (typeof fetch !== "function" || window.location.protocol === "file:") return;
+    _afmAuto.mtime = _afmAuto.mtime; // keep
+    _afmAuto.calSig = _afmCalSig(rawData.calendrier || []);
+    if (_afmAuto.timer) return;
+    _afmAuto.timer = setInterval(_afmVerifierDonnees, 20000);
+    try { fetch("/api/data-status?t=" + Date.now(), { cache: "no-store" }).then(r=>r.ok?r.json():null).then(st=>{ if(st&&st.exists) _afmAuto.mtime=st.mtime; }).catch(()=>{}); } catch(e){}
+}
+
 function afficherDonnees(data, changementMode = false) {
     if (!data || !Array.isArray(data.joueurs) || !Array.isArray(data.staff)) {
         throw new Error("Le JSON doit contenir les listes joueurs et staff.");
@@ -657,6 +707,7 @@ function afficherDonnees(data, changementMode = false) {
     } else filtrerTout();
     actualiserStatutBase();
     st.style.color = "#2ecc71";
+    try { _afmDemarrerAutoRefresh(); } catch(e){}
 }
 
 function basculerDecouverte(event) {
@@ -1405,7 +1456,9 @@ function filtrerTout() {
             laboratoire: afficherLaboratoire,
             optimisation: afficherOptimisationTactique,
             jeunes: afficherJeunes,
-            confiance: afficherConfiance
+            confiance: afficherConfiance,
+            entrainement: afficherEntrainement,
+            programme_collectif: afficherProgrammeCollectif
         };
         (renderers[clubActiveTab] || afficherMonClub)();
         return;
@@ -1911,6 +1964,471 @@ function afficherEvaluationStaff() {
         filtrerTout();
         document.getElementById("results-table")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }));
+}
+
+const ORDRE_INTENSITE = { "légère": 0, "normale": 1, "intense": 2 };
+
+function codePosteEntrainement(item) {
+    const joueur = item.joueur || {};
+    const positions = joueur.positions || {};
+    const codes = Object.keys(positions).filter(code => Number(positions[code]) > 1);
+    if (codes.length > 0) {
+        return codes.sort((a, b) => Number(positions[b]) - Number(positions[a]) || a.localeCompare(b))[0].toLowerCase();
+    }
+    const premier = String(joueur.poste || "").split(/[,\/]/)[0].trim();
+    return premier ? premier.toLowerCase() : "";
+}
+
+function trierPlansEntrainement(plans, critere) {
+    const ORDRE_POSTES = ["gk", "sw", "dc", "dcg", "dcd", "dl", "wbl", "dr", "wbr",
+        "dm", "mdg", "mdd", "ml", "mc", "mcg", "mcd", "mr", "aml", "amc", "amr", "stc", "btg", "btd"];
+    const PARTICULES = new Set(["van", "von", "de", "der", "den", "del", "della", "di", "da", "dos", "du",
+        "la", "le", "les", "el", "al", "bin", "ibn", "ter", "ten", "op", "mac", "mc", "st"]);
+    const nomDeFamille = nom => {
+        const mots = String(nom || "").trim().split(/\s+/).filter(Boolean);
+        if (mots.length <= 1) return mots[0] || "";
+        for (let rang = 1; rang < mots.length - 1; rang += 1) {
+            if (PARTICULES.has(mots[rang].toLocaleLowerCase("fr"))) return mots.slice(rang).join(" ");
+        }
+        return mots[mots.length - 1];
+    };
+    const cleTexte = valeur => String(valeur || "").normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("fr");
+    const rangPoste = code => {
+        const rang = ORDRE_POSTES.indexOf(String(code || ""));
+        return rang < 0 ? ORDRE_POSTES.length : rang;
+    };
+    const cle = String(critere || "priorite");
+    const inverse = cle.endsWith("_desc");
+    const comparateur = (a, b) => {
+        if (cle.startsWith("nom")) {
+            return cleTexte(nomDeFamille(a.joueur.nom)).localeCompare(cleTexte(nomDeFamille(b.joueur.nom)), "fr")
+                || cleTexte(a.joueur.nom).localeCompare(cleTexte(b.joueur.nom), "fr");
+        }
+        if (cle.startsWith("age")) {
+            return (a.joueur.age == null ? 999 : Number(a.joueur.age)) - (b.joueur.age == null ? 999 : Number(b.joueur.age));
+        }
+        if (cle.startsWith("poste")) {
+            return rangPoste(codePosteEntrainement(a)) - rangPoste(codePosteEntrainement(b))
+                || cleTexte(nomDeFamille(a.joueur.nom)).localeCompare(cleTexte(nomDeFamille(b.joueur.nom)), "fr");
+        }
+        if (cle.startsWith("intensite")) {
+            const rang = item => ORDRE_INTENSITE[String(item.intensite?.niveau || "").toLowerCase()] ?? -1;
+            return rang(a) - rang(b);
+        }
+        return 0;
+    };
+    return inverse ? [...plans].sort(comparateur).reverse() : [...plans].sort(comparateur);
+}
+
+function afficherEntrainement() {
+    const cible = document.getElementById("entrainement-view");
+    if (!cible) return;
+    if (!window.AssistantFMEntrainement) {
+        cible.innerHTML = "<h2>Entraînement individuel</h2><p>Module d’entraînement indisponible.</p>";
+        return;
+    }
+    const joueurs = rawData.joueurs.filter(joueur => joueur.est_mon_club === true);
+    const tactiques = Array.isArray(rawData.tactiques) ? rawData.tactiques : [];
+    const tactique = tactiques.find(item => String(item.id) === String(entrainementTacticId)) || tactiques[0] || null;
+    if (tactique) entrainementTacticId = String(tactique.id);
+    const summary = AssistantFMEntrainement.planGlobal(joueurs, tactique, {
+        roles,
+        rolesParPoste,
+        noteRole,
+        rolesChoisis: tactique ? (tacticalRoles[tactique.id] || {}) : {},
+        affectations: tactique ? (tacticJoueurAffectes[tactique.id] || {}) : {},
+        limitePriorites: 1
+    });
+    const optionsTactique = tactiques.map(item =>
+        `<option value="${escapeHtml(item.id)}"${String(item.id) === String(tactique?.id) ? " selected" : ""}>${escapeHtml(item.nom || `Tactique ${item.id}`)}${item.style ? ` · ${escapeHtml(item.style)}` : ""}</option>`
+    ).join("");
+    const roleLabel = slot => !slot
+        ? "<span class=\"muted\">aucun rôle compatible</span>"
+        : `<strong>${escapeHtml(slot.role.nom)}</strong><span class="role-detail muted">${escapeHtml(nomPoste(slot.position))}${slot.duty ? ` · ${escapeHtml(slot.duty)}` : ""}</span><span class="role-note muted">${slot.score.toFixed(1)}/20</span>${slot.manuel ? " <span class=\"tag-manuel\">manuel</span>" : ""}`;
+    const prioriteHtml = item => (item.priorites || []).map(priorite =>
+        `<div class="focus-ligne"><span class="focus-titre"><strong>${escapeHtml(priorite.nom)}</strong> <span class="muted">${escapeHtml(priorite.categorie)}</span></span><span class="role-note muted">${priorite.score}/20</span><span class="focus-attributs muted">${priorite.valeurs.map(valeur => `${escapeHtml(nomsStats[valeur.cle] || valeur.cle)} ${valeur.valeur}`).join(" · ")}</span></div>`
+    ).join("") || "<span class=\"muted\">aucun focus identifié</span>";
+    const plans = trierPlansEntrainement(summary.plans, entrainementSort);
+    const lignes = plans.map(item => {
+        const uid = item.joueur.uid == null ? "" : String(item.joueur.uid);
+        return `<tr${uid ? ` data-entrainement-joueur="${escapeHtml(uid)}"` : ""}>
+            <td>${linkJoueur(item.joueur)}</td>
+            <td>${item.joueur.age == null ? "—" : escapeHtml(item.joueur.age)}</td>
+            <td>${roleLabel(item.avec)}</td>
+            <td>${roleLabel(item.sans)}</td>
+            <td>${prioriteHtml(item)}</td>
+            <td><strong>${escapeHtml(item.intensite.niveau)}</strong><div class="muted">${escapeHtml(item.intensite.raisons.join(" · "))}</div></td>
+        </tr>`;
+    }).join("");
+    const focusUrgence = summary.focusPlusUrgeants.length
+        ? summary.focusPlusUrgeants.map(item => `<span class="tag">${escapeHtml(item.nom)} · ${item.joueurs.length}</span>`).join(" ")
+        : "<span class=\"muted\">aucun focus prioritaire identifié</span>";
+    const intensites = summary.parNiveau.filter(item => item.joueurs.length)
+        .map(item => `<span class="tag">${escapeHtml(item.niveau)} · ${item.joueurs.length}</span>`).join(" ") || "<span class=\"muted\">aucun joueur couvert</span>";
+    const avertissement = tactique
+        ? ""
+        : "<p class=\"caveat\">Aucune tactique n’est enregistrée dans cette sauvegarde : les rôles avec et sans ballon ne peuvent pas être déduits.</p>";
+    cible.innerHTML = `<h2>Entraînement individuel · accompagnement</h2>
+        <p class="caveat">Chaque joueur reçoit un rôle d’entraînement avec ballon (ALB) et sans ballon (SLB) déduit de la tactique sélectionnée, puis une priorité de travail et une intensité. Les rôles venaient de votre tactique ; les priorités sont les focus FM27 dont les attributs sont les plus faibles par rapport aux rôles. Ces valeurs sont des recommandations à saisir dans le jeu, pas des réglages lus dans la sauvegarde.</p>
+        ${avertissement}
+        <div class="club-tactic-controls">
+            <label for="entrainement-tactic-select">Tactique de référence<select id="entrainement-tactic-select">${optionsTactique || "<option value=\"\">Aucune tactique</option>"}</select></label>
+            <label for="entrainement-sort-select">Trier par<select id="entrainement-sort-select">
+                <option value="priorite"${entrainementSort === "priorite" ? " selected" : ""}>Priorité du plan</option>
+                <option value="nom_asc"${entrainementSort === "nom_asc" ? " selected" : ""}>Nom de famille (A → Z)</option>
+                <option value="nom_desc"${entrainementSort === "nom_desc" ? " selected" : ""}>Nom de famille (Z → A)</option>
+                <option value="poste_asc"${entrainementSort === "poste_asc" ? " selected" : ""}>Poste (Gardien → Attaquant)</option>
+                <option value="poste_desc"${entrainementSort === "poste_desc" ? " selected" : ""}>Poste (Attaquant → Gardien)</option>
+                <option value="age_asc"${entrainementSort === "age_asc" ? " selected" : ""}>Âge (croissant)</option>
+                <option value="age_desc"${entrainementSort === "age_desc" ? " selected" : ""}>Âge (décroissant)</option>
+                <option value="intensite_desc"${entrainementSort === "intensite_desc" ? " selected" : ""}>Intensité (élevée d’abord)</option>
+            </select></label>
+            <button type="button" id="entrainement-copy">Copier le plan (CSV)</button>
+            <button type="button" id="entrainement-csv">Exporter le CSV</button>
+            <span id="entrainement-status" role="status" class="muted"></span>
+        </div>
+        <div class="dashboard-grid">
+            <div class="dashboard-card"><h3>Couverture</h3><p>${summary.couverts} joueur(s) sur ${summary.total} ont un rôle compatible avec la tactique.</p></div>
+            <div class="dashboard-card"><h3>Focus les plus urgents</h3><p>${focusUrgence}</p></div>
+            <div class="dashboard-card"><h3>Intensité recommandée</h3><p>${intensites}</p></div>
+        </div>
+        <div class="scroll club-squad-table-wrap"><table class="club-squad-table entrainement-table">
+            <thead><tr><th>Joueur</th><th>Âge</th><th>Rôle avec ballon (ALB)</th><th>Rôle sans ballon (SLB)</th><th>Priorité de l’entraînement</th><th>Intensité</th></tr></thead>
+            <tbody>${lignes || "<tr><td colspan=\"6\" style=\"text-align:center;color:#aaa;padding:16px\">Aucun joueur dans l’effectif.</td></tr>"}</tbody>
+        </table></div>
+        <p class="profile-disclaimer">Les notes /20 mélangent les attributs du rôle (85 %) et la familiarité du joueur au poste (15 %). Un rôle marqué « affectation manuelle » vient de vos choix dans la vue tactique.</p>`;
+    cible.querySelector("#entrainement-tactic-select")?.addEventListener("change", event => {
+        entrainementTacticId = event.target.value;
+        afficherEntrainement();
+    });
+    cible.querySelector("#entrainement-sort-select")?.addEventListener("change", event => {
+        entrainementSort = event.target.value;
+        afficherEntrainement();
+    });
+    cible.querySelectorAll("[data-entrainement-joueur]").forEach(ligne => {
+        ligne.addEventListener("click", () => ouvrirProfil("joueur", ligne.dataset.entrainementJoueur));
+    });
+    const csv = () => AssistantFMEntrainement.csvPlan({ ...summary, plans }, { nomsStats, nomPoste });
+    const statut = cible.querySelector("#entrainement-status");
+    cible.querySelector("#entrainement-copy")?.addEventListener("click", async () => {
+        try {
+            await navigator.clipboard.writeText(csv());
+            if (statut) statut.textContent = "Plan copié dans le presse-papiers.";
+        } catch (error) {
+            if (statut) statut.textContent = `Copie impossible : ${error.message}`;
+        }
+    });
+    cible.querySelector("#entrainement-csv")?.addEventListener("click", () => {
+        const blob = new Blob([`\uFEFF${csv()}`], { type: "text/csv;charset=utf-8" });
+        const lien = document.createElement("a");
+        lien.href = URL.createObjectURL(blob);
+        lien.download = `entrainement-${String(entrainementTacticId || "tactique").replace(/[^a-zA-Z0-9-_]/g, "-")}.csv`;
+        lien.click();
+        URL.revokeObjectURL(lien.href);
+        if (statut) statut.textContent = "Export CSV téléchargé.";
+    });
+}
+
+const BLOCS_PROGRAMME = {
+    developpement: "Développement",
+    preparation: "Préparation du match",
+    recuperation: "Récupération",
+    physique: "Travail physique",
+    repos: "Repos"
+};
+
+function afficherProgrammeCollectif() {
+    const cible = document.getElementById("programme-collectif-view");
+    if (!cible) return;
+    if (!window.AssistantFMEntrainementCollectif) {
+        cible.innerHTML = "<h2>Programme collectif</h2><p>Module de planification indisponible.</p>";
+        return;
+    }
+    const module = AssistantFMEntrainementCollectif;
+    const joueurs = (rawData.joueurs || []).filter(joueur => joueur.est_mon_club === true);
+    const calendrier = Array.isArray(rawData.calendrier) ? rawData.calendrier : [];
+    const dateDebut = rawData.date_sauvegarde || "";
+    const tactiques = Array.isArray(rawData.tactiques) ? rawData.tactiques : [];
+    const tactique = tactiques.find(item => String(item.id) === String(programmeCollectifTacticId)) || tactiques[0] || null;
+    if (tactique) programmeCollectifTacticId = String(tactique.id);
+    const programme = dateDebut
+        ? module.genererProgramme({ dateDebut, calendrier, joueurs, tactique, nbJours: programmeCollectifHorizon })
+        : null;
+    const optionsTactique = tactiques.map(item =>
+        `<option value="${escapeHtml(item.id)}"${tactique && String(item.id) === String(tactique.id) ? " selected" : ""}>${escapeHtml(item.nom || `Tactique ${item.id}`)}${item.style ? ` · ${escapeHtml(item.style)}` : ""}</option>`
+    ).join("");
+    const optionsHorizon = [28, 42, 56, 84, 364].map(nb =>
+        `<option value="${nb}"${nb === programmeCollectifHorizon ? " selected" : ""}>${nb / 7} semaines</option>`
+    ).join("");
+    const libelleJour = date => {
+        const d = module.convertirDate(date);
+        return d ? d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }) : String(date || "");
+    };
+    const MOIS_FICHIER = ["janvier", "février", "mars", "avril", "mai", "juin",
+        "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+    const nomFichierPlanning = dateIso => {
+        const d = module.convertirDate(dateIso);
+        if (!d) return `AssistantFM ${String(dateIso || "").slice(0, 10)}`.trim();
+        const jour = String(d.getDate()).padStart(2, "0");
+        return `${jour} ${MOIS_FICHIER[d.getMonth()]} ${d.getFullYear()} AssistantFM`;
+    };
+    const libelleBloc = bloc => BLOCS_PROGRAMME[bloc] || "Développement";
+    const matchsParJour = new Map(calendrier.map(match => [String(match.date).slice(0, 10), match]));
+    const semaines = programme ? module.resumeSemaines(programme, calendrier) : [];
+    const semainesHtml = semaines.map((semaine, index) => {
+        const jours = semaine.jours.map(jour => {
+            const match = matchsParJour.get(jour.date);
+            const etiquette = jour.avantMatch === 0
+                ? "Match"
+                : jour.avantMatch == null
+                    ? "Sans séance"
+                    : jour.avantMatch === 1 ? "Veille de match" : `J-${jour.avantMatch}`;
+            const seances = jour.seances.length
+                ? jour.seances.map(seance =>
+                    `<span class="programme-seance"><strong>${escapeHtml(seance.nom)}</strong><span class="programme-seance-type">${escapeHtml(seance.onglet)}${seance.description ? ` · ${escapeHtml(seance.description)}` : ""}</span></span>`
+                ).join("")
+                : "<span class=\"programme-aucun\">Aucune séance</span>";
+            return `<article class="programme-jour"${match ? " data-match=\"1\"" : ""}>
+                <h4>${escapeHtml(libelleJour(jour.date))}</h4>
+                <span class="programme-bloc">${escapeHtml(etiquette)} · ${escapeHtml(libelleBloc(jour.bloc))}${match ? ` · ${escapeHtml(match.adversaire)} (${escapeHtml(match.lieu)})` : ""}</span>
+                ${seances}
+                <span class="programme-charge">Charge estimée : ${escapeHtml(jour.charge)}</span>
+            </article>`;
+        }).join("");
+        const programmes = semaine.jours.filter(jour => jour.seances.length).length;
+        return `<section class="programme-semaine"><h3>Semaine du ${escapeHtml(libelleJour(semaine.debut))} <span class="muted">${programmes} jour(s) programmé(s) sur 7</span> <button type="button" class="programme-export" data-index="${index}">Exporter .fmf</button></h3><div class="programme-jours">${jours}</div></section>`;
+    }).join("");
+    const prochaineRencontre = calendrier.find(match => String(match.date).slice(0, 10) >= dateDebut);
+    const ecart = prochaineRencontre ? module.joursEntre(dateDebut, prochaineRencontre.date) : null;
+    const dateFinSemaine = module.convertirDate(dateDebut);
+    if (dateFinSemaine) dateFinSemaine.setDate(dateFinSemaine.getDate() + 6);
+    const texteSemaine = programme
+        ? module.texteSaisie(programme, { debut: programme.dateDebut, fin: dateFinSemaine ? module.formaterDate(dateFinSemaine) : "" })
+        : "";
+    const texteTout = programme ? module.texteSaisie(programme) : "";
+    const metriques = programme ? programme.metriques : null;
+    const metriquesHtml = programme ? `
+        <div class="programme-metrics">
+            <div class="programme-metric"><span class="muted">Phase de saison</span><strong>${escapeHtml(programme.phase.nom)}</strong><span class="muted">${escapeHtml(programme.phase.description)}</span></div>
+            <div class="programme-metric"><span class="muted">Prochain match</span><strong>${prochaineRencontre ? escapeHtml(prochaineRencontre.adversaire) : "Aucun"}</strong><span class="muted">${prochaineRencontre ? `${escapeHtml(prochaineRencontre.lieu)} · dans ${escapeHtml(ecart)} j` : "Calendrier indisponible"}</span></div>
+            <div class="programme-metric"><span class="muted">Charge moyenne</span><strong>${escapeHtml(metriques.chargeMoyenne)}</strong><span class="muted">${escapeHtml(metriques.jours)} jour(s) · ${escapeHtml(metriques.seancesUtilisees)} séance(s) distincte(s)</span></div>
+            <div class="programme-metric"><span class="muted">Récupération</span><strong>${escapeHtml(metriques.joursRecuperation)} jour(s)</strong><span class="muted">${escapeHtml(metriques.besoinsForts)} besoin(s) fort(s) ciblé(s)</span></div>
+        </div>` : "";
+    const enregistre = rawData.entrainement_collectif;
+    const semainesEnregistrees = enregistre && Array.isArray(enregistre.semaines) ? enregistre.semaines : [];
+    const htmlEnregistre = semainesEnregistrees.length
+        ? semainesEnregistrees.map(semaine => {
+            const jours = (semaine.jours || []).map(jour => {
+                const seances = (jour.seances || []).map(seance =>
+                    `<span class="programme-seance">${seance.nom ? escapeHtml(seance.nom) : `Séance inconnue (code ${escapeHtml(seance.code)})`}</span>`
+                ).join("");
+                return `<article class="programme-jour"><h4>${escapeHtml(libelleJour(jour.date))}</h4>${seances || "<span class=\"programme-aucun\">Aucune séance</span>"}</article>`;
+            }).join("");
+            return `<section class="programme-semaine"><h3>Semaine du ${escapeHtml(libelleJour(semaine.debut))} <span class="muted">${escapeHtml(semaine.planning || "planning sans nom")}</span></h3><div class="programme-jours">${jours}</div></section>`;
+        }).join("")
+        : "<p class=\"programme-aucun\">La sauvegarde ne contient pas de calendrier d’entraînement lisible pour le club géré.</p>";
+    const avertissement = dateDebut
+        ? ""
+        : "<p class=\"caveat\">Date de sauvegarde indisponible : le programme ne peut pas être positionné dans la saison.</p>";
+    cible.innerHTML = `<h2>Programme collectif · ${escapeHtml(programme ? programme.phase.nom : "planification")}</h2>
+        <p class="caveat">Chaque cycle menant à un match reçoit un plan jour par jour : récupération après la rencontre (les deux jours qui suivent), développement des points faibles de l’effectif, puis préparation du match et coups de pied arrêtés. Les séances sont choisies parmi les 28 séances collectives de FM27 selon les besoins mesurés de vos joueurs, votre tactique et le calendrier. Ce sont des recommandations à saisir dans le jeu, pas un réglage lu dans la sauvegarde.</p>
+        ${avertissement}
+        <div class="programme-entete">
+            <label for="programme-tactic-select">Tactique de référence<select id="programme-tactic-select">${optionsTactique || "<option value=\"\">Aucune tactique</option>"}</select></label>
+            <label for="programme-horizon-select">Horizon<select id="programme-horizon-select">${optionsHorizon}</select></label>
+            <button type="button" id="programme-copy">Copier le programme (CSV)</button>
+            <button type="button" id="programme-csv">Exporter le CSV</button>
+            <button type="button" id="programme-export-tout">Tout exporter (.zip)</button>
+            <button type="button" id="programme-importer-tout">Importer dans le jeu</button>
+            <button type="button" id="programme-importer-saison" class="programme-saison">Toute la saison dans le jeu</button>
+            <span id="programme-status" role="status" class="muted"></span>
+        </div>
+        ${metriquesHtml}
+        <section class="programme-saisie">
+            <h3>Saisie dans le jeu</h3>
+            <p class="caveat">FM27 ne lit pas de fichier de planning : les séances se règlent dans l’écran Entraînement, trois créneaux par jour. Copiez la liste ci-dessous et reportez-la dans le jeu, ou gardez-la ouverte à côté de la fenêtre.</p>
+            <p><button type="button" id="programme-copy-semaine">Copier la semaine</button> <button type="button" id="programme-copy-tout">Copier tout le programme</button> <span id="programme-saisie-status" role="status" class="muted"></span></p>
+            <pre id="programme-texte-semaine">${escapeHtml(texteSemaine || "Aucune journée à saisir.")}</pre>
+        </section>
+        <section class="programme-saisie">
+            <h3>Plannings importés dans le jeu</h3>
+            <div id="programme-fmf"><span class="muted">Lecture du dossier « schedules »…</span></div>
+            <p class="caveat">FM27 range chaque planning dans un conteneur <code>.fmf</code> chiffré (AES-128-CTR + zstd). L’application les lit, liste vos exports, et sait aussi en fabriquer : « Exporter .fmf » sur une semaine écrit un fichier à copier dans le dossier <code>schedules</code> du jeu, « Tout exporter (.zip) » télécharge le programme complet en une archive, et « Importer dans le jeu » écrit directement les fichiers dans le dossier <code>schedules</code> (sans jamais écraser un planning existant : un nouvel import crée des copies suffixées « (2) », « (3) »…). Les fichiers sont nommés d’après leur date de début de semaine (<code>04 octobre 2027 AssistantFM.fmf</code>) pour se trier facilement. « Toute la saison dans le jeu » écrit toutes les semaines du calendrier connu en une fois : dans FM27, chargez ensuite le planning de la semaine en cours (les autres semaines restent disponibles dans la liste).</p>
+        </section>
+        ${semainesHtml || "<p class=\"programme-aucun\">Aucun programme généré.</p>"}
+        <details class="dashboard-card"><summary>Calendrier d’entraînement enregistré dans la sauvegarde</summary>${htmlEnregistre}</details>
+        <p class="profile-disclaimer">Les besoins sont mesurés sur les ${escapeHtml(programme ? programme.profils : 0)} joueurs les mieux notés de l’effectif : écart entre leur moyenne et le niveau des meilleurs du groupe, attribut par attribut. La charge est une estimation, la forme et la fatigue réelles ne sont pas exportées par la sauvegarde.</p>`;
+    cible.querySelector("#programme-tactic-select")?.addEventListener("change", event => {
+        programmeCollectifTacticId = event.target.value;
+        afficherProgrammeCollectif();
+    });
+    cible.querySelector("#programme-horizon-select")?.addEventListener("change", event => {
+        programmeCollectifHorizon = Number(event.target.value) || 56;
+        afficherProgrammeCollectif();
+    });
+    const csv = () => module.csvProgramme(programme, {});
+    const statut = cible.querySelector("#programme-status");
+    const statutSaisie = cible.querySelector("#programme-saisie-status");
+    const copier = async (texte, message) => {
+        try {
+            await navigator.clipboard.writeText(texte);
+            if (statutSaisie) statutSaisie.textContent = message;
+        } catch (error) {
+            if (statutSaisie) statutSaisie.textContent = `Copie impossible : ${error.message}`;
+        }
+    };
+    cible.querySelector("#programme-copy-semaine")?.addEventListener("click", () => copier(texteSemaine, "Semaine copiée."));
+    cible.querySelector("#programme-copy-tout")?.addEventListener("click", () => copier(texteTout, "Programme complet copié."));
+    const exporterFmf = async index => {
+        const semaine = semaines[index];
+        if (!semaine) return;
+        const nom = nomFichierPlanning(semaine.debut);
+        if (statut) statut.textContent = "Génération du fichier .fmf…";
+        try {
+            const reponse = await fetch("/api/programme-fmf", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nom,
+                    description: `Programme collectif Assistant FM — semaine du ${semaine.debut}`,
+                    grille: module.grilleFm27(semaine)
+                })
+            });
+            if (!reponse.ok) {
+                const probleme = await reponse.json().catch(() => ({}));
+                throw new Error(probleme.error || `HTTP ${reponse.status}`);
+            }
+            const blob = await reponse.blob();
+            const url = URL.createObjectURL(blob);
+            const lien = document.createElement("a");
+            lien.href = url;
+            lien.download = `${nom}.fmf`;
+            document.body.appendChild(lien);
+            lien.click();
+            lien.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+            if (statut) statut.textContent = `${nom}.fmf téléchargé — copiez-le dans le dossier « schedules » du jeu.`;
+        } catch (error) {
+            if (statut) statut.textContent = `Export impossible : ${error.message}`;
+        }
+    };
+    cible.querySelectorAll(".programme-export").forEach(bouton => {
+        bouton.addEventListener("click", () => exporterFmf(Number(bouton.dataset.index)));
+    });
+    const semainesPour = horizon => {
+        if (!dateDebut) return [];
+        const calcule = module.genererProgramme({ dateDebut, calendrier, joueurs, tactique, nbJours: horizon });
+        return calcule ? module.resumeSemaines(calcule, calendrier) : [];
+    };
+    const payloadSemaines = liste => liste.map(semaine => ({
+        nom: nomFichierPlanning(semaine.debut),
+        description: `Programme collectif Assistant FM — semaine du ${semaine.debut}`,
+        grille: module.grilleFm27(semaine)
+    }));
+    const envoyer = async (mode, bouton, liste) => {
+        const payload = liste || payloadSemaines(semaines);
+        if (!payload.length) {
+            if (statut) statut.textContent = "Aucune semaine à exporter.";
+            return;
+        }
+        const ancien = bouton ? bouton.textContent : "";
+        if (bouton) {
+            bouton.disabled = true;
+            bouton.textContent = mode === "disque" ? "Import en cours…" : "Génération…";
+        }
+        if (statut) statut.textContent = mode === "disque" ? "Écriture des fichiers…" : "Génération des fichiers…";
+        try {
+            const reponse = await fetch("/api/programme-fmf", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ semaines: payload, mode })
+            });
+            if (!reponse.ok) {
+                const probleme = await reponse.json().catch(() => ({}));
+                throw new Error(probleme.error || `HTTP ${reponse.status}`);
+            }
+            if (mode === "disque") {
+                const resultat = await reponse.json();
+                const liste = Array.isArray(resultat.fichiers) ? resultat.fichiers : [];
+                const resume = liste.length > 3
+                    ? `${liste.slice(0, 3).join(", ")}… (${liste.length} fichiers)`
+                    : liste.join(", ");
+                if (statut) {
+                    statut.textContent = liste.length
+                        ? `${liste.length} planning(s) écrit(s) dans « schedules » : ${resume}. Rouvrez le jeu pour les voir.`
+                        : "Aucun fichier écrit.";
+                }
+                if (typeof chargerPlannings === "function") chargerPlannings();
+                return;
+            }
+            const blob = await reponse.blob();
+            const url = URL.createObjectURL(blob);
+            const lien = document.createElement("a");
+            lien.href = url;
+            lien.download = "programme-collectif.zip";
+            document.body.appendChild(lien);
+            lien.click();
+            lien.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+            if (statut) statut.textContent = `${payload.length} planning(s) exporté(s) en archive.`;
+        } catch (error) {
+            if (statut) statut.textContent = `Export impossible : ${error.message}`;
+        } finally {
+            if (bouton) {
+                bouton.disabled = false;
+                bouton.textContent = ancien;
+            }
+        }
+    };
+    cible.querySelector("#programme-export-tout")?.addEventListener("click", event => envoyer("zip", event.target));
+    cible.querySelector("#programme-importer-tout")?.addEventListener("click", event => envoyer("disque", event.target));
+    cible.querySelector("#programme-importer-saison")?.addEventListener("click", async event => {
+        if (statut) statut.textContent = "Calcul du programme complet de la saison…";
+        const liste = payloadSemaines(semainesPour(364));
+        await envoyer("disque", event.target, liste);
+    });
+    const zoneFmf = cible.querySelector("#programme-fmf");
+    const rendrePlannings = donnees => {
+        if (!zoneFmf) return;
+        const plannings = Array.isArray(donnees.plannings) ? donnees.plannings : [];
+        if (!plannings.length) {
+            zoneFmf.innerHTML = "<span class=\"muted\">Aucun fichier .fmf dans le dossier des plannings.</span>";
+            return;
+        }
+        const lignes = plannings.map(planning => {
+            const ressources = (planning.ressources || [])
+                .map(ressource => `${escapeHtml(ressource.type || "?")} (${escapeHtml(ressource.extension || "")})`)
+                .join(", ");
+            const etat = planning.erreur ? ` — erreur : ${escapeHtml(planning.erreur)}` : "";
+            return `<div class="programme-item"><strong>${escapeHtml(planning.nom || planning.fichier)}</strong><span class="muted">${escapeHtml(planning.fichier)} · ${escapeHtml(planning.modifie || "")} · ${escapeHtml(planning.taille || 0)} o · ${ressources}${etat}</span></div>`;
+        }).join("");
+        zoneFmf.innerHTML = lignes;
+    };
+    const chargerPlannings = () => fetch("/api/schedules")
+        .then(reponse => (reponse.ok ? reponse.json() : Promise.reject(new Error(`HTTP ${reponse.status}`))))
+        .then(rendrePlannings)
+        .catch(erreur => {
+            if (zoneFmf) zoneFmf.innerHTML = `<span class="muted">Dossier indisponible : ${escapeHtml(erreur.message)}</span>`;
+        });
+    if (zoneFmf && typeof fetch === "function") chargerPlannings();
+    cible.querySelector("#programme-copy")?.addEventListener("click", async () => {
+        try {
+            await navigator.clipboard.writeText(csv());
+            if (statut) statut.textContent = "Programme copié dans le presse-papiers.";
+        } catch (error) {
+            if (statut) statut.textContent = `Copie impossible : ${error.message}`;
+        }
+    });
+    cible.querySelector("#programme-csv")?.addEventListener("click", () => {
+        const blob = new Blob([`\uFEFF${csv()}`], { type: "text/csv;charset=utf-8" });
+        const lien = document.createElement("a");
+        lien.href = URL.createObjectURL(blob);
+        lien.download = `programme-collectif-${programme ? programme.dateDebut : "sauvegarde"}.csv`;
+        lien.click();
+        URL.revokeObjectURL(lien.href);
+        if (statut) statut.textContent = "Export CSV téléchargé.";
+    });
 }
 
 function estMetierBackroom(job) {
@@ -2527,6 +3045,8 @@ function afficherMonClub() {
                 <button type="button" data-club-tab="diagnostic">Diagnostic</button>
                 <button type="button" data-club-tab="performances">Performances</button>
                 <button type="button" data-club-tab="jeunes">Développement des jeunes</button>
+                <button type="button" data-club-tab="entrainement">Entraînement individuel</button>
+                <button type="button" data-club-tab="programme_collectif">Programme collectif</button>
             </div></details>
             <details class="club-menu" data-club-group="tactique"><summary>Tactique</summary><div class="club-menu-options">
                 <button type="button" data-club-tab="tactique">Ma tactique</button>
@@ -4024,7 +4544,33 @@ function afficherTactiqueDetail() {
             `${perspective.title ? `<h3>${perspective.title}</h3>` : ""}${renduTerrain(perspective.groups, "recommandations")}`
         ).join("");
     })();
-    detail.innerHTML = `<p><strong>${escapeHtml(tactic.nom)}</strong>${tactic.mentalite ? ` · Mentalité ${escapeHtml(tactic.mentalite)}` : ""}</p><p>Les joueurs libres retenus dépassent le meilleur joueur au poste ou, s’ils ont moins de 20 ans, le PA du meilleur U20. Chaque joueur n’est proposé qu’une fois et chaque poste affiche trois profils maximum.</p>${warningHtml}<div class="pitch-mode-controls" role="group" aria-label="Vue des positions tactiques">${modeButtons}</div><div style="display:flex;gap:16px;flex-wrap:wrap;width:100%;background:rgba(255,255,255,0.02);border:1px dashed #5b9bd5;padding:8px;border-radius:8px">${pitchesHtml}</div><h3>Rôles de la tactique</h3><div class="tactic-role-controls">${roleControls}</div><details style="margin-top:12px"><summary>Debug : données tactiques brutes</summary><pre style="background:#0c1925;padding:8px;max-height:300px;overflow:auto;font-size:10px">${escapeHtml(JSON.stringify(tactic.postes, null, 2))}</pre></details><div style="margin-top:16px;padding:10px;background:#0c1925;border-radius:6px;border:1px solid #2a3040"><h4 style="color:#5b9bd5;margin-top:0">Corriger les positions « Sans le ballon »</h4><p style="font-size:12px;color:#888;margin-bottom:10px">Certaines positions sans ballon sont indéterminées (unknown) dans votre sauvegarde FM27. Sélectionnez la position réelle pour chaque slot :</p><div id="tactic-position-fixes"></div><button type="button" onclick="appliquerPositionFixes('${escapeHtml(tacticId)}')" style="background:#2ecc71;border:none;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer">Appliquer et rafraîchir le terrain</button></div>`;
+    let analyseHtml = "";
+    try {
+        if (window.AssistantFMAnalyseTactique && typeof AssistantFMAnalyseTactique.adequationTactique === "function") {
+            const adequation = AssistantFMAnalyseTactique.adequationTactique(tactic, rawData);
+            if (adequation) {
+                const priorites = AssistantFMAnalyseTactique.prioritesTactiques(tactic, adequation);
+                const niveau = adequation.noteSur100 >= 70 ? "#2ecc71" : adequation.noteSur100 >= 55 ? "#f1c40f" : "#e74c3c";
+                const lignes = (adequation.lignes || []).map(l => `<span class="tag">${escapeHtml(l.nom)} · ${l.moyenne}/20</span>`).join(" ");
+                const pri = (priorites || []).slice(0, 5).map(p => `<span class="tag">${escapeHtml(String(p.id).replace(/_/g, " "))} · ${p.niveau}%</span>`).join(" ");
+                const critiques = (adequation.critiques || []).slice(0, 6).map(d => `<li>${escapeHtml(d.nomPoste || d.position)} : ${escapeHtml(d.joueur || "non couvert")} · ${d.score}/20 (${escapeHtml(d.niveau)})${d.role ? ` · ${escapeHtml(d.role)}` : ""}</li>`).join("");
+                const prochains = typeof AssistantFMAnalyseTactique.prochainsMatchs === "function" ? AssistantFMAnalyseTactique.prochainsMatchs(rawData.calendrier || [], rawData.date_sauvegarde, 5) : [];
+                const cal = prochains.length ? `<p class="muted">Prochains matchs (calendrier) : ${prochains.map(m => `${escapeHtml(String(m.date||"").slice(0,10))} ${escapeHtml(m.adversaire||"?")} ${escapeHtml(m.competition||"")}`.trim()).join(" · ")}</p>` : `<p class="muted">Calendrier à venir non renseigné dans l’export.</p>`;
+                analyseHtml = `<section class="dashboard-card" style="margin-top:16px"><h3>Analyse tactique &amp; efficacité (estimation locale)</h3>
+                    <p class="caveat">Indicateurs calculés à partir des attributs/postes de l’effectif et des rôles de cette tactique. Ce n’est pas la jauge d’efficacité/FM27 en jeu (compréhension, adhésion, consignes, infos prochain match, entraînement réel non exportés).</p>
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card"><h4>Adéquation globale</h4><p><strong style="color:${niveau}">${adequation.noteSur100}/100</strong> · moyenne ${adequation.moyenne}/20 · min ${adequation.minimum}/20</p><p>${escapeHtml(adequation.resume)} · couverture ${adequation.couverture}/${adequation.total}</p></div>
+                        <div class='dashboard-card'><h4>Par ligne</h4><p>${lignes || '<span class=\"muted\">—</span>'}</p></div>
+                        <div class='dashboard-card'><h4>Priorités d’entraînement suggérées</h4><p>${pri || '<span class=\"muted\">—</span>'}</p><p class='muted'>À croiser avec le planning collectif et le calendrier.</p></div>
+                    </div>
+                    ${critiques ? `<details style="margin-top:8px"><summary>Postes à renforcer / faibles (${(adequation.critiques||[]).length})</summary><ul>${critiques}</ul></details>` : `<p class="muted">Aucun poste critique détecté sur cette estimation.</p>`}
+                    ${cal}
+                </section>`;
+            }
+        }
+    } catch (e) { console.warn("analyse tactique", e); }
+
+    detail.innerHTML = `<p><strong>${escapeHtml(tactic.nom)}</strong>${tactic.mentalite ? ` · Mentalité ${escapeHtml(tactic.mentalite)}` : ""}</p><p>Les joueurs libres retenus dépassent le meilleur joueur au poste ou, s’ils ont moins de 20 ans, le PA du meilleur U20. Chaque joueur n’est proposé qu’une fois et chaque poste affiche trois profils maximum.</p>${warningHtml}<div class="pitch-mode-controls" role="group" aria-label="Vue des positions tactiques">${modeButtons}</div><div style="display:flex;gap:16px;flex-wrap:wrap;width:100%;background:rgba(255,255,255,0.02);border:1px dashed #5b9bd5;padding:8px;border-radius:8px">${pitchesHtml}</div><h3>Rôles de la tactique</h3><div class="tactic-role-controls">${roleControls}</div>${analyseHtml}<details style="margin-top:12px"><summary>Debug : données tactiques brutes</summary><pre style="background:#0c1925;padding:8px;max-height:300px;overflow:auto;font-size:10px">${escapeHtml(JSON.stringify(tactic.postes, null, 2))}</pre></details><div style="margin-top:16px;padding:10px;background:#0c1925;border-radius:6px;border:1px solid #2a3040"><h4 style="color:#5b9bd5;margin-top:0">Corriger les positions « Sans le ballon »</h4><p style="font-size:12px;color:#888;margin-bottom:10px">Certaines positions sans ballon sont indéterminées (unknown) dans votre sauvegarde FM27. Sélectionnez la position réelle pour chaque slot :</p><div id="tactic-position-fixes"></div><button type="button" onclick="appliquerPositionFixes('${escapeHtml(tacticId)}')" style="background:#2ecc71;border:none;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer">Appliquer et rafraîchir le terrain</button></div>`;
     detail.querySelectorAll("select[data-slot]").forEach(select => {
         select.addEventListener("change", () => {
             (tacticalRoles[tactic.id] || (tacticalRoles[tactic.id] = {}))[select.dataset.slot] = select.value;
