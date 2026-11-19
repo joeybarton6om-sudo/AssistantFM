@@ -909,18 +909,29 @@ def extraire_sauvegarde_totale(chemin_save):
         try:
             clubs_geres = {club.club_uid for club in sauvegarde.managed_clubs()}
             if not clubs_geres:
-                print("Aucun club géré disponible dans la sauvegarde.", file=sys.stderr)
+                print("Aucun club géré via managed_clubs(), tentative de détection fallback.", file=sys.stderr)
         except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
             print(f"Impossible de lire les clubs gérés : {error}", file=sys.stderr)
             clubs_geres = set()
 
         if not clubs_geres:
             print("Aucun club géré détecté - extraction limitée", file=sys.stderr)
+            try:
+                tous_clubs_fallback = sauvegarde.clubs().to_dicts(json_ready=True)
+                if tous_clubs_fallback:
+                    clubs_geres = {c.get("uid") for c in tous_clubs_fallback if c.get("uid") is not None}
+                    print(f"Fallback clubs() : {len(clubs_geres)} club(s) détecté(s).", file=sys.stderr)
+            except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
+                print(f"Fallback clubs() impossible : {error}", file=sys.stderr)
 
         try:
             signaler_etape("Extraction de tous les joueurs")
             joueurs = sauvegarde.players().to_dicts(json_ready=True)
-            joueurs_geree = [joueur for joueur in joueurs if joueur.get("club_uid") in clubs_geres]
+            if clubs_geres:
+                joueurs_geree = [joueur for joueur in joueurs if joueur.get("club_uid") in clubs_geres]
+            else:
+                joueurs_geree = joueurs
+                print("Aucun club géré : extraction de tous les joueurs sans filtre club_uid.", file=sys.stderr)
         except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
             joueurs = []
             joueurs_geree = []
