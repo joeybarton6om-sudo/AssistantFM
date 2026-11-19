@@ -633,13 +633,13 @@
     }
 
     function estJourRecuperation(avantMatch, depuisMatch, longueurCycle, phase) {
-        if (avantMatch <= 1) return true;
+        if (depuisMatch === 1) return true;
         return false;
     }
 
     function blocDuJour(avantMatch, longueurCycle, phase, depuisMatch) {
         if (estJourRecuperation(avantMatch, depuisMatch, longueurCycle, phase)) return "recuperation";
-        if (avantMatch === 2 || avantMatch === 3) return "preparation";
+        if (avantMatch <= 3) return "preparation";
         const debutLong = longueurCycle - 3;
         if (avantMatch > debutLong && phase && (phase.id === "pre_saison" || phase.id === "coupure")) return "physique";
         return "developpement";
