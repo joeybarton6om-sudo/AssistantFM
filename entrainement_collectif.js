@@ -634,8 +634,6 @@
 
     function estJourRecuperation(avantMatch, depuisMatch, longueurCycle, phase) {
         if (avantMatch <= 1) return true;
-        if (depuisMatch == null || depuisMatch < 1) return false;
-        if (depuisMatch === 1) return true;
         return false;
     }
 
@@ -657,11 +655,16 @@
         const exclus = new Set();
         const seances = [];
         const surcharge = contexte.surcharge === true;
-        const nombre = recuperation ? 1 : surcharge ? 2 : 3;
+        const nombre = recuperation ? 2 : surcharge ? 2 : 3;
         if (recuperation) {
             const seance = seanceDepuisId(contexte.recuperationId || "recuperation");
             if (seance) seances.push(seance);
             exclus.add(seance.id);
+            const developpement = seanceDepuisId("developpement_individuel");
+            if (developpement && !exclus.has(developpement.id)) {
+                seances.push(developpement);
+                exclus.add(developpement.id);
+            }
         }
         if (!recuperation && (avantMatch === 2 || avantMatch === 3)) {
             const penalties = seanceDepuisId("penalties");
