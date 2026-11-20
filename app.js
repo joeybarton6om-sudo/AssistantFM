@@ -68,6 +68,37 @@ async function chargerConfigDossiers() {
         console.warn("Impossible de charger la configuration des dossiers :", error);
     }
 }
+
+async function activerWatcher(actif) {
+    try {
+        const response = await fetch("/api/watcher-toggle", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ actif }),
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+        return { erreur: "Échec de l'activation du watcher" };
+    } catch (error) {
+        return { erreur: error.message };
+    }
+}
+
+async function scanWatcher() {
+    try {
+        const response = await fetch("/api/watcher-scan", {
+            method: "POST",
+        });
+        if (response.ok) {
+            return await response.json();
+        }
+        return { erreur: "Échec du scan" };
+    } catch (error) {
+        return { erreur: error.message };
+    }
+}
 const vuesClub = {
     diagnostic: "diagnostic-view",
     performances: "performances-view",
@@ -76,7 +107,8 @@ const vuesClub = {
     jeunes: "jeunes-view",
     confiance: "confiance-view",
     entrainement: "entrainement-view",
-    programme_collectif: "programme-collectif-view"
+    programme_collectif: "programme-collectif-view",
+    "analyse-tactique": "analyse-tactique-view"
 };
 const attributsGardien = [
     "handling", "aerial_reach", "command_of_area", "communication", "kicking",
@@ -1225,7 +1257,8 @@ function changerOnglet(nouveauMode) {
         club: "Mon club", similaires: "Joueurs similaires", diagnostic: "Diagnostic",
         performances: "Performances", laboratoire: "Laboratoire tactique", optimisation: "Optimiseur tactique",
         jeunes: "Développement des jeunes", confiance: "Confiance des données", suivi: "Suivi & comparaison",
-        alertes: "Alertes", journal: "Historique de partie", comparateur: "Comparateur de joueurs"
+        alertes: "Alertes", journal: "Historique de partie", comparateur: "Comparateur de joueurs",
+        "analyse-tactique": "Adéquation tactique"
     };
     document.getElementById("workspace-title").textContent = titres[mode] || "Assistant FM";
     const recrutementActif = ["joueurs", "staff", "similaires", "planificateur", "affaires", "mercato", "recrutement-poste", "comparateur"].includes(mode);
@@ -3053,6 +3086,9 @@ function afficherMonClub() {
                 <button type="button" data-club-tab="laboratoire">Laboratoire tactique</button>
                 <button type="button" data-club-tab="optimisation">Optimiseur tactique</button>
             </div></details>
+            <details class="club-menu" data-club-group="analyse"><summary>Analyse</summary><div class="club-menu-options">
+                <button type="button" data-club-tab="analyse-tactique">Adéquation tactique</button>
+            </div></details>
             <details class="club-menu" data-club-group="club"><summary>Club</summary><div class="club-menu-options">
                 <button type="button" data-club-tab="overview">Vue d’ensemble</button>
                 <button type="button" data-club-tab="transferts">Transferts</button>
@@ -3070,6 +3106,7 @@ function afficherMonClub() {
             <section class="dashboard-card club-tactics-card"><h3>Effectif sur le terrain tactique</h3><div class="club-tactic-controls"><label for="club-tactic-select">Tactique enregistrée<select id="club-tactic-select" data-club-tactic><option value="">Choisir une tactique</option>${tacticOptions}</select></label><label for="club-tactic-phase">Phase tactique<select id="club-tactic-phase" data-club-tactic-phase>${tacticalPhaseOptions}</select></label></div>${tacticPitch}${tacticDebug}${tacticPositionEditor}${tacticRoleControls}</section>
         </section>
         <section class="club-view-panel" id="club-overview-transferts"${clubActiveTab === "transferts" ? "" : " hidden"}><h3>Transferts</h3>${transfersNotice}</section>
+        <section class="club-view-panel" id="club-overview-analyse-tactique"${clubActiveTab === "analyse-tactique" ? "" : " hidden"}><div id="analyse-tactique-view"></div></section>
         <section class="club-view-panel" id="club-overview-overview"${clubActiveTab === "overview" ? "" : " hidden"}>
             <h3>Que faire maintenant ?</h3><p><button type="button" id="export-club-report">Exporter une synthèse du club</button> <span id="club-report-status" role="status"></span></p><div class="dashboard-grid">
                 <div class="dashboard-card"><h3>Effectif · ${clubPlayers.length} joueurs</h3><p>${tactic ? "Examinez les besoins selon la tactique choisie." : "Choisissez une tactique pour identifier les besoins."}</p><button type="button" data-home-club="diagnostic">Voir le diagnostic</button> <button type="button" data-home-club="effectif">Voir l’effectif</button></div>

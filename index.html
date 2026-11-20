@@ -975,6 +975,12 @@
                 <label class="form">Tactiques<input id="desktop-tactiques" type="text" readonly><button type="button" data-desktop-path="tactiques">Choisir le dossier</button></label>
                 <p class="profile-disclaimer" id="tactiques-hint" hidden>Le dossier des tactiques se trouve généralement dans <code>Documents/Sports Interactive/Football Manager 27/tactics</code>. Spécifiez-le ici pour accéder à vos tactiques personnalisées.</p>
                 <button type="button" id="desktop-save-paths">Enregistrer les dossiers</button>
+                <div class="form" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
+                    <strong>Watcher de sauvegardes</strong>
+                    <button type="button" id="watcher-activer">Activer le watcher</button>
+                    <button type="button" id="watcher-scan">Scanner les sauvegardes maintenant</button>
+                    <p id="watcher-status" role="status" class="caveat" style="margin-top: 6px;"></p>
+                </div>
                 <p id="desktop-paths-status" role="status" class="caveat"></p>
             </div>
         </details>
@@ -1163,7 +1169,7 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">v<span id="app-version-display">1.0.36-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">v<span id="app-version-display">1.0.37-beta</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
     <script src="donnees_locales.js"></script>
     <script src="analyse_tactique.js"></script>
     <script src="app.js"></script>
