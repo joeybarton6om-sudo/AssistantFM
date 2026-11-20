@@ -4710,6 +4710,19 @@ document.getElementById("club-colors-save").addEventListener("click", enregistre
 document.getElementById("club-colors-reset").addEventListener("click", reinitialiserCouleursClub);
 
 // --- Auto-update ---
+async function verifierVersionDistante() {
+    try {
+        const response = await fetch(UPDATE_CHECK_URL, { cache: "no-store" });
+        if (response.ok) {
+            const data = await response.json();
+            const el = document.getElementById("remote-version");
+            if (el) el.textContent = `v${data.version}`;
+        }
+    } catch (e) {
+        console.warn("Version distante non accessible:", e);
+    }
+}
+
 async function checkForUpdate() {
     if (!window.pywebview?.api?.check_for_update) return;
     try {
@@ -4797,6 +4810,7 @@ async function installUpdate(url, version, changelog) {
 
 // Vérifier les mises à jour au démarrage (après un court délai)
 setTimeout(checkForUpdate, 3000);
+setTimeout(verifierVersionDistante, 3000);
 
 // Charger la configuration des dossiers au démarrage
 chargerConfigDossiers();
