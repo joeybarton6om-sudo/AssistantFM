@@ -275,19 +275,30 @@ def face_index(refresh=False):
 
 def _obtenir_dossier_sauvegardes():
     """Retourne le dossier de sauvegardes configuré, ou None."""
-    try:
-        data_dir = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", ROOT))
-        config_file = data_dir / "dossiers.json"
-        if not config_file.is_file():
-            return None
-        import json as _json
-        config = _json.loads(config_file.read_text(encoding="utf-8"))
-        chemin = config.get("sauvegardes")
-        if chemin:
-            p = Path(chemin)
-            return p if p.is_dir() else None
-    except (OSError, ValueError, KeyError):
-        pass
+    candidates = []
+    data_dir_env = os.environ.get("ASSISTANT_FM_DATA_DIR")
+    if data_dir_env:
+        candidates.append(Path(data_dir_env))
+    if getattr(sys, "frozen", False):
+        candidates.append(Path(sys.executable).parent)
+    candidates.append(ROOT)
+    # Fallback : dossier utilisateur typique d'une install PyInstaller
+    candidates.append(Path.home() / "AppData" / "Local" / "Programs" / "Assistant FM")
+    candidates.append(Path.home() / "AppData" / "Local" / "AssistantFM")
+
+    for data_dir in candidates:
+        try:
+            config_file = data_dir / "dossiers.json"
+            if config_file.is_file():
+                import json as _json
+                config = _json.loads(config_file.read_text(encoding="utf-8"))
+                chemin = config.get("sauvegardes")
+                if chemin:
+                    p = Path(chemin)
+                    if p.is_dir():
+                        return p
+        except (OSError, ValueError, KeyError):
+            pass
     return None
 
 
