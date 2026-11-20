@@ -1,7 +1,7 @@
 # Assistant FM — Mémo de reprise (prochain travail)
 
 ## État actuel
-- **Version en cours** : `1.0.34-beta`
+- **Version en cours** : `1.0.36-beta`
 - **Branche de travail** : `publier-v1.0.8` (AssistantFM) / `main` (releases)
 - **Working directory** : `C:\Users\joeyb\Desktop\AssistantFM`
 - **Repo releases** : `C:\Users\joeyb\Desktop\releases` (clone de `joeybarton6om-sudo/releases`)
