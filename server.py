@@ -17,6 +17,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from noms_fm import noms_competitions
+from parser import extraire_sauvegarde_totale
 
 
 ROOT = Path(__file__).resolve().parent
@@ -37,6 +38,18 @@ _FACE_INDEX = None
 _EXTRACTION_LOCK = threading.Lock()
 _EXTRACTION_STATUS_LOCK = threading.Lock()
 _EXTRACTION_STATUS = {}
+_WATCHER_THREAD = None
+_WATCHER_STOP = threading.Event()
+_WATCHER_STATUS = {
+    "actif": False,
+    "dossier": None,
+    "derniere_verification": None,
+    "derniere_extraction": None,
+    "fichiers_connus": [],
+    "erreur": None,
+}
+_WATCHER_STATUS_LOCK = threading.Lock()
+_WATCHER_INTERVALLE = 5  # secondes
 
 
 def _identifiant_joueur(joueur):
@@ -260,6 +273,123 @@ def face_index(refresh=False):
     return _FACE_INDEX
 
 
+def _obtenir_dossier_sauvegardes():
+    """Retourne le dossier de sauvegardes configuré, ou None."""
+    try:
+        data_dir = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", ROOT))
+        config_file = data_dir / "dossiers.json"
+        if not config_file.is_file():
+            return None
+        import json as _json
+        config = _json.loads(config_file.read_text(encoding="utf-8"))
+        chemin = config.get("sauvegardes")
+        if chemin:
+            p = Path(chemin)
+            return p if p.is_dir() else None
+    except (OSError, ValueError, KeyError):
+        pass
+    return None
+
+
+def _lister_fichiers_sauvegarde(dossier):
+    """Retourne un dictionnaire {nom: mtime} des fichiers .fm/.fmf dans le dossier."""
+    fichiers = {}
+    try:
+        for entree in dossier.iterdir():
+            if entree.is_file() and entree.suffix.lower() in (".fm", ".fmf"):
+                try:
+                    fichiers[entree.name] = entree.stat().st_mtime
+                except OSError:
+                    continue
+    except OSError:
+        pass
+    return fichiers
+
+
+def _traiter_nouvelle_sauvegarde(chemin):
+    """Lance l'extraction sur une nouvelle sauvegarde détectée."""
+    try:
+        print(f"[Watcher] Nouvelle sauvegarde détectée : {chemin}")
+        donnees = extraire_sauvegarde_totale(chemin)
+        nb_joueurs = len(donnees.get("joueurs", [])) if isinstance(donnees, dict) else 0
+        with _WATCHER_STATUS_LOCK:
+            _WATCHER_STATUS["derniere_extraction"] = {
+                "fichier": chemin.name,
+                "joueurs": nb_joueurs,
+                "succes": True,
+            }
+            _WATCHER_STATUS["erreur"] = None
+        print(f"[Watcher] Extraction terminée : {nb_joueurs} joueurs détectés.")
+    except Exception as error:
+        print(f"[Watcher] Échec de l'extraction pour {chemin} : {error}", file=sys.stderr)
+        with _WATCHER_STATUS_LOCK:
+            _WATCHER_STATUS["derniere_extraction"] = {
+                "fichier": chemin.name,
+                "joueurs": 0,
+                "succes": False,
+                "erreur": str(error),
+            }
+            _WATCHER_STATUS["erreur"] = str(error)
+
+
+def _watcher_loop():
+    """Boucle de polling du dossier des sauvegardes."""
+    print("[Watcher] Démarrage du watcher de sauvegardes.")
+    while not _WATCHER_STOP.is_set():
+        try:
+            dossier = _obtenir_dossier_sauvegardes()
+            with _WATCHER_STATUS_LOCK:
+                _WATCHER_STATUS["actif"] = True
+                _WATCHER_STATUS["dossier"] = str(dossier) if dossier else None
+                _WATCHER_STATUS["derniere_verification"] = datetime.now(timezone.utc).isoformat()
+
+            if dossier is None:
+                _WATCHER_STOP.wait(_WATCHER_INTERVALLE)
+                continue
+
+            actuels = _lister_fichiers_sauvegarde(dossier)
+            with _WATCHER_STATUS_LOCK:
+                connus = dict(_WATCHER_STATUS["fichiers_connus"])
+
+            nouveaux = {
+                nom: mtime for nom, mtime in actuels.items() if nom not in connus
+            }
+
+            for nom in sorted(nouveaux):
+                if _WATCHER_STOP.is_set():
+                    break
+                chemin = dossier / nom
+                _traiter_nouvelle_sauvegarde(chemin)
+
+            with _WATCHER_STATUS_LOCK:
+                _WATCHER_STATUS["fichiers_connus"] = actuels
+        except Exception as error:
+            print(f"[Watcher] Erreur dans la boucle : {error}", file=sys.stderr)
+            with _WATCHER_STATUS_LOCK:
+                _WATCHER_STATUS["erreur"] = str(error)
+        _WATCHER_STOP.wait(_WATCHER_INTERVALLE)
+    print("[Watcher] Arrêt du watcher de sauvegardes.")
+
+
+def _demarrer_watcher():
+    global _WATCHER_THREAD
+    if _WATCHER_THREAD is not None and _WATCHER_THREAD.is_alive():
+        return
+    _WATCHER_STOP.clear()
+    _WATCHER_THREAD = threading.Thread(target=_watcher_loop, daemon=True, name="watcher-sauvegardes")
+    _WATCHER_THREAD.start()
+
+
+def _arreter_watcher():
+    global _WATCHER_THREAD
+    _WATCHER_STOP.set()
+    if _WATCHER_THREAD is not None:
+        _WATCHER_THREAD.join(timeout=5)
+    _WATCHER_THREAD = None
+    with _WATCHER_STATUS_LOCK:
+        _WATCHER_STATUS["actif"] = False
+
+
 class AssistantHandler(BaseHTTPRequestHandler):
     server_version = "AssistantFM/1.0"
 
@@ -374,6 +504,12 @@ class AssistantHandler(BaseHTTPRequestHandler):
             except (OSError, json.JSONDecodeError) as error:
                 print(f"[Assistant FM] Dossiers illisibles : {error}")
                 self._json(500, {"error": f"Dossiers illisibles : {error}"})
+            return
+
+        if path == "/api/watcher-status":
+            with _WATCHER_STATUS_LOCK:
+                statut = dict(_WATCHER_STATUS)
+            self._json(200, statut)
             return
 
         if path == "/api/face-index":
@@ -522,6 +658,29 @@ class AssistantHandler(BaseHTTPRequestHandler):
                 with _EXTRACTION_STATUS_LOCK:
                     _EXTRACTION_STATUS.pop(token, None)
             _EXTRACTION_LOCK.release()
+
+        if path == "/api/watcher-toggle":
+            try:
+                taille = int(self.headers.get("Content-Length", "0"))
+            except (TypeError, ValueError):
+                taille = 0
+            if taille <= 0 or taille > 8 * 1024 * 1024:
+                self._json(400, {"error": "Requête invalide."})
+                return
+            try:
+                charge = json.loads(self.rfile.read(taille).decode("utf-8"))
+            except (OSError, json.JSONDecodeError) as error:
+                self._json(400, {"error": f"Corps de requête illisible : {error}"})
+                return
+            actif = bool(charge.get("actif", False))
+            if actif:
+                _demarrer_watcher()
+            else:
+                _arreter_watcher()
+            with _WATCHER_STATUS_LOCK:
+                statut = dict(_WATCHER_STATUS)
+            self._json(200, {"actif": statut["actif"], "message": "Watcher " + ("démarré" if actif else "arrêté")})
+            return
 
     def _squelette(self):
         # Chercher d'abord a cote de l'exe (installe NSIS, mode congele)
@@ -773,10 +932,12 @@ def main():
     if os.environ.get("ASSISTANT_FM_NO_BROWSER") != "1":
         webbrowser.open(url)
     try:
+        _demarrer_watcher()
         server.serve_forever()
     except KeyboardInterrupt:
         print("\nArrêt du serveur Assistant FM.")
     finally:
+        _arreter_watcher()
         server.server_close()
     return 0
 
