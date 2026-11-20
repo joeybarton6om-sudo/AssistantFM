@@ -682,6 +682,62 @@ class AssistantHandler(BaseHTTPRequestHandler):
             self._json(200, {"actif": statut["actif"], "message": "Watcher " + ("démarré" if actif else "arrêté")})
             return
 
+        if path == "/api/watcher-scan":
+            try:
+                taille = int(self.headers.get("Content-Length", "0"))
+            except (TypeError, ValueError):
+                taille = 0
+            if taille > 8 * 1024 * 1024:
+                self._json(400, {"error": "Requête invalide."})
+                return
+            try:
+                if taille > 0:
+                    charge = json.loads(self.rfile.read(taille).decode("utf-8"))
+                else:
+                    charge = {}
+            except (OSError, json.JSONDecodeError) as error:
+                self._json(400, {"error": f"Corps de requête illisible : {error}"})
+                return
+            dossier = _obtenir_dossier_sauvegardes()
+            if dossier is None:
+                self._json(404, {"error": "Aucun dossier de sauvegardes configuré."})
+                return
+            actuels = _lister_fichiers_sauvegarde(dossier)
+            resultats = []
+            for nom in sorted(actuels):
+                if _EXTRACTION_LOCK.acquire(blocking=False):
+                    try:
+                        chemin = dossier / nom
+                        donnees = extraire_sauvegarde_totale(chemin)
+                        nb_joueurs = len(donnees.get("joueurs", [])) if isinstance(donnees, dict) else 0
+                        resultats.append({"fichier": nom, "joueurs": nb_joueurs, "succes": True})
+                        with _WATCHER_STATUS_LOCK:
+                            _WATCHER_STATUS["derniere_extraction"] = {
+                                "fichier": nom,
+                                "joueurs": nb_joueurs,
+                                "succes": True,
+                            }
+                            _WATCHER_STATUS["erreur"] = None
+                    except Exception as error:
+                        resultats.append({"fichier": nom, "joueurs": 0, "succes": False, "erreur": str(error)})
+                        with _WATCHER_STATUS_LOCK:
+                            _WATCHER_STATUS["derniere_extraction"] = {
+                                "fichier": nom,
+                                "joueurs": 0,
+                                "succes": False,
+                                "erreur": str(error),
+                            }
+                            _WATCHER_STATUS["erreur"] = str(error)
+                    finally:
+                        _EXTRACTION_LOCK.release()
+                else:
+                    resultats.append({"fichier": nom, "joueurs": 0, "succes": False, "erreur": "Extraction déjà en cours"})
+                    break
+            with _WATCHER_STATUS_LOCK:
+                _WATCHER_STATUS["fichiers_connus"] = actuels
+            self._json(200, {"scannes": len(resultats), "resultats": resultats})
+            return
+
     def _squelette(self):
         # Chercher d'abord a cote de l'exe (installe NSIS, mode congele)
         exe_dir = Path(sys.executable).parent if getattr(sys, "frozen", False) else ROOT
