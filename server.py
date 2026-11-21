@@ -267,14 +267,25 @@ def face_index(refresh=False):
             and next(iter(cles)) in images
             and len(noms_par_image[next(iter(cles))]) == 1
         },
-        "ids": {cle: cle for cle in images if cle.isdigit()},
+        "ids": {cle: cle for cle in images},
         "images": images,
     }
     return _FACE_INDEX
 
 
+_WATCHER_CONFIG_DOSSIER = None
+
+
 def _obtenir_dossier_sauvegardes():
     """Retourne le dossier de sauvegardes configuré, ou None."""
+    # Priorité absolue : dossier défini dynamiquement via l'API
+    if _WATCHER_CONFIG_DOSSIER is not None:
+        try:
+            p = Path(_WATCHER_CONFIG_DOSSIER)
+            if p.is_dir():
+                return p
+        except (OSError, ValueError):
+            pass
     candidates = []
     data_dir_env = os.environ.get("ASSISTANT_FM_DATA_DIR")
     if data_dir_env:
@@ -295,6 +306,19 @@ def _obtenir_dossier_sauvegardes():
                 chemin = config.get("sauvegardes")
                 if chemin:
                     p = Path(chemin)
+                    if p.is_dir():
+                        return p
+        except (OSError, ValueError, KeyError):
+            pass
+
+        try:
+            save_config_file = data_dir / "save-config.json"
+            if save_config_file.is_file():
+                import json as _json
+                save_config = _json.loads(save_config_file.read_text(encoding="utf-8"))
+                chemin_save = save_config.get("sauvegarde", "")
+                if chemin_save:
+                    p = Path(chemin_save).parent
                     if p.is_dir():
                         return p
         except (OSError, ValueError, KeyError):
@@ -350,13 +374,17 @@ def _watcher_loop():
         try:
             dossier = _obtenir_dossier_sauvegardes()
             with _WATCHER_STATUS_LOCK:
-                _WATCHER_STATUS["actif"] = True
                 _WATCHER_STATUS["dossier"] = str(dossier) if dossier else None
                 _WATCHER_STATUS["derniere_verification"] = datetime.now(timezone.utc).isoformat()
 
             if dossier is None:
+                with _WATCHER_STATUS_LOCK:
+                    _WATCHER_STATUS["actif"] = False
                 _WATCHER_STOP.wait(_WATCHER_INTERVALLE)
                 continue
+
+            with _WATCHER_STATUS_LOCK:
+                _WATCHER_STATUS["actif"] = True
 
             actuels = _lister_fichiers_sauvegarde(dossier)
             with _WATCHER_STATUS_LOCK:
@@ -536,7 +564,12 @@ class AssistantHandler(BaseHTTPRequestHandler):
         if face_match:
             identifiant = face_match.group(1)
             try:
-                image_path = face_index()["images"].get(identifiant)
+                images = face_index()["images"]
+                image_path = images.get(identifiant)
+                if image_path is None and not identifiant.startswith("r-"):
+                    image_path = images.get(f"r-{identifiant}")
+                if image_path is None and identifiant.startswith("r-"):
+                    image_path = images.get(identifiant[2:])
             except RuntimeError as error:
                 print(f"[Assistant FM] {error}")
                 self.send_error(500, "Configuration de visages illisible.")
@@ -634,6 +667,15 @@ class AssistantHandler(BaseHTTPRequestHandler):
         if path == "/api/programme-fmf":
             self._exporter_fmf()
             return
+        if path == "/api/watcher-toggle":
+            self._watcher_toggle()
+            return
+        if path == "/api/watcher-scan":
+            self._watcher_scan()
+            return
+        if path == "/api/watcher-config":
+            self._watcher_config()
+            return
         if path != "/api/extract":
             self.send_error(404)
             return
@@ -670,84 +712,109 @@ class AssistantHandler(BaseHTTPRequestHandler):
                     _EXTRACTION_STATUS.pop(token, None)
             _EXTRACTION_LOCK.release()
 
-        if path == "/api/watcher-toggle":
-            try:
-                taille = int(self.headers.get("Content-Length", "0"))
-            except (TypeError, ValueError):
-                taille = 0
-            if taille <= 0 or taille > 8 * 1024 * 1024:
-                self._json(400, {"error": "Requête invalide."})
-                return
-            try:
-                charge = json.loads(self.rfile.read(taille).decode("utf-8"))
-            except (OSError, json.JSONDecodeError) as error:
-                self._json(400, {"error": f"Corps de requête illisible : {error}"})
-                return
-            actif = bool(charge.get("actif", False))
-            if actif:
-                _demarrer_watcher()
-            else:
-                _arreter_watcher()
-            with _WATCHER_STATUS_LOCK:
-                statut = dict(_WATCHER_STATUS)
-            self._json(200, {"actif": statut["actif"], "message": "Watcher " + ("démarré" if actif else "arrêté")})
+    def _watcher_toggle(self):
+        try:
+            taille = int(self.headers.get("Content-Length", "0"))
+        except (TypeError, ValueError):
+            taille = 0
+        if taille <= 0 or taille > 8 * 1024 * 1024:
+            self._json(400, {"error": "Requête invalide."})
             return
+        try:
+            charge = json.loads(self.rfile.read(taille).decode("utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            self._json(400, {"error": f"Corps de requête illisible : {error}"})
+            return
+        actif = bool(charge.get("actif", False))
+        if actif:
+            _demarrer_watcher()
+        else:
+            _arreter_watcher()
+        with _WATCHER_STATUS_LOCK:
+            statut = dict(_WATCHER_STATUS)
+        self._json(200, {"actif": statut["actif"], "message": "Watcher " + ("démarré" if actif else "arrêté")})
 
-        if path == "/api/watcher-scan":
-            try:
-                taille = int(self.headers.get("Content-Length", "0"))
-            except (TypeError, ValueError):
-                taille = 0
-            if taille > 8 * 1024 * 1024:
-                self._json(400, {"error": "Requête invalide."})
-                return
-            try:
-                if taille > 0:
-                    charge = json.loads(self.rfile.read(taille).decode("utf-8"))
-                else:
-                    charge = {}
-            except (OSError, json.JSONDecodeError) as error:
-                self._json(400, {"error": f"Corps de requête illisible : {error}"})
-                return
-            dossier = _obtenir_dossier_sauvegardes()
-            if dossier is None:
-                self._json(404, {"error": "Aucun dossier de sauvegardes configuré."})
-                return
-            actuels = _lister_fichiers_sauvegarde(dossier)
-            resultats = []
-            for nom in sorted(actuels):
-                if _EXTRACTION_LOCK.acquire(blocking=False):
-                    try:
-                        chemin = dossier / nom
-                        donnees = extraire_sauvegarde_totale(chemin)
-                        nb_joueurs = len(donnees.get("joueurs", [])) if isinstance(donnees, dict) else 0
-                        resultats.append({"fichier": nom, "joueurs": nb_joueurs, "succes": True})
-                        with _WATCHER_STATUS_LOCK:
-                            _WATCHER_STATUS["derniere_extraction"] = {
-                                "fichier": nom,
-                                "joueurs": nb_joueurs,
-                                "succes": True,
-                            }
-                            _WATCHER_STATUS["erreur"] = None
-                    except Exception as error:
-                        resultats.append({"fichier": nom, "joueurs": 0, "succes": False, "erreur": str(error)})
-                        with _WATCHER_STATUS_LOCK:
-                            _WATCHER_STATUS["derniere_extraction"] = {
-                                "fichier": nom,
-                                "joueurs": 0,
-                                "succes": False,
-                                "erreur": str(error),
-                            }
-                            _WATCHER_STATUS["erreur"] = str(error)
-                    finally:
-                        _EXTRACTION_LOCK.release()
-                else:
-                    resultats.append({"fichier": nom, "joueurs": 0, "succes": False, "erreur": "Extraction déjà en cours"})
-                    break
-            with _WATCHER_STATUS_LOCK:
-                _WATCHER_STATUS["fichiers_connus"] = actuels
-            self._json(200, {"scannes": len(resultats), "resultats": resultats})
+    def _watcher_scan(self):
+        try:
+            taille = int(self.headers.get("Content-Length", "0"))
+        except (TypeError, ValueError):
+            taille = 0
+        if taille > 8 * 1024 * 1024:
+            self._json(400, {"error": "Requête invalide."})
             return
+        try:
+            if taille > 0:
+                charge = json.loads(self.rfile.read(taille).decode("utf-8"))
+            else:
+                charge = {}
+        except (OSError, json.JSONDecodeError) as error:
+            self._json(400, {"error": f"Corps de requête illisible : {error}"})
+            return
+        dossier = _obtenir_dossier_sauvegardes()
+        if dossier is None:
+            self._json(404, {"error": "Aucun dossier de sauvegardes configuré."})
+            return
+        actuels = _lister_fichiers_sauvegarde(dossier)
+        resultats = []
+        for nom in sorted(actuels):
+            if _EXTRACTION_LOCK.acquire(blocking=False):
+                try:
+                    chemin = dossier / nom
+                    donnees = extraire_sauvegarde_totale(chemin)
+                    nb_joueurs = len(donnees.get("joueurs", [])) if isinstance(donnees, dict) else 0
+                    resultats.append({"fichier": nom, "joueurs": nb_joueurs, "succes": True})
+                    with _WATCHER_STATUS_LOCK:
+                        _WATCHER_STATUS["derniere_extraction"] = {
+                            "fichier": nom,
+                            "joueurs": nb_joueurs,
+                            "succes": True,
+                        }
+                        _WATCHER_STATUS["erreur"] = None
+                except Exception as error:
+                    resultats.append({"fichier": nom, "joueurs": 0, "succes": False, "erreur": str(error)})
+                    with _WATCHER_STATUS_LOCK:
+                        _WATCHER_STATUS["derniere_extraction"] = {
+                            "fichier": nom,
+                            "joueurs": 0,
+                            "succes": False,
+                            "erreur": str(error),
+                        }
+                        _WATCHER_STATUS["erreur"] = str(error)
+                finally:
+                    _EXTRACTION_LOCK.release()
+            else:
+                resultats.append({"fichier": nom, "joueurs": 0, "succes": False, "erreur": "Extraction déjà en cours"})
+                break
+        with _WATCHER_STATUS_LOCK:
+            _WATCHER_STATUS["fichiers_connus"] = actuels
+        self._json(200, {"scannes": len(resultats), "resultats": resultats})
+
+    def _watcher_config(self):
+        try:
+            taille = int(self.headers.get("Content-Length", "0"))
+        except (TypeError, ValueError):
+            taille = 0
+        if taille <= 0 or taille > 8 * 1024 * 1024:
+            self._json(400, {"error": "Requête invalide."})
+            return
+        try:
+            charge = json.loads(self.rfile.read(taille).decode("utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            self._json(400, {"error": f"Corps de requête illisible : {error}"})
+            return
+        chemin = charge.get("dossier", "")
+        if not chemin:
+            self._json(400, {"error": "Aucun dossier spécifié."})
+            return
+        p = Path(chemin)
+        if not p.is_dir():
+            self._json(400, {"error": f"Le dossier n'existe pas : {chemin}"})
+            return
+        global _WATCHER_CONFIG_DOSSIER
+        _WATCHER_CONFIG_DOSSIER = chemin
+        with _WATCHER_STATUS_LOCK:
+            statut = dict(_WATCHER_STATUS)
+        self._json(200, {"ok": True, "dossier": chemin, "message": "Dossier de sauvegardes configuré."})
 
     def _squelette(self):
         # Chercher d'abord a cote de l'exe (installe NSIS, mode congele)

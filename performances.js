@@ -7,10 +7,12 @@ function libellePerformance(kind) {
 function afficherPerformances() {
     const target = document.getElementById("performances-view");
     const lignes = rawData.statistiques_saison;
-    if (!Array.isArray(lignes)) {
-        target.innerHTML = rawData.erreur_statistiques_saison
-            ? `<h2>Performances de l’effectif</h2><p role="alert">Lecture des statistiques impossible : ${escapeHtml(rawData.erreur_statistiques_saison)}</p>`
-            : "<h2>Performances de l’effectif</h2><p>Cette base ne contient pas les statistiques de saison. Réextrayez la sauvegarde avec le serveur à jour.</p>";
+    if (!Array.isArray(lignes) || lignes.length === 0) {
+        if (rawData.erreur_statistiques_saison) {
+            target.innerHTML = `<h2>Performances de l’effectif</h2><p role="alert">Lecture des statistiques impossible : ${escapeHtml(rawData.erreur_statistiques_saison)}</p>`;
+        } else {
+            target.innerHTML = afficherPerformancesFallback();
+        }
         return;
     }
     const version = rawData.version_jeu || {};
@@ -46,4 +48,22 @@ function afficherPerformances() {
     document.getElementById("performances-kind").addEventListener("change", update);
     document.getElementById("performances-minutes").addEventListener("input", update);
     update();
+}
+
+function afficherPerformancesFallback() {
+    const tousJoueurs = Array.isArray(rawData.joueurs) ? rawData.joueurs : [];
+    const joueurs = tousJoueurs.filter(j => j.est_mon_club === true);
+    const tri = joueurs.slice().sort((a, b) => {
+        const caA = Number(a.ca || 0);
+        const caB = Number(b.ca || 0);
+        return caB - caA;
+    });
+    const lignes = tri.map(j => {
+        const note = estNombre(j.ca) ? Number(j.ca).toFixed(1) : "—";
+        return `<tr><td>${linkJoueur(j)}</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>${note}</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>`;
+    }).join("");
+    return `<h2>Performances de l’effectif</h2>
+        <p class="caveat"><strong>Statistiques de saison indisponibles pour FM27.</strong> Affichage indicatif de votre effectif (CA), trié par CA décroissant.</p>
+        <div class="scroll"><table><thead><tr><th>Joueur</th><th>Type</th><th>Équipe</th><th>Minutes</th><th>Matchs titulaires</th><th>Entrées</th><th>CA</th><th>Buts</th><th>Passes déc.</th><th>Buts / 90</th><th>Passes / 90</th></tr></thead><tbody>${lignes}</tbody></table></div>
+        <p class="caveat">${joueurs.length} joueur(s) dans votre effectif. Les colonnes de match ne sont pas disponibles sans les statistiques de saison FM27.</p>`;
 }

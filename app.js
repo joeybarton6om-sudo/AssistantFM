@@ -4709,6 +4709,30 @@ document.getElementById("discovery-mode").addEventListener("change", basculerDec
 document.getElementById("club-colors-save").addEventListener("click", enregistrerCouleursClub);
 document.getElementById("club-colors-reset").addEventListener("click", reinitialiserCouleursClub);
 
+// --- Nom de partie pour l'historique automatique ---
+(function initialiserNomPartie() {
+    const input = document.getElementById("nom-partie");
+    const btn = document.getElementById("enregistrer-nom-partie");
+    const affiche = document.getElementById("nom-partie-actuel");
+    if (!input || !btn) return;
+    const cle = "assistantfm-profil-partie";
+    function afficher() {
+        const valeur = localStorage.getItem(cle) || "";
+        input.value = valeur;
+        affiche.textContent = valeur ? "Partie actuelle : " + valeur : "Aucune partie nommée — l'historique automatique est désactivé.";
+    }
+    afficher();
+    btn.addEventListener("click", () => {
+        const valeur = (input.value || "").trim();
+        if (!valeur) {
+            affiche.textContent = "Veuillez saisir un nom.";
+            return;
+        }
+        localStorage.setItem(cle, valeur);
+        affiche.textContent = "Partie enregistrée : " + valeur + " — l'historique automatique est activé.";
+    });
+})();
+
 // --- Auto-update ---
 async function verifierVersionDistante() {
     try {

@@ -433,8 +433,22 @@ function afficherJeunes() {
     let ancien = new Map(), erreur = "";
     try {
         const captures = lireEvolution().captures;
-        if (captures.length > 1 && captures[captures.length - 1].date === rawData.date_sauvegarde) {
-            ancien = new Map(captures[captures.length - 2].joueurs.map(p => [p.id, p]));
+        if (captures.length > 1) {
+            // Chercher la capture de référence : celle dont la date correspond à la sauvegarde,
+            // ou sinon la dernière capture disponible (quelle que soit sa date).
+            let refIndex = captures.length - 1;
+            if (rawData.date_sauvegarde) {
+                const exacte = captures.findIndex(c => c.date === rawData.date_sauvegarde);
+                if (exacte >= 1) refIndex = exacte;
+                else {
+                    for (let i = captures.length - 1; i >= 0; i--) {
+                        if (captures[i].date <= rawData.date_sauvegarde) { refIndex = i; break; }
+                    }
+                }
+            }
+            if (refIndex >= 1) {
+                ancien = new Map(captures[refIndex - 1].joueurs.map(p => [p.id, p]));
+            }
         }
     } catch (error) { erreur = error.message; }
     const lignes = Array.isArray(rawData.statistiques_saison) ? rawData.statistiques_saison : [];

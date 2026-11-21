@@ -941,6 +941,12 @@
             </div>
         </div>
         <hr style="border-color:#333; margin:15px 0;">
+        <div class="form" style="margin-top:14px;">
+            <label style="display:block;margin-bottom:6px;font-size:12px;color:#a9b1c6;">Nom de votre partie</label>
+            <input type="text" id="nom-partie" placeholder="Ex: ma saison OM" style="width:100%;padding:6px 8px;border:1px solid #444;border-radius:4px;background:#1a1f26;color:#fff;">
+            <button type="button" id="enregistrer-nom-partie" style="margin-top:6px;padding:5px 12px;background:#2ecc71;border:none;color:#fff;border-radius:4px;cursor:pointer;">Enregistrer le nom</button>
+            <p id="nom-partie-actuel" role="status" class="caveat" style="margin-top:6px;font-size:11px;"></p>
+        </div>
         <label class="checkbox-container" style="margin-top:14px"><input type="checkbox" id="discovery-mode"> Mode découverte · masquer CA et PA</label>
         <p id="discovery-status" role="status" class="caveat"></p>
         <p id="evolution-status" role="status" class="caveat"></p>
@@ -977,6 +983,11 @@
                 <button type="button" id="desktop-save-paths">Enregistrer les dossiers</button>
                 <div class="form" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
                     <strong>Watcher de sauvegardes</strong>
+                    <label class="form" style="margin-top: 8px;">
+                        Dossier surveillé
+                        <input id="watcher-dossier" type="text" readonly placeholder="Non configuré">
+                        <button type="button" id="watcher-choisir-dossier">Choisir le dossier</button>
+                    </label>
                     <button type="button" id="watcher-activer">Activer le watcher</button>
                     <button type="button" id="watcher-scan">Scanner les sauvegardes maintenant</button>
                     <p id="watcher-status" role="status" class="caveat" style="margin-top: 6px;"></p>
