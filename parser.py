@@ -1284,7 +1284,13 @@ def extraire_sauvegarde_totale(chemin_save):
         try:
             with fichier_temporaire.open("w", encoding="utf-8") as fichier:
                 json.dump(donnees_finales, fichier, ensure_ascii=False, cls=DateTimeEncoder)
-            fichier_temporaire.replace(fichier_sortie)
+            try:
+                fichier_temporaire.replace(fichier_sortie)
+            except PermissionError:
+                # Windows : le fichier cible peut être verrouillé par le serveur HTTP
+                if fichier_sortie.exists():
+                    fichier_sortie.unlink()
+                fichier_temporaire.replace(fichier_sortie)
         finally:
             if fichier_temporaire.exists():
                 fichier_temporaire.unlink()

@@ -1,12 +1,12 @@
 # Assistant FM — Mémo de reprise (prochain travail)
 
 ## État actuel
-- **Version en cours** : `1.0.40-beta`
+- **Version publiée** : `1.0.41-beta` (tag `v1.0.41-beta` sur origin, release GitHub créée, `version.json` pushé sur releases)
 - **Branche de travail** : `publier-v1.0.8` (AssistantFM) / `main` (releases)
 - **Working directory** : `C:\Users\joeyb\Desktop\AssistantFM`
 - **Repo releases** : `C:\Users\joeyb\Desktop\releases` (clone de `joeybarton6om-sudo/releases`)
-- **Commits non pushés** : 35 commits d'avance sur origin/main (directive utilisateur : pas de push sans test)
-- **Modifications non staged** : server.py, parser.py, app.js, desktop_bridge.js, entrainement_collectif.js, index.html, performances.js, AssistantFM-27-Setup.exe
+- **Tous les commits sont pushés** (branche + tag + version.json)
+- **Release GitHub** : `v1.0.41-beta` créée avec asset `AssistantFM-27-Setup.exe`, marquée Latest, annonce Discord envoyée automatiquement
 
 ## Fichiers clés
 - `assistant_desktop.py` : `APP_VERSION` (ligne 12), `UPDATE_CHECK_URL` (ligne 15), `server_port()` = 8766 (ligne 385)
