@@ -653,8 +653,10 @@ class AssistantHandler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         if not file_path.is_file():
+            print(f"[DEBUG] GET /players_data.json -> fichier introuvable: {file_path}", flush=True)
             self.send_error(404)
             return
+        print(f"[DEBUG] GET /players_data.json -> fichier: {file_path}, taille: {file_path.stat().st_size} octets", flush=True)
         content_type = {
             ".html": "text/html; charset=utf-8",
             ".js": "text/javascript; charset=utf-8",
@@ -668,6 +670,7 @@ class AssistantHandler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(content)
+        print(f"[DEBUG] GET /players_data.json -> envoi reussi ({content_length} octets)", flush=True)
 
     def do_POST(self):
         path = urlsplit(self.path).path
@@ -711,8 +714,10 @@ class AssistantHandler(BaseHTTPRequestHandler):
         if token:
             with _EXTRACTION_STATUS_LOCK:
                 _EXTRACTION_STATUS[token] = {"etape": "Réception de la sauvegarde"}
+        print(f"[DEBUG] POST /api/extract -> debut extraction fichier: {filename}, taille: {content_length} octets", flush=True)
         try:
             self._extraire(filename, content_length, token)
+            print(f"[DEBUG] POST /api/extract -> extraction terminee avec succes", flush=True)
         finally:
             if token:
                 with _EXTRACTION_STATUS_LOCK:
@@ -999,6 +1004,7 @@ class AssistantHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(contenu)
     def _extraire(self, filename, content_length, token):
+        print(f"[DEBUG] _extraire -> debut, fichier: {filename}, taille attendue: {content_length} octets", flush=True)
         try:
             with tempfile.TemporaryDirectory(prefix="assistantfm_save_") as temporary_dir:
                 save_path = Path(temporary_dir) / filename
@@ -1007,10 +1013,12 @@ class AssistantHandler(BaseHTTPRequestHandler):
                     while remaining:
                         chunk = self.rfile.read(min(1024 * 1024, remaining))
                         if not chunk:
+                            print(f"[DEBUG] _extraire -> envoi interrompu avant la fin", flush=True)
                             self._json(400, {"error": "Envoi interrompu avant la fin de la sauvegarde."})
                             return
                         save_file.write(chunk)
                         remaining -= len(chunk)
+                print(f"[DEBUG] _extraire -> fichier .fm recu completely", flush=True)
 
                 progress_path = str(Path(temporary_dir) / "progress.json")
                 if token:
@@ -1046,8 +1054,10 @@ class AssistantHandler(BaseHTTPRequestHandler):
                 return
 
             data_path = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", ROOT)) / "players_data.json"
+            print(f"[DEBUG] _extraire -> lecture players_data.json: {data_path}, existe: {data_path.is_file()}, taille: {data_path.stat().st_size if data_path.is_file() else 'N/A'} octets", flush=True)
             with data_path.open("r", encoding="utf-8") as data_file:
                 data = json.load(data_file)
+            print(f"[DEBUG] _extraire -> players_data.json lu avec succes: {len(data.get('joueurs', []))} joueurs, {len(data.get('staff', []))} staff", flush=True)
             self._json(
                 200,
                 {
@@ -1060,6 +1070,7 @@ class AssistantHandler(BaseHTTPRequestHandler):
                 },
             )
         except (OSError, json.JSONDecodeError) as error:
+            print(f"[DEBUG] _extraire -> ERREUR: {type(error).__name__}: {error}", flush=True)
             self._json(500, {"error": f"Erreur locale lors de l'extraction : {error}"})
 
 
