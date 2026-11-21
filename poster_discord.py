@@ -21,9 +21,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
-VERSION = "1.0.47-beta"
+VERSION = "1.0.49-beta"
 DATE = "2026-11-21"
-DOWNLOAD_URL = "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.47-beta/AssistantFM-27-Setup.exe"
+DOWNLOAD_URL = "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.49-beta/AssistantFM-27-Setup.exe"
 VERSION_JSON_URL = "https://raw.githubusercontent.com/joeybarton6om-sudo/releases/main/version.json"
 
 
