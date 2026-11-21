@@ -830,10 +830,8 @@ def extraire_sauvegarde_totale(chemin_save):
         }
         try:
             fichier_sortie = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", Path(__file__).resolve().parent)) / "players_data.json"
-            fichier_temporaire = fichier_sortie.with_suffix(".json.tmp")
-            with fichier_temporaire.open("w", encoding="utf-8") as fichier:
+            with fichier_sortie.open("w", encoding="utf-8") as fichier:
                 json.dump(error_data, fichier, ensure_ascii=False, cls=DateTimeEncoder)
-            fichier_temporaire.replace(fichier_sortie)
         except OSError:
             pass
         return error_data
@@ -1280,20 +1278,21 @@ def extraire_sauvegarde_totale(chemin_save):
 
         fichier_sortie = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", Path(__file__).resolve().parent)) / "players_data.json"
         signaler_etape("Enregistrement du fichier de résultats")
-        fichier_temporaire = fichier_sortie.with_suffix(".json.tmp")
         try:
-            with fichier_temporaire.open("w", encoding="utf-8") as fichier:
+            with fichier_sortie.open("w", encoding="utf-8") as fichier:
                 json.dump(donnees_finales, fichier, ensure_ascii=False, cls=DateTimeEncoder)
-            try:
-                fichier_temporaire.replace(fichier_sortie)
-            except PermissionError:
-                # Windows : le fichier cible peut être verrouillé par le serveur HTTP
-                if fichier_sortie.exists():
-                    fichier_sortie.unlink()
-                fichier_temporaire.replace(fichier_sortie)
-        finally:
-            if fichier_temporaire.exists():
-                fichier_temporaire.unlink()
+        except PermissionError:
+            import time
+            for _ in range(5):
+                time.sleep(1)
+                try:
+                    with fichier_sortie.open("w", encoding="utf-8") as fichier:
+                        json.dump(donnees_finales, fichier, ensure_ascii=False, cls=DateTimeEncoder)
+                    break
+                except PermissionError:
+                    continue
+            else:
+                raise
 
         print("Extraction terminée.")
         print(f"-> {len(donnees_finales['joueurs'])} joueurs indexés.")

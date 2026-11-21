@@ -660,15 +660,14 @@ class AssistantHandler(BaseHTTPRequestHandler):
             ".js": "text/javascript; charset=utf-8",
             ".json": "application/json; charset=utf-8",
         }.get(file_path.suffix, mimetypes.guess_type(file_path.name)[0] or "application/octet-stream")
-        content_length = file_path.stat().st_size
+        content = file_path.read_bytes()
+        content_length = len(content)
         self.send_response(200)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(content_length))
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
-        with file_path.open("rb") as file:
-            while chunk := file.read(1024 * 1024):
-                self.wfile.write(chunk)
+        self.wfile.write(content)
 
     def do_POST(self):
         path = urlsplit(self.path).path
