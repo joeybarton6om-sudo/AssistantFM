@@ -1,10 +1,12 @@
 # Assistant FM — Mémo de reprise (prochain travail)
 
 ## État actuel
-- **Version en cours** : `1.0.39-beta`
+- **Version en cours** : `1.0.40-beta`
 - **Branche de travail** : `publier-v1.0.8` (AssistantFM) / `main` (releases)
 - **Working directory** : `C:\Users\joeyb\Desktop\AssistantFM`
 - **Repo releases** : `C:\Users\joeyb\Desktop\releases` (clone de `joeybarton6om-sudo/releases`)
+- **Commits non pushés** : 35 commits d'avance sur origin/main (directive utilisateur : pas de push sans test)
+- **Modifications non staged** : server.py, parser.py, app.js, desktop_bridge.js, entrainement_collectif.js, index.html, performances.js, AssistantFM-27-Setup.exe
 
 ## Fichiers clés
 - `assistant_desktop.py` : `APP_VERSION` (ligne 12), `UPDATE_CHECK_URL` (ligne 15), `server_port()` = 8766 (ligne 385)
@@ -52,6 +54,12 @@
 - Séparation des objectifs entraînement (équipe première = préparation/cohésion, réserves/jeunes = développement pur) — à ajouter dans `genererProgramme()` via un paramètre "niveau d'équipe"
 - Test South Shields save : 0 joueurs/staff (limitation fmsave, pas de notre code)
 - Import planning `.fmf` : fonctionne avec le vrai `modeles/squelette.fmf` inclus
+
+## Corrections récentes (non pushées)
+- **Watcher de sauvegardes** : `_demarrer_watcher()` réactivé dans `server.py` main() (ligne ~1085) ; détection automatique du dossier FM27 `Documents/Sports Interactive/Football Manager 27/games` en fallback ; vérifié : `/api/watcher-status` renvoie `actif: true`
+- **Historique carrière FM27** : `historique_carriere` et `saison_carriere` n'étaient renseignés que pour les joueurs du club géré (`est_mon`) dans `parser.py` (lignes ~1226-1233) ; suppression de la condition `est_mon and` pour rendre l'historique disponible à tous les joueurs (2596 joueurs avec historique vs 1 avant)
+- **player_season_stats() / player_season_history()** : testés sur FM27 (build 27.0.1+2503222) — fonctionnent correctement avec fmsave 0.14.1
+- **Exe reconstruit et installé** : `dist/AssistantFM-27-Setup.exe` généré, installé à `C:\Users\joeyb\AppData\Local\Programs\Assistant FM\AssistantFM.exe`
 
 ## Git remotes
 - `origin` (AssistantFM) : `https://github.com/joeybarton6om-sudo/AssistantFM.git`

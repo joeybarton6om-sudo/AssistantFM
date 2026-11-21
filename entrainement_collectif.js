@@ -13,6 +13,7 @@
             type: "tactique",
             description: "Rythme et verticalité des passes dans le dispositif.",
             tactique: ["passes", "direct"],
+            lignes: { attaque: ["passing", "technique"], milieu: ["passing", "technique"], defense: [], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -24,6 +25,7 @@
             type: "tactique",
             description: "Contourner le pressing adverse depuis sa propre moitié.",
             tactique: ["possession", "construction"],
+            lignes: { attaque: ["passing", "technique", "vision"], milieu: ["passing", "technique", "vision"], defense: [], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -35,6 +37,7 @@
             type: "tactique",
             description: "Créer des occasions avec le degré d’urgence voulu.",
             tactique: ["attaque", "creation"],
+            lignes: { attaque: ["finishing", "creativity", "flair", "passing", "vision"], milieu: ["passing", "vision", "creativity"], defense: [], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -46,6 +49,7 @@
             type: "tactique",
             description: "Postes et rôles tenus avec le ballon.",
             tactique: ["possession"],
+            lignes: { attaque: ["passing", "technique", "vision"], milieu: ["passing", "technique", "vision"], defense: [], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -57,6 +61,7 @@
             type: "tactique",
             description: "Moment et zone du duel défensif.",
             tactique: ["pressing"],
+            lignes: { attaque: ["work_rate", "stamina"], milieu: ["work_rate", "stamina"], defense: ["work_rate", "stamina", "marking"], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -68,6 +73,7 @@
             type: "tactique",
             description: "Intensité et style du pressing collectif.",
             tactique: ["pressing"],
+            lignes: { attaque: ["work_rate", "stamina"], milieu: ["work_rate", "stamina"], defense: ["work_rate", "stamina", "marking"], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -79,6 +85,7 @@
             type: "tactique",
             description: "Zones de déclenchement du piège collectif.",
             tactique: ["pressing"],
+            lignes: { attaque: ["marking", "positioning"], milieu: ["marking", "positioning"], defense: ["marking", "tackling", "positioning"], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -90,6 +97,7 @@
             type: "tactique",
             description: "Postes et rôles tenus sans le ballon.",
             tactique: ["defense"],
+            lignes: { attaque: [], milieu: ["marking", "positioning"], defense: ["marking", "tackling", "positioning"], gardien: [] },
             impacts: { forme: 1, condition: -1, fatigue: 1, risque: 1, moral: 0 },
             charge: 2,
             blocs: ["developpement"]
@@ -561,7 +569,9 @@
         if (bloc === "recuperation") return 0.3 + tactique * 0.1 + bonusPhase - penalite;
         if (bloc === "preparation") return 0.35 + tactique * 0.45 + bonusPhase - penalite;
         if (bloc === "physique") return Math.max(0.2, gain * 1.2) + tactique * 0.05 + bonusPhase - penalite;
-        return Math.max(0.25, gain * 1.1) + tactique * 0.12 + bonusPhase - penalite;
+        // Bloc developpement : favoriser la compréhension tactique et les autres activités
+        const bonusType = seance.type === "tactique" ? 0.15 : seance.type === "autre" ? 0.15 : 0;
+        return Math.max(0.25, gain * 1.1) + tactique * 0.18 + bonusType + bonusPhase - penalite;
     }
 
     function seancesAutorisees(bloc) {

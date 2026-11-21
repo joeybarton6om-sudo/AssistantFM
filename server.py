@@ -293,7 +293,6 @@ def _obtenir_dossier_sauvegardes():
     if getattr(sys, "frozen", False):
         candidates.append(Path(sys.executable).parent)
     candidates.append(ROOT)
-    # Fallback : dossier utilisateur typique d'une install PyInstaller
     candidates.append(Path.home() / "AppData" / "Local" / "Programs" / "Assistant FM")
     candidates.append(Path.home() / "AppData" / "Local" / "AssistantFM")
 
@@ -323,6 +322,15 @@ def _obtenir_dossier_sauvegardes():
                         return p
         except (OSError, ValueError, KeyError):
             pass
+
+    # Détection par défaut du dossier des sauvegardes FM27 (out of the box)
+    try:
+        user_profile = os.environ.get("USERPROFILE") or str(Path.home())
+        fm27_games = Path(user_profile) / "Documents" / "Sports Interactive" / "Football Manager 27" / "games"
+        if fm27_games.is_dir():
+            return fm27_games
+    except (OSError, ValueError):
+        pass
     return None
 
 
@@ -812,6 +820,14 @@ class AssistantHandler(BaseHTTPRequestHandler):
             return
         global _WATCHER_CONFIG_DOSSIER
         _WATCHER_CONFIG_DOSSIER = chemin
+        # Persister la configuration pour les prochains demarrages
+        try:
+            data_dir = Path.home() / "AppData" / "Local" / "AssistantFM"
+            data_dir.mkdir(parents=True, exist_ok=True)
+            save_config_file = data_dir / "save-config.json"
+            save_config_file.write_text(json.dumps({"sauvegarde": chemin}, ensure_ascii=False), encoding="utf-8")
+        except (OSError, ValueError):
+            pass
         with _WATCHER_STATUS_LOCK:
             statut = dict(_WATCHER_STATUS)
         self._json(200, {"ok": True, "dossier": chemin, "message": "Dossier de sauvegardes configuré."})

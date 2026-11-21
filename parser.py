@@ -1225,11 +1225,11 @@ def extraire_sauvegarde_totale(chemin_save):
                 "blessures": blessures_actuelles.get(uid_j, []) if est_mon else [],
                 "historique_carriere": (
                     historique_carriere.get(uid_j, [])
-                    if (est_mon and historique_carriere is not None) else None
+                    if historique_carriere is not None else None
                 ),
                 "saison_carriere": (
                     statistiques_joueurs.get(uid_j, [])
-                    if (est_mon and statistiques_joueurs is not None) else None
+                    if statistiques_joueurs is not None else None
                 ),
                 "meilleur_role": "",
                 "est_mon_club": est_mon,

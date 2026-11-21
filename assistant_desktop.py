@@ -434,7 +434,7 @@ def main():
     url = f"http://{server_host()}:{port}/"
 
     if deja_la:
-        time.sleep(0.8)
+        time.sleep(0.3)
         api.window = webview.create_window(
             "Assistant FM",
             url,
@@ -449,7 +449,7 @@ def main():
     httpd = server.AssistantServer((server_host(), port), server.AssistantHandler)
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()
-    time.sleep(1.0)
+    time.sleep(0.3)
     try:
         api.window = webview.create_window(
             "Assistant FM",

@@ -42,7 +42,7 @@
             min-width: 0;
             padding: 16px;
         }
-        .left { overflow-y: auto; }
+        .left { overflow-y: auto; position: relative; z-index: 30; }
         .right { overflow: hidden; }
         .global-search { position: relative; margin-bottom: 8px; }
         .global-search input { width: 100%; }
@@ -905,13 +905,32 @@
 </head>
 <body>
     <div id="app-loading">
-        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;color:var(--muted);gap:12px;">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;color:var(--muted);gap:16px;">
+            <div style="font-size:48px;font-weight:900;letter-spacing:-2px;color:var(--text);">Assistant FM</div>
             <div style="width:40px;height:40px;border:3px solid var(--accent-soft);border-top:3px solid var(--accent);border-radius:50%;animation:spin 1s linear infinite;"></div>
-            <div>Chargement de Assistant FM…</div>
+            <div style="font-size:13px;">Chargement de Assistant FM…</div>
+            <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;max-width:560px;">
+                <div style="text-align:center;">
+                    <div style="font-size:20px;">⚽</div>
+                    <div style="font-size:11px;margin-top:4px;">Effectif &amp; Stats</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:20px;">🎯</div>
+                    <div style="font-size:11px;margin-top:4px;">Tactique &amp; Analyse</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:20px;">📅</div>
+                    <div style="font-size:11px;margin-top:4px;">Entraînement &amp; Match</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:20px;">💰</div>
+                    <div style="font-size:11px;margin-top:4px;">Transferts &amp; Finances</div>
+                </div>
+            </div>
         </div>
     </div>
     <style>
-        #app-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        #app-loading { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; font-family: inherit; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .app-ready { display: none !important; }
     </style>
@@ -981,17 +1000,6 @@
                 <label class="form">Tactiques<input id="desktop-tactiques" type="text" readonly><button type="button" data-desktop-path="tactiques">Choisir le dossier</button></label>
                 <p class="profile-disclaimer" id="tactiques-hint" hidden>Le dossier des tactiques se trouve généralement dans <code>Documents/Sports Interactive/Football Manager 27/tactics</code>. Spécifiez-le ici pour accéder à vos tactiques personnalisées.</p>
                 <button type="button" id="desktop-save-paths">Enregistrer les dossiers</button>
-                <div class="form" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
-                    <strong>Watcher de sauvegardes</strong>
-                    <label class="form" style="margin-top: 8px;">
-                        Dossier surveillé
-                        <input id="watcher-dossier" type="text" readonly placeholder="Non configuré">
-                        <button type="button" id="watcher-choisir-dossier">Choisir le dossier</button>
-                    </label>
-                    <button type="button" id="watcher-activer">Activer le watcher</button>
-                    <button type="button" id="watcher-scan">Scanner les sauvegardes maintenant</button>
-                    <p id="watcher-status" role="status" class="caveat" style="margin-top: 6px;"></p>
-                </div>
                 <p id="desktop-paths-status" role="status" class="caveat"></p>
             </div>
         </details>
@@ -1180,7 +1188,7 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">v<span id="app-version-display">1.0.40-beta</span> · <span id="remote-version">(?)</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">Version installée : v<span id="version-installee">1.0.40-beta</span> · Version disponible : v<span id="version-disponible">(?)</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
     <script src="donnees_locales.js"></script>
     <script src="analyse_tactique.js"></script>
     <script src="app.js"></script>
@@ -1200,13 +1208,16 @@
     <script src="desktop_bridge.js"></script>
     <script>
         // Masque l'écran de chargement dès que l'application est initialisée
+        window.cacherChargement = function () {
+            const loading = document.getElementById("app-loading");
+            const body = document.getElementById("app-body");
+            if (loading) loading.style.display = "none";
+            if (body) body.classList.remove("app-ready");
+        };
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
-                const loading = document.getElementById("app-loading");
-                const body = document.getElementById("app-body");
-                if (loading) loading.style.display = "none";
-                if (body) body.classList.remove("app-ready");
-            }, 800);
+                if (typeof window.cacherChargement === "function") window.cacherChargement();
+            }, 10000);
         });
     </script>
 </body>

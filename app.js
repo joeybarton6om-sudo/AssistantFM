@@ -4688,18 +4688,43 @@ function noteRole(player, role, positionKey) {
 configEnTetes();
 chargerIndexVisages();
 chargerNomsCompetitions();
+const GITHUB_RELEASES_API = "https://api.github.com/repos/joeybarton6om-sudo/releases/releases?per_page=100";
 // Afficher le compteur de téléchargements
 async function chargerCompteurTelechargements() {
     const el = document.getElementById('download-count');
     if (!el) return;
-    if (!window.pywebview?.api?.get_download_count) return;
-    try {
-        const res = await window.pywebview.api.get_download_count();
-        if (res && res.success && typeof res.count === 'number') {
-            el.textContent = new Intl.NumberFormat('fr-FR').format(res.count);
+    let compte = null;
+    if (window.pywebview?.api?.get_download_count) {
+        try {
+            const res = await window.pywebview.api.get_download_count();
+            if (res && res.success && typeof res.count === 'number') {
+                compte = res.count;
+            }
+        } catch (e) {
+            console.warn('Compteur de téléchargements (API) indisponible:', e);
         }
-    } catch (e) {
-        console.warn('Compteur de téléchargements indisponible:', e);
+    }
+    if (compte === null) {
+        try {
+            const response = await fetch(GITHUB_RELEASES_API, { cache: "no-store" });
+            if (response.ok) {
+                const releases = await response.json();
+                let total = 0;
+                for (const release of releases) {
+                    for (const asset of (release.assets || [])) {
+                        if (String(asset.name || "").toLowerCase().endsWith(".exe")) {
+                            total += Number(asset.download_count || 0);
+                        }
+                    }
+                }
+                compte = total;
+            }
+        } catch (e) {
+            console.warn('Compteur de téléchargements (fetch) indisponible:', e);
+        }
+    }
+    if (compte !== null) {
+        el.textContent = new Intl.NumberFormat('fr-FR').format(compte);
     }
 }
 chargerCompteurTelechargements();
@@ -4739,11 +4764,22 @@ async function verifierVersionDistante() {
         const response = await fetch(UPDATE_CHECK_URL, { cache: "no-store" });
         if (response.ok) {
             const data = await response.json();
-            const el = document.getElementById("remote-version");
-            if (el) el.textContent = `v${data.version}`;
+            const el = document.getElementById("version-disponible");
+            if (el) el.textContent = data.version;
         }
     } catch (e) {
         console.warn("Version distante non accessible:", e);
+    }
+}
+
+async function afficherVersionInstallee() {
+    try {
+        if (!window.pywebview?.api?.get_app_version) return;
+        const res = await window.pywebview.api.get_app_version();
+        const el = document.getElementById("version-installee");
+        if (res && res.version && el) el.textContent = res.version;
+    } catch (e) {
+        console.warn("Version installée non accessible:", e);
     }
 }
 
@@ -4835,6 +4871,7 @@ async function installUpdate(url, version, changelog) {
 // Vérifier les mises à jour au démarrage (après un court délai)
 setTimeout(checkForUpdate, 3000);
 setTimeout(verifierVersionDistante, 3000);
+setTimeout(afficherVersionInstallee, 3000);
 
 // Charger la configuration des dossiers au démarrage
 chargerConfigDossiers();
