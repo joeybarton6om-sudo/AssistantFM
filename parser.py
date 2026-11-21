@@ -1,4 +1,5 @@
 import json
+import math
 import os
 import sys
 import unicodedata
@@ -83,11 +84,26 @@ fmsave._version.read_summary_facts = _patched_read_summary_facts
 
 
 class DateTimeEncoder(json.JSONEncoder):
-    """Encodeur JSON qui g\u00e8re les objets date/datetime."""
+    """Encodeur JSON qui gère les objets date/datetime."""
     def default(self, obj):
         if isinstance(obj, (date, datetime)):
             return obj.isoformat()
         return super().default(obj)
+
+
+def clean_nan(value):
+    """Remplace récursivement NaN/Infinity par None pour éviter un JSON invalide."""
+    if isinstance(value, float):
+        if math.isnan(value) or math.isinf(value):
+            return None
+        return value
+    if isinstance(value, dict):
+        return {k: clean_nan(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [clean_nan(v) for v in value]
+    if isinstance(value, tuple):
+        return tuple(clean_nan(v) for v in value)
+    return value
 
 
 def signaler_etape(message):
@@ -831,7 +847,7 @@ def extraire_sauvegarde_totale(chemin_save):
         try:
             fichier_sortie = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", Path(__file__).resolve().parent)) / "players_data.json"
             with fichier_sortie.open("w", encoding="utf-8") as fichier:
-                json.dump(error_data, fichier, ensure_ascii=False, cls=DateTimeEncoder)
+                json.dump(clean_nan(error_data), fichier, ensure_ascii=False, cls=DateTimeEncoder, allow_nan=False)
         except OSError:
             pass
         return error_data
@@ -1281,7 +1297,7 @@ def extraire_sauvegarde_totale(chemin_save):
         fichier_temporaire = fichier_sortie.with_suffix(".json.tmp")
         try:
             with fichier_temporaire.open("w", encoding="utf-8") as fichier:
-                json.dump(donnees_finales, fichier, ensure_ascii=False, cls=DateTimeEncoder)
+                json.dump(clean_nan(donnees_finales), fichier, ensure_ascii=False, cls=DateTimeEncoder, allow_nan=False)
             # Valider le JSON avant de remplacer le fichier cible
             with fichier_temporaire.open("r", encoding="utf-8") as fichier:
                 json.load(fichier)
