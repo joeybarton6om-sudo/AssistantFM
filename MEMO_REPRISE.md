@@ -1,12 +1,12 @@
 # Assistant FM — Mémo de reprise (prochain travail)
 
 ## État actuel
-- **Version publiée** : `1.0.41-beta` (tag `v1.0.41-beta` sur origin, release GitHub créée, `version.json` pushé sur releases)
+- **Version publiée** : `1.0.42-beta` (tag `v1.0.42-beta` sur origin, release GitHub créée, `version.json` pushé sur releases)
 - **Branche de travail** : `publier-v1.0.8` (AssistantFM) / `main` (releases)
 - **Working directory** : `C:\Users\joeyb\Desktop\AssistantFM`
 - **Repo releases** : `C:\Users\joeyb\Desktop\releases` (clone de `joeybarton6om-sudo/releases`)
 - **Tous les commits sont pushés** (branche + tag + version.json)
-- **Release GitHub** : `v1.0.41-beta` créée avec asset `AssistantFM-27-Setup.exe`, marquée Latest, annonce Discord envoyée automatiquement
+- **Release GitHub** : `v1.0.42-beta` créée avec asset `AssistantFM-27-Setup.exe`, marquée Latest
 
 ## Fichiers clés
 - `assistant_desktop.py` : `APP_VERSION` (ligne 12), `UPDATE_CHECK_URL` (ligne 15), `server_port()` = 8766 (ligne 385)
@@ -56,10 +56,9 @@
 - Import planning `.fmf` : fonctionne avec le vrai `modeles/squelette.fmf` inclus
 
 ## Corrections récentes (non pushées)
-- **Watcher de sauvegardes** : `_demarrer_watcher()` réactivé dans `server.py` main() (ligne ~1085) ; détection automatique du dossier FM27 `Documents/Sports Interactive/Football Manager 27/games` en fallback ; vérifié : `/api/watcher-status` renvoie `actif: true`
-- **Historique carrière FM27** : `historique_carriere` et `saison_carriere` n'étaient renseignés que pour les joueurs du club géré (`est_mon`) dans `parser.py` (lignes ~1226-1233) ; suppression de la condition `est_mon and` pour rendre l'historique disponible à tous les joueurs (2596 joueurs avec historique vs 1 avant)
-- **player_season_stats() / player_season_history()** : testés sur FM27 (build 27.0.1+2503222) — fonctionnent correctement avec fmsave 0.14.1
-- **Exe reconstruit et installé** : `dist/AssistantFM-27-Setup.exe` généré, installé à `C:\Users\joeyb\AppData\Local\Programs\Assistant FM\AssistantFM.exe`
+- **Watcher de sauvegardes** : `_demarrer_watcher()` réactivé dans `server.py` main() ; détection automatique du dossier FM27 `Documents/Sports Interactive/Football Manager 27/games` en fallback ; vérifié : `/api/watcher-status` renvoie `actif: true`
+- **Historique carrière FM27** : `historique_carriere` et `saison_carriere` n'étaient renseignés que pour les joueurs du club géré (`est_mon`) dans `parser.py` ; suppression de la condition `est_mon and` pour rendre l'historique disponible à tous les joueurs
+- **PermissionError extraction** : `parser.py` ligne ~1287 - gestion du verrouillage fichier Windows sur `players_data.json` : si `PermissionError` lors du `replace()`, suppression du fichier cible puis remplacement. Cause : `os.replace()` échoue sur Windows si le fichier est ouvert par un autre processus (serveur HTTP).
 
 ## Git remotes
 - `origin` (AssistantFM) : `https://github.com/joeybarton6om-sudo/AssistantFM.git`
