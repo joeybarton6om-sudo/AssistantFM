@@ -447,26 +447,7 @@ const postes = {
     wbr: "Latéral offensif droit (ALD)", wbl: "Latéral offensif gauche (ALG)"
 };
 
-const metiersFrancais = {
-    "unknown": "Fonction inconnue",
-    "manager": "Entraîneur principal",
-    "physio": "Kinésithérapeute",
-    "coach": "Entraîneur",
-    "assistant manager": "Entraîneur adjoint",
-    "scout": "Recruteur",
-    "goalkeeping coach": "Entraîneur des gardiens",
-    "performance analyst": "Analyste de performance",
-    "director": "Directeur",
-    "head physio": "Kinésithérapeute en chef",
-    "director of football": "Directeur sportif",
-    "chairperson": "Président",
-    "sports scientist": "Scientifique du sport",
-    "head of youth development": "Responsable de la formation",
-    "chief doctor": "Médecin-chef",
-    "head of sports science": "Responsable des sciences du sport",
-    "managing director": "Directeur général",
-    "technical director": "Directeur technique"
-};
+
 
 const codePosteNom = {
     GK: "gk", GB: "gk", SW: "sw", LIB: "sw", DR: "dr", DD: "dr", DL: "dl", DG: "dl",
@@ -542,10 +523,9 @@ const codesPosteFrancais = {
 const codesPosteParAbreviation = new Map(Object.entries(codesPosteFrancais).map(([code, abreviation]) => [abreviation, code]));
 
 saveInput.addEventListener("change", () => {
-    extractButton.disabled = !saveInput.files?.length;
-    extractButton.textContent = saveInput.files?.length
-        ? `Extraire : ${saveInput.files[0].name}`
-        : "Choisir une sauvegarde .fm";
+    const hasFile = saveInput.files && saveInput.files.length > 0;
+    extractButton.disabled = !hasFile;
+    extractButton.textContent = hasFile ? `Extraire : ${saveInput.files[0].name}` : "Choisir une sauvegarde .fm";
 });
 extractButton.addEventListener("click", extraireDepuisLeSite);
 sidebarToggle.addEventListener("click", () => {
@@ -4631,9 +4611,6 @@ const metiersFrancais = {
     // Autres
     "assistant": "Assistant",
     "staff": "Staff",
-    "member": "Membre"
-};
-
     "member": "Membre"
 };
 
