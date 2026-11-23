@@ -347,11 +347,9 @@
         .profile-role-details .profile-role-list { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
         .profile-disclaimer { color: var(--muted); font-size: 10px; line-height: 1.45; margin: 8px 0 0; }
         .profile-club-button { color: var(--accent); }
-        .staff-overview-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
-        .staff-overview-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-        .staff-overview-heading h3 { margin: 0; }
-        .staff-overview-heading label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; }
-        .staff-scope-select { background: #1b1b1b; color: #eee; border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; font-size: 11px; }
+        .staff-filter-row { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; }
+        .staff-filter-row label { display: flex; flex-direction: column; gap: 3px; color: var(--muted); font-size: 11px; }
+        .staff-filter-row select { background: #1b1b1b; color: #eee; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; font-size: 12px; }
         .entrainement-table { border-collapse: collapse; font-size: 12px; width: 100%; }
         .entrainement-table th, .entrainement-table td { border-bottom: 1px solid var(--line); padding: 7px 8px; text-align: left; vertical-align: top; }
         .entrainement-table tbody tr { cursor: pointer; }
@@ -1128,38 +1126,39 @@
         <div id="active-player-filters" class="filter-bar" aria-live="polite"></div>
         <p id="alertes-status" role="status" class="caveat"></p>
         <div id="staff-filter">
-            <label for="staff-job-filter">Métier recherché</label>
-            <select id="staff-job-filter" aria-label="Filtrer le staff par métier">
-                <option value="">Tous les métiers</option>
-            </select>
-            <label for="staff-contract-filter">Contrat</label>
-            <select id="staff-contract-filter" aria-label="Filtrer le staff par situation contractuelle">
-                <option value="">Tous</option>
-                <option value="sous_contrat">Sous contrat</option>
-                <option value="sans_contrat">Sans contrat</option>
-            </select>
+            <div class="staff-filter-row">
+                <label for="staff-job-filter">Métier recherché</label>
+                <select id="staff-job-filter" aria-label="Filtrer le staff par métier">
+                    <option value="">Tous les métiers</option>
+                </select>
+                <label for="staff-contract-filter">Contrat</label>
+                <select id="staff-contract-filter" aria-label="Filtrer le staff par situation contractuelle">
+                    <option value="">Tous</option>
+                    <option value="sous_contrat">Sous contrat</option>
+                    <option value="sans_contrat">Sans contrat</option>
+                </select>
+                <label for="staff-sort">Trier par</label>
+                <select id="staff-sort" aria-label="Trier le staff">
+                    <option value="">Pertinence (CA)</option>
+                    <option value="ca_desc">CA décroissant</option>
+                    <option value="ca_asc">CA croissant</option>
+                    <option value="pa_desc">PA décroissant</option>
+                    <option value="pa_asc">PA croissant</option>
+                    <option value="age_asc">Âge croissant</option>
+                    <option value="age_desc">Âge décroissant</option>
+                    <option value="salaire_desc">Salaire décroissant</option>
+                    <option value="salaire_asc">Salaire croissant</option>
+                    <option value="contrat_asc">Fin de contrat la plus proche</option>
+                    <option value="nom_asc">Nom (A → Z)</option>
+                    <option value="nom_desc">Nom (Z → A)</option>
+                </select>
+            </div>
             <div class="attribute-filters-staff">
                 <strong>Attributs du staff</strong>
                 <div id="staff-attribute-filter-rows"></div>
                 <button type="button" id="add-attribute-filter-staff">Ajouter un attribut</button>
             </div>
-            <label for="staff-sort">Trier par</label>
-            <select id="staff-sort" aria-label="Trier le staff">
-                <option value="">Pertinence (CA)</option>
-                <option value="ca_desc">CA décroissant</option>
-                <option value="ca_asc">CA croissant</option>
-                <option value="pa_desc">PA décroissant</option>
-                <option value="pa_asc">PA croissant</option>
-                <option value="age_asc">Âge croissant</option>
-                <option value="age_desc">Âge décroissant</option>
-                <option value="salaire_desc">Salaire décroissant</option>
-                <option value="salaire_asc">Salaire croissant</option>
-                <option value="contrat_asc">Fin de contrat la plus proche</option>
-                <option value="nom_asc">Nom (A → Z)</option>
-                <option value="nom_desc">Nom (Z → A)</option>
-            </select>
         </div>
-        <section id="staff-overview"></section>
         <section id="planner-view"></section>
 <section id="recrutement-poste-view" class="scouting-view"></section>
         <section id="comparateur-view" class="scouting-view"></section>

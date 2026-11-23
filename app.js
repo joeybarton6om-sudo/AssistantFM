@@ -7,11 +7,8 @@ let derniereVueSuivi = "suivi";
 const multipleOffreDefaut = 1.5;
 let profilePosition = "", profileRole = "", profileActiveTab = "profile", profileAttributeTab = "field";
 let profileComparisonPlayerIndex = null;
-let competitionActiveTab = "classement";
-let staffOverviewTab = "recommendations";
-let staffSort = "";
-let staffScope = "division";
-let entrainementTacticId = "";
+    let competitionActiveTab = "classement";
+    let entrainementTacticId = "";
 let entrainementSort = "priorite";
 let programmeCollectifTacticId = "";
 let programmeCollectifHorizon = 56;
@@ -523,9 +520,9 @@ const codesPosteFrancais = {
 const codesPosteParAbreviation = new Map(Object.entries(codesPosteFrancais).map(([code, abreviation]) => [abreviation, code]));
 
 saveInput.addEventListener("change", () => {
-    const hasFile = saveInput.files && saveInput.files.length > 0;
-    extractButton.disabled = !hasFile;
-    extractButton.textContent = hasFile ? `Extraire : ${saveInput.files[0].name}` : "Choisir une sauvegarde .fm";
+    const save = saveInput.files?.[0];
+    extractButton.disabled = !save;
+    extractButton.textContent = save ? `Extraire : ${save.name}` : "Choisir une sauvegarde .fm";
 });
 extractButton.addEventListener("click", extraireDepuisLeSite);
 sidebarToggle.addEventListener("click", () => {
@@ -571,7 +568,7 @@ document.addEventListener("keydown", event => {
 document.querySelectorAll("#player-filters input, #player-filters select").forEach(control => {
     control.addEventListener(control.tagName === "SELECT" ? "change" : "input", filtrerTout);
 });
-const attributeFilterRows = document.getElementById("attribute-filter-rows");
+    const attributeFilterRows = document.getElementById("attribute-filter-rows");
 const staffAttributeFilterRows = document.getElementById("staff-attribute-filter-rows");
 document.getElementById("add-attribute-filter").addEventListener("click", ajouterFiltreAttribut);
 document.getElementById("add-attribute-filter-staff").addEventListener("click", ajouterFiltreAttributStaff);
@@ -607,7 +604,7 @@ document.getElementById("clear-player-filters").addEventListener("click", () => 
     document.querySelectorAll("#player-filters select").forEach(select => { select.value = ""; });
     document.getElementById("marge-reputation").value = "1000";
     document.getElementById("marge-reputation-valeur").textContent = "+1000";
-    attributeFilterRows.replaceChildren();
+attributeFilterRows.replaceChildren();
     filtrerTout();
 });
 document.getElementById("active-player-filters").addEventListener("click", event => {
@@ -641,7 +638,6 @@ document.getElementById("staff-sort").addEventListener("change", event => {
     staffSort = event.target.value;
     filtrerTout();
 });
-
 if (scr) {
     scr.addEventListener("scroll", () => {
         if (scr.scrollTop + scr.clientHeight >= scr.scrollHeight - 100 && maxRow < listAct.length) {
@@ -721,9 +717,8 @@ function afficherDonnees(data, changementMode = false) {
     clubIndexById = new Map(rawData.clubs.map(club => [String(club.uid), club]));
     leagueNamesByTeam.clear();
     appliquerThemeClub(rawData.club_gere);
-    alimenterFiltresStaff();
+alimenterFiltresStaff();
     alimenterTactiques();
-    afficherEvaluationStaff();
     if (!modeDecouverte && !changementMode) actualiserAlertesChargement();
     if (!changementMode) capturerEvolution();
     chargerPonderations();
@@ -1107,7 +1102,7 @@ async function lireJsonEnFlux(response, onProgress = () => {}) {
 async function extraireDepuisLeSite() {
     const save = saveInput.files?.[0];
     if (!save) return;
-    extractButton.disabled = true;
+    extractButton.disabled = false;
     extractButton.textContent = "Extraction en cours…";
     st.innerText = `Envoi de ${save.name} puis extraction…`;
     st.style.color = "#f1c40f";
@@ -1301,9 +1296,8 @@ function changerOnglet(nouveauMode) {
     document.getElementById("mercato-view").style.display = mode === "mercato" ? "block" : "none";
     document.getElementById("recrutement-poste-view").style.display = mode === "recrutement-poste" ? "block" : "none";
     document.getElementById("column-options").style.display = ["joueurs", "staff"].includes(mode) ? "block" : "none";
-    document.getElementById("recruitment-subnav").style.display = recrutementActif ? "flex" : "none";
+document.getElementById("recruitment-subnav").style.display = recrutementActif ? "flex" : "none";
     document.getElementById("staff-filter").style.display = mode === "staff" ? "flex" : "none";
-    document.getElementById("staff-overview").style.display = mode === "staff" && !modeDecouverte ? "block" : "none";
     document.getElementById("chk-mon-club").parentElement.style.display =
         mode === "joueurs" || mode === "staff" ? "flex" : "none";
     document.getElementById("player-filters").style.display =
@@ -1492,7 +1486,7 @@ function filtrerTout() {
     const query = document.getElementById("se").value.trim().toLocaleLowerCase("fr");
     const monClub = document.getElementById("chk-mon-club").checked;
     const source = mode === "staff" ? rawData.staff : rawData.joueurs;
-    const filtresAttributs = mode === "staff" ? lireFiltresAttributsStaff() : lireFiltresAttributs();
+    const filtresAttributs = mode === "staff" ? lireFiltresAttributsStaff() : { criteres: [], erreur: "" };
     const filtresAttributsStaff = mode === "staff" ? filtresAttributs : { criteres: [], erreur: "" };
     const statusFiltres = document.getElementById("player-filter-status");
     const minValeur = document.getElementById("valeur-min");
@@ -4341,8 +4335,17 @@ function estNombre(value) {
 function alimenterFiltresStaff() {
     const select = document.getElementById("staff-job-filter");
     const selected = select.value;
-    const jobs = [...new Set(rawData.staff.map(person => person.metier).filter(Boolean))]
-        .sort((a, b) => traduireMetier(a).localeCompare(traduireMetier(b), "fr"));
+    const seen = new Set();
+    const jobs = [];
+    rawData.staff.forEach(person => {
+        const metier = person.metier;
+        if (!metier) return;
+        const libelle = traduireMetier(metier);
+        if (seen.has(libelle)) return;
+        seen.add(libelle);
+        jobs.push(metier);
+    });
+    jobs.sort((a, b) => traduireMetier(a).localeCompare(traduireMetier(b), "fr"));
     select.replaceChildren(new Option("Tous les métiers", ""));
     jobs.forEach(job => select.add(new Option(traduireMetier(job), job)));
     if (jobs.includes(selected)) select.value = selected;

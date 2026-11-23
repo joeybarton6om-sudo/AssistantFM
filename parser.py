@@ -1294,28 +1294,35 @@ def extraire_sauvegarde_totale(chemin_save):
 
         fichier_sortie = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", Path(__file__).resolve().parent)) / "players_data.json"
         signaler_etape("Enregistrement du fichier de résultats")
+        
+        import tempfile
+        # Écrire dans un fichier temporaire unique pour éviter les fichiers corrompus
+        fd, chemin_tmp = tempfile.mkstemp(suffix=".tmp", dir=fichier_sortie.parent)
+        fichier_temporaire = Path(chemin_tmp)
         try:
-            with fichier_sortie.open("w", encoding="utf-8") as fichier:
+            with os.fdopen(fd, "w", encoding="utf-8") as fichier:
                 json.dump(clean_nan(donnees_finales), fichier, ensure_ascii=False, cls=DateTimeEncoder, allow_nan=False)
                 fichier.flush()
                 os.fsync(fichier.fileno())
-        except PermissionError:
-            import time
-            for _ in range(10):
-                time.sleep(1)
-                try:
-                    with fichier_sortie.open("w", encoding="utf-8") as fichier:
-                        json.dump(clean_nan(donnees_finales), fichier, ensure_ascii=False, cls=DateTimeEncoder, allow_nan=False)
-                        fichier.flush()
-                        os.fsync(fichier.fileno())
-                    break
-                except PermissionError:
-                    continue
-            else:
-                raise
-        # Valider le JSON écrit
-        with fichier_sortie.open("r", encoding="utf-8") as fichier:
+        except Exception:
+            try:
+                os.unlink(chemin_tmp)
+            except OSError:
+                pass
+            raise
+        
+        # Valider le JSON écrit dans le fichier temporaire
+        with fichier_temporaire.open("r", encoding="utf-8") as fichier:
             json.load(fichier)
+        
+        # Remplacer le fichier cible
+        try:
+            fichier_temporaire.replace(fichier_sortie)
+        except PermissionError:
+            # Windows : le fichier cible peut être verrouillé par le serveur HTTP
+            if fichier_sortie.exists():
+                fichier_sortie.unlink()
+            fichier_temporaire.replace(fichier_sortie)
 
         print("Extraction terminée.")
         print(f"-> {len(donnees_finales['joueurs'])} joueurs indexés.")
