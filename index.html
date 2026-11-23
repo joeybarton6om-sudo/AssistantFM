@@ -1102,6 +1102,7 @@
                 <label class="player-filter">Écart de réputation max. au club
                     <span><input id="marge-reputation" type="range" min="0" max="6000" step="250" value="1000"> <output id="marge-reputation-valeur">+1000</output></span>
                 </label>
+                <label class="player-filter player-filter-checkbox"><input id="chk-skip-reputation" type="checkbox" onchange="filtrerTout()"> ⏭ Désactiver l'écart de réputation
                 <label class="player-filter">Contrat
                     <select id="contrat-filter">
                         <option value="">Tous</option>
@@ -1117,6 +1118,7 @@
                 <div id="attribute-filter-rows"></div>
                 <button type="button" id="add-attribute-filter">Ajouter un attribut</button>
                 <p id="player-filter-status" role="status" aria-live="polite"></p>
+                <p id="player-search-status" role="status" aria-live="polite" style="margin-top:6px; font-size:12px; color:var(--muted);"></p>
                 <div id="saved-filter-controls">
                     <div class="saved-filter-controls"><input id="saved-filter-name" type="text" maxlength="80" placeholder="Nom de la recherche" aria-label="Nom de la recherche"><button type="button" id="save-player-filter">Enregistrer la recherche</button></div>
                     <p id="saved-filter-status" role="status"></p>
@@ -1188,7 +1190,7 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">Version installée : v<span id="version-installee">1.0.48-beta</span> · Version disponible : v<span id="version-disponible">(?)</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">Version installée : v<span id="version-installee">1.0.50-beta</span> · Version disponible : v<span id="version-disponible">(?)</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
     <script src="donnees_locales.js"></script>
     <script src="analyse_tactique.js"></script>
     <script src="app.js"></script>

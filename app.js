@@ -1516,6 +1516,7 @@ function filtrerTout() {
         || (erreurBudget ? "Vérifiez les limites de coût et de salaire." : "")
         || (erreurSalaire ? "Vérifiez les bornes de salaire." : "");
     const margeReputation = Number(document.getElementById("marge-reputation").value);
+    const skipReputation = document.getElementById("chk-skip-reputation").checked;
     const reputationClub = estNombre(rawData.club_gere?.reputation) ? Number(rawData.club_gere.reputation) : null;
     const erreurReputation = mode === "joueurs" && !Number.isFinite(margeReputation);
     const erreurFiltresRecrutement = erreurReputation ? "Vérifiez l’écart de réputation maximum." : "";
@@ -1533,6 +1534,7 @@ function filtrerTout() {
         if (mode !== "staff" && (erreurFiltres || !correspondAuxFiltresJoueur(person, filtresAttributs.criteres))) return false;
         if (erreurFiltresRecrutement) return false;
         if (mode === "joueurs" && person.est_mon_club !== true
+            && !skipReputation
             && reputationClub !== null && estNombre(person.reputation)
             && Number(person.reputation) > reputationClub + margeReputation) return false;
         if (mode !== "staff" && monClub && person.est_mon_club !== true) {
@@ -1541,7 +1543,7 @@ function filtrerTout() {
         // Filtre genre : seulement si effectiveGender est défini (0 ou 1)
         if (mode === "joueurs" && effectiveGender !== null && effectiveGender !== undefined) {
             const clubGender = clubGenderMap.get(person.club_uid);
-            if (clubGender !== effectiveGender) return false;
+            if (clubGender !== undefined && clubGender !== effectiveGender) return false;
         }
         if (mode === "staff") {
             const metier = document.getElementById("staff-job-filter").value;
@@ -1566,6 +1568,11 @@ function filtrerTout() {
     if (mode === "staff") appliquerTriStaff(listAct);
     statusFiltres.classList.toggle("error", Boolean(erreurFiltres || erreurFiltresRecrutement));
     statusFiltres.textContent = erreurFiltres || erreurFiltresRecrutement || `${listAct.length.toLocaleString("fr-FR")} profil(s) correspondant(s).`;
+    const searchStatus = document.getElementById("player-search-status");
+    if (searchStatus) {
+        const total = mode === "staff" ? rawData.staff.length : rawData.joueurs.length;
+        searchStatus.textContent = `${listAct.length.toLocaleString("fr-FR")} ${mode === "staff" ? "membre(s)" : "joueur(s)"} sur ${total.toLocaleString("fr-FR")} ${mode === "staff" ? "au total" : "au total"}.`;
+    }
     if (mode === "joueurs") actualiserFiltresActifs(listAct.length);
     maxRow = 100;
     render(false);
@@ -1574,7 +1581,7 @@ function filtrerTout() {
 function actualiserFiltresActifs(nombre) {
     const target = document.getElementById("active-player-filters");
     const controls = [...document.querySelectorAll("#player-filters .player-filter input, #player-filters .player-filter select")];
-    const actifs = controls.filter(control => control.id !== "marge-reputation"
+    const actifs = controls.filter(control => control.id !== "marge-reputation" && control.id !== "chk-skip-reputation"
         && (control.type === "checkbox" ? control.checked : control.value !== ""))
         .map(control => ({
             id: control.id,
@@ -1585,7 +1592,9 @@ function actualiserFiltresActifs(nombre) {
             }`
         }));
     const marge = document.getElementById("marge-reputation").value;
-    if (marge !== "1000") actifs.push({ id: "marge-reputation", label: `Réputation : +${marge} (retour au défaut +1000)` });
+    const skipRep = document.getElementById("chk-skip-reputation").checked;
+    if (marge !== "1000" && !skipRep) actifs.push({ id: "marge-reputation", label: `Réputation : +${marge} (retour au défaut +1000)` });
+    if (skipRep) actifs.push({ id: "chk-skip-reputation", label: "Écart de réputation désactivé" });
     const recherche = document.getElementById("se").value.trim();
     if (recherche) actifs.push({ id: "se", label: `Recherche : ${recherche}` });
     if (document.getElementById("chk-mon-club").checked) actifs.push({ id: "chk-mon-club", label: "Mon effectif" });

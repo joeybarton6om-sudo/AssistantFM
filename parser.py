@@ -1239,11 +1239,11 @@ def extraire_sauvegarde_totale(chemin_save):
                 "blessures": blessures_actuelles.get(uid_j, []) if est_mon else [],
                 "historique_carriere": (
                     historique_carriere.get(uid_j, [])
-                    if historique_carriere is not None else None
+                    if (est_mon and historique_carriere is not None) else None
                 ),
                 "saison_carriere": (
                     statistiques_joueurs.get(uid_j, [])
-                    if statistiques_joueurs is not None else None
+                    if (est_mon and statistiques_joueurs is not None) else None
                 ),
                 "meilleur_role": "",
                 "est_mon_club": est_mon,
@@ -1294,26 +1294,28 @@ def extraire_sauvegarde_totale(chemin_save):
 
         fichier_sortie = Path(os.environ.get("ASSISTANT_FM_DATA_DIR", Path(__file__).resolve().parent)) / "players_data.json"
         signaler_etape("Enregistrement du fichier de résultats")
-        fichier_temporaire = fichier_sortie.with_suffix(".json.tmp")
         try:
-            with fichier_temporaire.open("w", encoding="utf-8") as fichier:
+            with fichier_sortie.open("w", encoding="utf-8") as fichier:
                 json.dump(clean_nan(donnees_finales), fichier, ensure_ascii=False, cls=DateTimeEncoder, allow_nan=False)
-            # Valider le JSON avant de remplacer le fichier cible
-            with fichier_temporaire.open("r", encoding="utf-8") as fichier:
-                json.load(fichier)
-            try:
-                fichier_temporaire.replace(fichier_sortie)
-            except PermissionError:
-                # Windows : le fichier cible peut être verrouillé par le serveur HTTP
-                if fichier_sortie.exists():
-                    fichier_sortie.unlink()
-                fichier_temporaire.replace(fichier_sortie)
-        finally:
-            if fichier_temporaire.exists():
+                fichier.flush()
+                os.fsync(fichier.fileno())
+        except PermissionError:
+            import time
+            for _ in range(10):
+                time.sleep(1)
                 try:
-                    fichier_temporaire.unlink()
+                    with fichier_sortie.open("w", encoding="utf-8") as fichier:
+                        json.dump(clean_nan(donnees_finales), fichier, ensure_ascii=False, cls=DateTimeEncoder, allow_nan=False)
+                        fichier.flush()
+                        os.fsync(fichier.fileno())
+                    break
                 except PermissionError:
-                    pass
+                    continue
+            else:
+                raise
+        # Valider le JSON écrit
+        with fichier_sortie.open("r", encoding="utf-8") as fichier:
+            json.load(fichier)
 
         print("Extraction terminée.")
         print(f"-> {len(donnees_finales['joueurs'])} joueurs indexés.")
