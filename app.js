@@ -1493,6 +1493,7 @@ function filtrerTout() {
     const monClub = document.getElementById("chk-mon-club").checked;
     const source = mode === "staff" ? rawData.staff : rawData.joueurs;
     const filtresAttributs = mode === "staff" ? lireFiltresAttributsStaff() : lireFiltresAttributs();
+    const filtresAttributsStaff = mode === "staff" ? filtresAttributs : { criteres: [], erreur: "" };
     const statusFiltres = document.getElementById("player-filter-status");
     const minValeur = document.getElementById("valeur-min");
     const maxValeur = document.getElementById("valeur-max");
