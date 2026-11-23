@@ -592,7 +592,9 @@ document.querySelectorAll("#player-filters input, #player-filters select").forEa
     control.addEventListener(control.tagName === "SELECT" ? "change" : "input", filtrerTout);
 });
 const attributeFilterRows = document.getElementById("attribute-filter-rows");
+const staffAttributeFilterRows = document.getElementById("staff-attribute-filter-rows");
 document.getElementById("add-attribute-filter").addEventListener("click", ajouterFiltreAttribut);
+document.getElementById("add-attribute-filter-staff").addEventListener("click", ajouterFiltreAttributStaff);
 attributeFilterRows.addEventListener("input", event => {
     if (event.target.tagName !== "SELECT") filtrerTout();
 });
@@ -600,6 +602,18 @@ attributeFilterRows.addEventListener("change", event => {
     if (event.target.tagName === "SELECT") filtrerTout();
 });
 attributeFilterRows.addEventListener("click", event => {
+    const button = event.target.closest("button[data-remove-attribute]");
+    if (!button) return;
+    button.closest(".attribute-filter-row").remove();
+    filtrerTout();
+});
+staffAttributeFilterRows.addEventListener("input", event => {
+    if (event.target.tagName !== "SELECT") filtrerTout();
+});
+staffAttributeFilterRows.addEventListener("change", event => {
+    if (event.target.tagName === "SELECT") filtrerTout();
+});
+staffAttributeFilterRows.addEventListener("click", event => {
     const button = event.target.closest("button[data-remove-attribute]");
     if (!button) return;
     button.closest(".attribute-filter-row").remove();
@@ -1114,7 +1128,6 @@ async function extraireDepuisLeSite() {
     const save = saveInput.files?.[0];
     if (!save) return;
     extractButton.disabled = true;
-    saveInput.disabled = true;
     extractButton.textContent = "Extraction en cours…";
     st.innerText = `Envoi de ${save.name} puis extraction…`;
     st.style.color = "#f1c40f";
@@ -1231,7 +1244,7 @@ async function extraireDepuisLeSite() {
         clearInterval(progression);
         actualiserTemps();
         saveInput.disabled = false;
-        extractButton.disabled = !saveInput.files?.length;
+        extractButton.disabled = false;
         extractButton.textContent = saveInput.files?.length
             ? `Extraire : ${saveInput.files[0].name}`
             : "Choisir une sauvegarde .fm";
@@ -1499,7 +1512,7 @@ function filtrerTout() {
     const query = document.getElementById("se").value.trim().toLocaleLowerCase("fr");
     const monClub = document.getElementById("chk-mon-club").checked;
     const source = mode === "staff" ? rawData.staff : rawData.joueurs;
-    const filtresAttributs = mode === "staff" ? { criteres: [], erreur: "" } : lireFiltresAttributs();
+    const filtresAttributs = mode === "staff" ? lireFiltresAttributsStaff() : lireFiltresAttributs();
     const statusFiltres = document.getElementById("player-filter-status");
     const minValeur = document.getElementById("valeur-min");
     const maxValeur = document.getElementById("valeur-max");
@@ -1550,6 +1563,7 @@ function filtrerTout() {
             if (metier && person.metier !== metier) return false;
             const contrat = document.getElementById("staff-contract-filter").value;
             if (contrat && contratStaff(person) !== contrat) return false;
+            if (!correspondAuxFiltresStaff(person, filtresAttributsStaff.criteres)) return false;
         }
         if (!query) return true;
         const found = [
@@ -3365,6 +3379,21 @@ function ajouterFiltreAttribut() {
     select.focus();
 }
 
+function ajouterFiltreAttributStaff() {
+    const row = document.createElement("div");
+    row.className = "attribute-filter-row";
+    row.innerHTML = '<label class="player-filter">Attribut<select aria-label="Attribut"><option value="">Choisir un attribut</option></select></label>'
+        + '<label class="player-filter">Minimum<input type="number" min="1" max="20" step="1" aria-label="Attribut minimum"></label>'
+        + '<label class="player-filter">Maximum<input type="number" min="1" max="20" step="1" aria-label="Attribut maximum"></label>'
+        + '<button type="button" data-remove-attribute aria-label="Supprimer ce critère">Supprimer</button>';
+    const select = row.querySelector("select");
+    Object.entries(attributsStaff).sort((a, b) => a[1].localeCompare(b[1], "fr")).forEach(([key, label]) => {
+        select.add(new Option(label, key));
+    });
+    staffAttributeFilterRows.appendChild(row);
+    select.focus();
+}
+
 function lireFiltresAttributs() {
     const criteres = [];
     for (const row of attributeFilterRows.children) {
@@ -3382,6 +3411,38 @@ function lireFiltresAttributs() {
         }
     }
     return { criteres, erreur: "" };
+}
+
+function lireFiltresAttributsStaff() {
+    const criteres = [];
+    const rows = document.querySelectorAll("#staff-attribute-filter-rows .staff-attribute-filter-row");
+    for (const row of rows) {
+        const select = row.querySelector("select");
+        const [min, max] = row.querySelectorAll("input");
+        if (!min.checkValidity() || !max.checkValidity()
+            || (min.value !== "" && max.value !== "" && Number(min.value) > Number(max.value))) {
+            return { criteres: [], erreur: "Les attributs staff doivent être compris entre 1 et 20, avec un minimum inférieur ou égal au maximum." };
+        }
+        if (!select.value && (min.value !== "" || max.value !== "")) {
+            return { criteres: [], erreur: "Choisissez un attribut staff pour chaque critère renseigné." };
+        }
+        if (select.value && (min.value !== "" || max.value !== "")) {
+            criteres.push({ key: select.value, min: min.value === "" ? null : Number(min.value), max: max.value === "" ? null : Number(max.value) });
+        }
+    }
+    return { criteres, erreur: "" };
+}
+
+function correspondAuxFiltresStaff(member, criteresAttributs = []) {
+    if (!criteresAttributs || criteresAttributs.length === 0) return true;
+    const stats = member.stats || {};
+    for (const critere of criteresAttributs) {
+        const value = stats[critere.key];
+        if (value == null || value === "" || !Number.isFinite(Number(value))
+            || (critere.min !== null && Number(value) < critere.min)
+            || (critere.max !== null && Number(value) > critere.max)) return false;
+    }
+    return true;
 }
 
 function correspondAuxFiltresJoueur(player, criteresAttributs = []) {
@@ -4520,12 +4581,17 @@ const metiersFrancais = {
 
     // Analyse
     "data analyst": "Analyste de données",
+    "data analytics": "Analyste de données",
+    "data analyst (performance)": "Analyste de données (performance)",
     "performance analyst": "Analyste de performance",
+    "recruitment analyst": "Analyste du recrutement",
+    "head of recruitment": "Responsable du recrutement",
     "opposition analyst": "Analyste adverse",
     "tactical analyst": "Analyste tactique",
     "goalkeeping analyst": "Analyste des gardiens",
     "match analyst": "Analyste de match",
     "video analyst": "Analyste vidéo",
+    "set piece analyst": "Analyste phases arrêtées",
 
     // Recrutement
     "chief scout": "Recruteur en chef",
@@ -4544,7 +4610,7 @@ const metiersFrancais = {
     // Développement jeunes
     "academy manager": "Responsable du centre de formation",
     "academy director": "Directeur du centre de formation",
-    "youth development manager": "Responsable développement jeunes",
+    "youth development manager": "Responsable de la formation jeunes",
     "youth development officer": "Responsable développement jeunes",
     "youth development coach": "Entraîneur développement jeunes",
     "youth development coordinator": "Coordinateur développement jeunes",
@@ -4559,10 +4625,50 @@ const metiersFrancais = {
     "head of youth development (southeast asia)": "Responsable développement jeunes (Asie du Sud-Est)",
     "head of youth development (north america)": "Responsable développement jeunes (Amérique du Nord)",
 
+    // Prêts
+    "loan manager": "Responsable des prêts",
+
     // Autres
     "assistant": "Assistant",
     "staff": "Staff",
     "member": "Membre"
+};
+
+    "member": "Membre"
+};
+
+const attributsStaff = {
+    // Attributs de préparateur
+    "set_pieces": "Coups de pied arrêtés",
+    "defensive": "Défensif",
+    "youngsters": "Entraînement des jeunes",
+    "goalkeeping": "Gardien",
+    "attacking": "Offensif",
+    "possession": "Possession",
+    "fitness": "Préparation physique",
+    "tactics": "Tactique",
+    "technique": "Technique",
+
+    // Attributs mentaux
+    "adaptability": "Adaptabilité",
+    "authority": "Autorité",
+    "motivation": "Capacité à motiver",
+    "determination": "Détermination",
+    "man_management": "Gestion des personnes",
+
+    // Connaissances
+    "judging_potential": "Évaluation du potentiel",
+    "judging_players": "Évaluation joueurs",
+    "judging_staff": "Évaluation niveau du staff",
+    "negotiation": "Négociation",
+    "tactical_knowledge": "Notions tactiques",
+
+    // Attributs pour le recrutement
+    "data_analysis": "Analyse de données",
+
+    // Attributs pour le médical
+    "physiotherapist": "Kiné",
+    "sports_science": "Sciences du sport"
 };
 
 function traduireMetier(job) {
