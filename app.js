@@ -2494,10 +2494,17 @@ function appliquerTriStaff(liste) {
     const cle = person => {
         switch (staffSort) {
             case "ca_desc": return -Number(person.ca ?? 0);
+            case "ca_asc": return Number(person.ca ?? 0);
+            case "pa_desc": return -Number(person.pa ?? 0);
+            case "pa_asc": return Number(person.pa ?? 0);
             case "age_asc": return person.age == null ? Number.MAX_SAFE_INTEGER : Number(person.age);
+            case "age_desc": return -Number(person.age ?? 0);
             case "salaire_desc": return -Number(person.salaire_hebdomadaire ?? 0);
+            case "salaire_asc": return Number(person.salaire_hebdomadaire ?? 0);
             case "contrat_asc": return String(person.fin_contrat ?? "9999-12-31");
+            case "contrat_desc": return String(person.fin_contrat ?? "").toLocaleLowerCase("fr") === "" ? "9999-12-31" : String(person.fin_contrat ?? "");
             case "nom_asc": return String(person.nom ?? "").toLocaleLowerCase("fr");
+            case "nom_desc": return String(person.nom ?? "").toLocaleLowerCase("fr");
             default: return 0;
         }
     };
@@ -4442,6 +4449,121 @@ function escapeHtml(value) {
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     })[character]);
 }
+
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[character]);
+}
+
+const metiersFrancais = {
+    // Direction
+    "director of football": "Directeur sportif",
+    "sporting director": "Directeur sportif",
+    "technical director": "Directeur technique",
+    "chief executive": "Directeur général",
+    "chief executive officer": "Directeur général",
+    "chairman": "Président",
+    "board member": "Membre du conseil",
+    "owner": "Propriétaire",
+    "assistant to the director of football": "Assistant du directeur sportif",
+    "assistant to the sporting director": "Assistant du directeur sportif",
+    "club secretary": "Secrétaire du club",
+    "welfare officer": "Responsable bien-être",
+    "safeguarding officer": "Responsable protection",
+    "kit man": "Intendant",
+    "kit woman": "Intendante",
+    "kit staff": "Intendance",
+    "kit manager": "Responsable intendance",
+
+    // Entraînement
+    "head coach": "Entraîneur",
+    "manager": "Entraîneur",
+    "manager (first team)": "Entraîneur",
+    "head coach (first team)": "Entraîneur",
+    "assistant manager": "Entraîneur adjoint",
+    "assistant manager (first team)": "Entraîneur adjoint",
+    "coach": "Entraîneur",
+    "first team coach": "Entraîneur",
+    "youth coach": "Entraîneur des jeunes",
+    "youth team coach": "Entraîneur des jeunes",
+    "youth team manager": "Entraîneur des jeunes",
+    "reserve team manager": "Entraîneur des réserves",
+    "reserve team coach": "Entraîneur des réserves",
+
+    // Tactique
+    "tactical coach": "Entraîneur tactique",
+    "attacking coach": "Entraîneur offensif",
+    "defensive coach": "Entraîneur défensif",
+    "set piece coach": "Entraîneur phases arrêtées",
+
+    // Gardiens
+    "goalkeeper coach": "Entraîneur des gardiens",
+    "goalkeeping coach": "Entraîneur des gardiens",
+
+    // Préparation physique
+    "fitness coach": "Préparateur physique",
+    "fitness and conditioning coach": "Préparateur physique",
+    "strength and conditioning coach": "Préparateur physique",
+    "rehabilitation coach": "Préparateur de réathlétisation",
+
+    // Staff médical
+    "physiotherapist": "Kinésithérapeute",
+    "head physiotherapist": "Kinésithérapeute en chef",
+    "doctor": "Médecin",
+    "chief medical officer": "Médecin en chef",
+    "nutritionist": "Nutritionniste",
+    "sports scientist": "Scientifique du sport",
+    "sports scientist (fitness)": "Scientifique du sport (préparation)",
+    "sports scientist (recovery)": "Scientifique du sport (récupération)",
+    "sports scientist (rehabilitation)": "Scientifique du sport (réathlétisation)",
+
+    // Analyse
+    "data analyst": "Analyste de données",
+    "performance analyst": "Analyste de performance",
+    "opposition analyst": "Analyste adverse",
+    "tactical analyst": "Analyste tactique",
+    "goalkeeping analyst": "Analyste des gardiens",
+    "match analyst": "Analyste de match",
+    "video analyst": "Analyste vidéo",
+
+    // Recrutement
+    "chief scout": "Recruteur en chef",
+    "chief scout (uk)": "Recruteur en chef (UK)",
+    "chief scout (europe)": "Recruteur en chef (Europe)",
+    "chief scout (world)": "Recruteur en chef (Monde)",
+    "chief scout (africa)": "Recruteur en chef (Afrique)",
+    "chief scout (south america)": "Recruteur en chef (Amérique du Sud)",
+    "chief scout (south asia)": "Recruteur en chef (Asie du Sud)",
+    "chief scout (southeast asia)": "Recruteur en chef (Asie du Sud-Est)",
+    "chief scout (north america)": "Recruteur en chef (Amérique du Nord)",
+    "chief scout (asia)": "Recruteur en chef (Asie)",
+    "chief scout (asia pacific)": "Recruteur en chef (Asie-Pacifique)",
+    "scout": "Recruteur",
+
+    // Développement jeunes
+    "academy manager": "Responsable du centre de formation",
+    "academy director": "Directeur du centre de formation",
+    "youth development manager": "Responsable développement jeunes",
+    "youth development officer": "Responsable développement jeunes",
+    "youth development coach": "Entraîneur développement jeunes",
+    "youth development coordinator": "Coordinateur développement jeunes",
+    "head of youth development": "Responsable développement jeunes",
+    "head of youth": "Responsable jeunes",
+    "head of youth development (uk)": "Responsable développement jeunes (UK)",
+    "head of youth development (europe)": "Responsable développement jeunes (Europe)",
+    "head of youth development (world)": "Responsable développement jeunes (Monde)",
+    "head of youth development (africa)": "Responsable développement jeunes (Afrique)",
+    "head of youth development (south america)": "Responsable développement jeunes (Amérique du Sud)",
+    "head of youth development (south asia)": "Responsable développement jeunes (Asie du Sud)",
+    "head of youth development (southeast asia)": "Responsable développement jeunes (Asie du Sud-Est)",
+    "head of youth development (north america)": "Responsable développement jeunes (Amérique du Nord)",
+
+    // Autres
+    "assistant": "Assistant",
+    "staff": "Staff",
+    "member": "Membre"
+};
 
 function traduireMetier(job) {
     const normalized = String(job || "").replace(/_/g, " ").trim().toLocaleLowerCase("fr");
