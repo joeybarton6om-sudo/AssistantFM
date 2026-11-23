@@ -18,15 +18,34 @@ Prérequis :
   5. Lancer : python bot_assistant_fm.py
 """
 
+import json
 import os
 import re
+import sys
+import urllib.request
 
 import discord
 from discord.ext import commands
 
 TOKEN = os.environ.get("DISCORD_TOKEN")
 
-DOWNLOAD_URL = "https://www.dropbox.com/t/Gz5RY46Ncc7brDVM"
+VERSION_JSON_URL = "https://raw.githubusercontent.com/joeybarton6om-sudo/releases/main/version.json"
+
+
+def charger_version_et_lien(version_url: str | None = None) -> dict:
+    """Récupère la dernière version et l'URL de téléchargement depuis version.json distant."""
+    if not version_url:
+        version_url = VERSION_JSON_URL
+    try:
+        with urllib.request.urlopen(version_url, timeout=10) as response:
+            data = json.loads(response.read().decode("utf-8"))
+        version = data.get("version", "inconnue")
+        date = data.get("date", "")
+        url = data.get("url", "")
+        return {"version": version, "date": date, "url": url}
+    except (OSError, json.JSONDecodeError, urllib.error.URLError) as error:
+        print(f"Impossible de lire version.json distant : {error}", file=sys.stderr)
+        return {"version": "inconnue", "date": "", "url": ""}
 
 # Salon où poster le message de bienvenue
 SALON_ACCUEIL_ID = 1570447936469471284
@@ -109,7 +128,8 @@ def construire_embed(member):
     )
     if lignes:
         description += "📍 **Commence ici :**\n" + "\n".join(lignes) + "\n\n"
-    description += f"⬇️ **Téléchargement Windows :** {DOWNLOAD_URL}"
+    version_info = charger_version_et_lien()
+    description += f"⬇️ **Téléchargement Windows :** {version_info.get('url', 'indisponible')}"
 
     embed = discord.Embed(
         title="👋 Bienvenue sur Assistant FM !",
