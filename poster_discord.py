@@ -21,10 +21,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
-VERSION = "1.0.50-beta"
-DATE = "2026-11-21"
-DOWNLOAD_URL = "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.50-beta/AssistantFM-27-Setup.exe"
 VERSION_JSON_URL = "https://raw.githubusercontent.com/joeybarton6om-sudo/releases/main/version.json"
+
+
+def charger_version_et_lien(version_url: str | None = None) -> dict:
+    """Récupère la dernière version et l'URL de téléchargement depuis version.json distant."""
+    if not version_url:
+        version_url = VERSION_JSON_URL
+    try:
+        with urllib.request.urlopen(version_url, timeout=10) as response:
+            data = json.loads(response.read().decode("utf-8"))
+        version = data.get("version", "inconnue")
+        date = data.get("date", "")
+        url = data.get("url", "")
+        return {"version": version, "date": date, "url": url}
+    except (OSError, json.JSONDecodeError, urllib.error.URLError) as error:
+        print(f"Impossible de lire version.json distant : {error}", file=sys.stderr)
+        return {"version": "inconnue", "date": "", "url": ""}
 
 
 def charger_changelog(version_url: str | None = None) -> str:
@@ -45,7 +58,7 @@ def charger_changelog(version_url: str | None = None) -> str:
     return ""
 
 
-def construire_embed(changelog: str) -> dict:
+def construire_embed(version_info: dict, changelog: str) -> dict:
     lignes = [ligne.strip() for ligne in changelog.splitlines() if ligne.strip()]
     description = "\n".join(lignes) if lignes else "Consultez le dépôt GitHub pour le détail des modifications."
 
@@ -54,14 +67,13 @@ def construire_embed(changelog: str) -> dict:
             {
                 "title": "🚀 Assistant FM - Nouvelle mise à jour",
                 "description": (
-                    f"**Version** : {VERSION}\n"
-                    f"**Date** : {DATE}\n"
-                    f"**Téléchargement** : {DOWNLOAD_URL}\n\n"
+                    f"**Version** : {version_info.get('version', 'inconnue')}\n"
+                    f"**Date** : {version_info.get('date', '')}\n"
+                    f"**Téléchargement** : {version_info.get('url', 'indisponible')}\n\n"
                     f"{description}"
                 ),
-                "color": 0x2b65ed,
+                "color": 0x2B65ED,
                 "footer": {"text": "Assistant FM Updates"},
-                "timestamp": "2026-11-18T17:00:00Z",
             }
         ]
     }
@@ -98,9 +110,10 @@ def main() -> int:
         print("Définissez DISCORD_WEBHOOK_URL ou passez l'URL en argument.", file=sys.stderr)
         return 1
 
+    version_info = charger_version_et_lien(args.version_url)
     changelog = charger_changelog(args.version_url)
-    payload = construire_embed(changelog)
-    print(f"Publication de la release {VERSION} sur Discord...")
+    payload = construire_embed(version_info, changelog)
+    print(f"Publication de la release {version_info.get('version', 'inconnue')} sur Discord...")
     if poster(webhook_url, payload):
         print("Message posté avec succès.")
         return 0
