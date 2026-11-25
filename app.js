@@ -1239,6 +1239,7 @@ function changerOnglet(nouveauMode) {
         document.getElementById("se").value = "";
     }
     mode = nouveauMode;
+    if (mode === "staff") alimenterFiltresStaff();
     const titres = {
         joueurs: "Recrutement", staff: "Staff technique",
         planificateur: "Planificateur d’effectif", mercato: "Copilote mercato", affaires: "Bonnes affaires", "recrutement-poste": "Recruter par poste",
@@ -3858,7 +3859,13 @@ function ongletsProfil(staff = false) {
 }
 
 function renderCareerProfile(person, staff = false) {
-    if (staff) return `<section class="profile-section"><h3>Carrière du staff</h3><p>L’historique des postes occupés par le staff n’est pas fourni par l’extracteur actuel.</p></section>`;
+    if (staff) {
+        const metierLabel = traduireMetier(person.metier);
+        const sousContrat = String(person.fin_contrat ?? "").trim() !== "";
+        const wage = person.salaire_hebdomadaire == null ? "non renseigné" : `${formatMoney(person.salaire_hebdomadaire)} / sem.`;
+        const nationLabel = nomNation(person) || "non renseignée";
+        return `<section class="profile-section"><h3>Carrière du staff</h3><p class="profile-disclaimer">L’historique détaillé des postes occupés n’est pas fourni par l’extracteur actuel. Voici les informations disponibles :</p><div class="stat-row"><span>Métier</span><strong>${escapeHtml(metierLabel)}</strong></div><div class="stat-row"><span>Club</span><strong>${linkClub(person.club, person.club_uid)}</strong></div><div class="stat-row"><span>Nation</span><strong>${escapeHtml(nationLabel)}</strong></div><div class="stat-row"><span>Âge</span><strong>${person.age == null ? "non renseigné" : `${person.age} ans`}</strong></div><div class="stat-row"><span>Contrat</span><strong class="${sousContrat ? "badge-ok" : "badge-warn"}"">${sousContrat ? "Sous contrat (fin " + escapeHtml(person.fin_contrat) + ")" : "Sans contrat"}</strong></div><div class="stat-row"><span>Salaire hebdomadaire</span><strong>${escapeHtml(wage)}</strong></div><div class="stat-row"><span>Capacité actuelle</span><strong>${escapeHtml(person.ca ?? "—")}</strong></div><div class="stat-row"><span>Potentiel</span><strong>${escapeHtml(person.pa ?? "—")}</strong></div></section>`;
+    }
     const noteHtml = (valeur) => {
         const n = typeof valeur === "number" && Number.isFinite(valeur)
             ? valeur.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "—";
@@ -4074,18 +4081,37 @@ function renderPlayerProfile(player) {
 
 function renderStaffProfile(member) {
     const stats = member.stats || {};
+    const potentialStats = attributsPotentiels(member);
     const ownStaff = rawData.staff.filter(person => person.est_mon_club && person.metier === member.metier);
     const benchmark = ownStaff.reduce((best, person) =>
         !best || Number(person.ca || 0) > Number(best.ca || 0) ? person : best, null);
-    const allAttributes = blocAttributsStaff(stats, attributsPotentiels(member), benchmark.stats || {});
-    const comparison = benchmark
-        ? `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(traduireMetier(member.metier))}</h3><p>Meilleur CA du métier dans votre club : ${linkStaff(benchmark)} · ${escapeHtml(benchmark.ca ?? "—")}</p>${renderComparatifStaff(stats)}</section>`
-        : `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(traduireMetier(member.metier))}</h3><p>Aucun personnel de votre club avec ce métier à comparer.</p></section>`;
+    const compStats = benchmark ? benchmark.stats || {} : null;
+    const allAttributes = blocAttributsStaff(stats, potentialStats, compStats);
+    const metierLabel = traduireMetier(member.metier);
+    const sousContrat = String(member.fin_contrat ?? "").trim() !== "";
+    const statutLabel = sousContrat ? "Sous contrat" : "Sans contrat";
+    const statutClass = sousContrat ? "badge-ok" : "badge-warn";
+    const ageLabel = member.age == null ? "non renseigné" : `${member.age} ans`;
     const wage = member.salaire_hebdomadaire == null ? "—" : `${formatMoney(member.salaire_hebdomadaire)} / sem.`;
+    const caLabel = member.ca == null ? "—" : member.ca;
+    const paLabel = member.pa == null ? "—" : member.pa;
+    const rated = Object.entries(stats).filter(([, v]) => estNombre(v));
+    const strongAttrs = rated.filter(([, v]) => Number(v) >= 15).sort((a, b) => Number(b[1]) - Number(a[1]));
+    const weakAttrs = rated.filter(([, v]) => Number(v) <= 10).sort((a, b) => Number(a[1]) - Number(b[1]));
+    const tag = (label, value, kind) => `<span class="tag tag-${kind}" title="${escapeHtml(explicationsAttributs[label] || "")}">${escapeHtml(attributsStaff[label] || label.replace(/_/g, " "))}<span class="tag-val">${value}</span></span>`;
+    const fortsHtml = strongAttrs.length ? `<div class="profile-tags">${strongAttrs.map(([k, v]) => tag(k, v, "good")).join("")}</div>` : `<p class="profile-disclaimer">Aucun attribut ressortant (>= 15) n'est exporté.</p>`;
+    const faiblesHtml = weakAttrs.length ? `<div class="profile-tags">${weakAttrs.map(([k, v]) => tag(k, v, "bad")).join("")}</div>` : `<p class="profile-disclaimer">Aucun attribut faible (<= 10) n'est exporté.</p>`;
+    const hasStats = rated.length > 0;
+    const disclaimer = hasStats
+        ? `<p class="profile-disclaimer">Valeurs actuelles / potentielles individuelles (— si inconnu). Seuls les attributs exportés sont affichés ; compétences métier (entraînement, recrutement, médical) non fournies par l'export.</p>`
+        : `<p class="profile-disclaimer">Aucune donnée d'attribut n'est disponible pour ce membre du staff. L'identité, le contrat et le CA/PA sont affichés ci-dessus lorsqu'ils sont renseignés.</p>`;
     const staffClub = (member.club_uid != null ? clubIndexById.get(String(member.club_uid)) : null)
         || clubIndexByName.get(member.club)
         || { name: member.club };
-    return `<div class="profile-tabs">${ongletsProfil(true)}<section class="profile-tab-panel" id="profile-tab-profile" role="tabpanel" aria-labelledby="profile-tab-button"${profileActiveTab === "profile" ? "" : " hidden"}><div class="profile-hero"><div class="profile-identity"><div class="profile-person-heading">${portraitHtml(member, "profile-avatar")}<div><h2>${lienProfil("staff", member.uid, member.nom || "Membre du staff", member.nom || "Membre du staff", true)}</h2><p>${escapeHtml(traduireMetier(member.metier))}${member.age == null ? "" : ` · ${escapeHtml(member.age)} ans`}</p><p>Club : ${linkClub(member.club, member.club_uid)}</p></div></div></div><div class="profile-metric"><small>Capacité actuelle</small><strong>${escapeHtml(member.ca ?? "—")}</strong></div><div class="profile-metric"><small>Potentiel</small><strong>${escapeHtml(member.pa ?? "—")}</strong></div><div class="profile-metric"><small>Métier</small><strong>${escapeHtml(traduireMetier(member.metier))}</strong></div><div class="profile-metric"><small>Salaire hebdomadaire</small><strong>${escapeHtml(wage)}</strong></div></div>${renduVisuelsProfil(staffClub, member)}<h3>Attributs du staff</h3><p class="profile-disclaimer">L’extracteur actuel ne fournit que l’adaptabilité parmi les attributs métier FM27. Les autres attributs ne sont pas disponibles ; aucun chiffre n’est estimé. Les valeurs sont affichées actuel / potentiel individuel (— si inconnu).</p><div class="profile-layout">${allAttributes}<section class="profile-section"><h3>Compétences métier</h3><p>Entraînement, recrutement et compétences médicales : non disponibles dans l’export.</p></section></div><section class="profile-section profile-contract"><h3>Contrat</h3><div class="stat-row"><span>Fin du contrat</span><strong>${escapeHtml(member.fin_contrat || "Non renseignée")}</strong></div></section>${comparison}</section>${panneauCarriere(member, true)}</div>`;
+    const comparison = benchmark
+        ? `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(metierLabel)}</h3><p>Meilleur ${escapeHtml(metierLabel)} du club : ${linkStaff(benchmark)} · CA ${escapeHtml(benchmark.ca ?? "—")}</p>${renderComparatifStaff(stats)}</section>`
+        : `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(metierLabel)}</h3><p>Aucun personnel de votre club avec ce métier à comparer.</p></section>`;
+    return `<div class="profile-tabs">${ongletsProfil(true)}<section class="profile-tab-panel" id="profile-tab-profile" role="tabpanel" aria-labelledby="profile-tab-button"${profileActiveTab === "profile" ? "" : " hidden"}><div class="profile-hero"><div class="profile-identity"><div class="profile-person-heading">${portraitHtml(member, "profile-avatar")}<div><h2>${lienProfil("staff", member.uid, member.nom || "Membre du staff", member.nom || "Membre du staff", true)}</h2><div class="profile-staff-meta"><span class="profile-metier-badge">${metierBadgeIcon(member.metier)} ${escapeHtml(metierLabel)}</span><span class="profile-age-badge">${ageLabel}</span></div><p>Club : ${linkClub(member.club, member.club_uid)}</p></div></div></div><div class="profile-metrics"><div class="profile-metric"><small>Capacité actuelle</small><strong>${escapeHtml(caLabel)}</strong></div><div class="profile-metric"><small>Potentiel</small><strong>${escapeHtml(paLabel)}</strong></div><div class="profile-metric"><small>Statut contrat</small><strong class="${statutClass}">${statutLabel}</strong></div><div class="profile-metric"><small>Salaire hebdomadaire</small><strong>${escapeHtml(wage)}</strong></div></div>${renduVisuelsProfil(staffClub, member)}<div class="profile-grid"><section class="profile-section profile-attrs"><h3>Attributs du staff</h3>${disclaimer}${allAttributes}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">💪</span> Points forts</h3>${fortsHtml}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">⚠️</span> Points faibles</h3>${faiblesHtml}</section>${comparison}<section class="profile-section profile-competences"><h3>Compétences métier</h3><p class="profile-disclaimer">Entraînement, recrutement et compétences médicales : non disponibles dans l’export.</p></section><section class="profile-section profile-contract"><h3>Contrat</h3><div class="stat-row"><span>Fin du contrat</span><strong>${escapeHtml(member.fin_contrat || "Non renseignée")}</strong></div><div class="stat-row"><span>Situation</span><strong class="${statutClass}">${statutLabel}${sousContrat ? ` · fin ${escapeHtml(member.fin_contrat)}` : ""}</strong></div></section></div>${panneauCarriere(member, true)}</div>`;
 }
 
 function renderClubProfile(club) {
@@ -4698,6 +4724,18 @@ const attributsStaff = {
     "sports_science": "Sciences du sport"
 };
 
+function metierBadgeIcon(metier) {
+    const m = String(metier || "").toLocaleLowerCase("fr");
+    if (/gardien|goalkeeping/.test(m)) return "🧤";
+    if (/entra\u00eeneur|coach|manager/.test(m)) return "⚽";
+    if (/sportif|science|fitness|preparateur|physio/.test(m)) return "💪";
+    if (/medecin|doctor|kiné|sante|santé/.test(m)) return "🏥";
+    if (/recrut|scout/.test(m)) return "🔍";
+    if (/directeur|director|chairman|president|owner/.test(m)) return "🎩";
+    if (/analyse|analyst|data/.test(m)) return "📊";
+    if (/chef|head/.test(m)) return "👔";
+    return "👤";
+}
 function traduireMetier(job) {
     if (!job) return "Fonction non renseignée";
     let normalized = String(job)

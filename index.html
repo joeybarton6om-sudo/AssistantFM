@@ -346,6 +346,20 @@
         .profile-role-details { grid-column: 1 / -1; }
         .profile-role-details .profile-role-list { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
         .profile-disclaimer { color: var(--muted); font-size: 10px; line-height: 1.45; margin: 8px 0 0; }
+        .profile-staff-meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 0; font-size: 11px; }
+        .profile-metier-badge { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent); border-radius: 999px; color: #fff; font-size: 10.5px; font-weight: 700; padding: 3px 8px; display: inline-flex; align-items: center; gap: 4px; }
+        .profile-age-badge { background: #252c35; border: 1px solid #39424f; border-radius: 999px; color: #c5ceda; font-size: 10.5px; padding: 3px 8px; display: inline-flex; align-items: center; gap: 4px; }
+        .profile-metrics { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 8px 0 4px; }
+        .profile-metrics .profile-metric { text-align: center; }
+        .profile-grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr) minmax(230px, .85fr); }
+        .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
+        .tag { background: #252c35; border: 1px solid #39424f; border-radius: 6px; color: #c5ceda; font-size: 10px; font-weight: 600; padding: 4px 7px; display: inline-flex; align-items: center; gap: 4px; }
+        .tag-good { background: rgba(25, 135, 64, .18); border-color: rgba(25, 135, 64, .45); color: #8df0a1; }
+        .tag-bad { background: rgba(175, 35, 45, .18); border-color: rgba(175, 35, 45, .45); color: #ff9696; }
+        .tag-val { font-size: 9px; opacity: .8; }
+        .section-emoji { margin-right: 4px; }
+        .badge-ok { background: rgba(25, 135, 64, .18); border: 1px solid rgba(25, 135, 64, .45); color: #8df0a1; border-radius: 6px; font-size: 10px; font-weight: 700; padding: 3px 7px; }
+        .badge-warn { background: rgba(175, 35, 45, .18); border: 1px solid rgba(175, 35, 45, .45); color: #ff9696; border-radius: 6px; font-size: 10px; font-weight: 700; padding: 3px 7px; }
         .profile-club-button { color: var(--accent); }
         .staff-filter-row { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; }
         .staff-filter-row label { display: flex; flex-direction: column; gap: 3px; color: var(--muted); font-size: 11px; }
