@@ -3692,32 +3692,40 @@ const famillesAttributsStaff = {
     "Médical": ["physiotherapist", "sports_science"]
 };
 
-function ligneAttributStaff(key, stats, potentialStats = {}) {
+function ligneAttributStaff(key, stats, potentialStats = {}, comparisonStats = null) {
     const rawValue = stats[key];
     if (!estNombre(rawValue)) return "";
     const value = Number(rawValue);
     const rawPotential = potentialStats[key];
     const potential = estNombre(rawPotential) ? Number(rawPotential) : null;
+    const rawComparison = comparisonStats?.[key];
+    const comparison = estNombre(rawComparison) ? Number(rawComparison) : null;
     const width = Math.max(0, Math.min(100, value / 20 * 100));
     const label = attributsStaff[key] || key.replace(/_/g, " ");
     const explanation = explicationsAttributs[key] || "Attribut Football Manager évalué sur 20.";
-    return `<div class="profile-stat"><div class="profile-stat-line"><span class="profile-stat-label" title="${escapeHtml(explanation)}">${escapeHtml(label)}</span><strong class="profile-stat-values" title="Valeur actuelle / potentiel individuel"><span>${escapeHtml(value)}</span><span class="profile-stat-separator">/</span><span class="profile-stat-potential">${escapeHtml(potential ?? "—")}</span></strong></div><div class="profile-stat-track"><div class="profile-stat-fill" style="width:${width}%"></div></div></div>`;
+    const secondary = comparisonStats === null ? potential : comparison;
+    const difference = comparisonStats !== null && comparison !== null ? value - comparison : null;
+    const comparisonClass = difference === null ? "" : difference > 0 ? " comparison-better" : difference < 0 ? " comparison-worse" : " comparison-equal";
+    const delta = difference === null ? "" : `<span class="comparison-delta${comparisonClass}">${difference > 0 ? "+" : ""}${difference}</span>`;
+    const missingClass = comparisonStats === null ? potential == null : comparison == null;
+    const valueTitle = comparisonStats !== null ? "Valeur actuelle / valeur du staff de référence" : potential == null ? "Valeur actuelle / potentiel individuel non disponible" : "Valeur actuelle / potentiel individuel";
+    return `<div class="profile-stat${comparisonClass}"><div class="profile-stat-line"><span class="profile-stat-label" title="${escapeHtml(explanation)}">${escapeHtml(label)}</span><strong class="profile-stat-values${comparisonClass}" title="${valueTitle}"><span>${escapeHtml(value)}</span><span class="profile-stat-separator">/</span><span class="${missingClass ? "profile-stat-potential missing" : "profile-stat-potential"}">${escapeHtml(secondary ?? "—")}</span>${delta}</strong></div><div class="profile-stat-track"><div class="profile-stat-fill" style="width:${width}%"></div></div></div>`;
 }
 
-function blocAttributsStaff(stats, potentialStats = {}) {
+function blocAttributsStaff(stats, potentialStats = {}, comparisonStats = null) {
     const shown = new Set();
     let html = "";
     Object.entries(famillesAttributsStaff).forEach(([family, keys]) => {
         const rows = keys.map(key => {
             if (!Object.hasOwn(stats, key)) return "";
             shown.add(key);
-            return ligneAttributStaff(key, stats, potentialStats);
+            return ligneAttributStaff(key, stats, potentialStats, comparisonStats);
         }).filter(Boolean).join("");
         if (rows) html += `<section class="profile-section"><h3>${escapeHtml(family)}</h3>${rows}</section>`;
     });
     const remaining = Object.keys(stats).filter(key => !shown.has(key) && attributsStaff[key]).sort();
     if (remaining.length) {
-        const rows = remaining.map(key => ligneAttributStaff(key, stats, potentialStats)).join("");
+        const rows = remaining.map(key => ligneAttributStaff(key, stats, potentialStats, comparisonStats)).join("");
         if (rows) html += `<section class="profile-section"><h3>Autres attributs staff</h3>${rows}</section>`;
     }
     if (!html) html = `<section class="profile-section"><h3>Attributs disponibles</h3><p class="profile-disclaimer">Aucun attribut n’a été exporté pour ce profil.</p></section>`;
@@ -4066,10 +4074,10 @@ function renderPlayerProfile(player) {
 
 function renderStaffProfile(member) {
     const stats = member.stats || {};
-    const allAttributes = blocAttributsStaff(stats, attributsPotentiels(member));
     const ownStaff = rawData.staff.filter(person => person.est_mon_club && person.metier === member.metier);
     const benchmark = ownStaff.reduce((best, person) =>
         !best || Number(person.ca || 0) > Number(best.ca || 0) ? person : best, null);
+    const allAttributes = blocAttributsStaff(stats, attributsPotentiels(member), benchmark.stats || {});
     const comparison = benchmark
         ? `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(traduireMetier(member.metier))}</h3><p>Meilleur CA du métier dans votre club : ${linkStaff(benchmark)} · ${escapeHtml(benchmark.ca ?? "—")}</p>${renderComparatifStaff(stats)}</section>`
         : `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(traduireMetier(member.metier))}</h3><p>Aucun personnel de votre club avec ce métier à comparer.</p></section>`;
