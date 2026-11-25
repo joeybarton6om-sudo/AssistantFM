@@ -1266,6 +1266,7 @@ function changerOnglet(nouveauMode) {
     mode = nouveauMode;
     if (mode === "staff") {
         alimenterFiltresStaff();
+        if (!rawData) return;
         filtrerTout();
     }
     const titres = {
@@ -1538,18 +1539,21 @@ function filtrerTout() {
     const erreurReputation = mode === "joueurs" && !Number.isFinite(margeReputation);
     const erreurFiltresRecrutement = erreurReputation ? "Vérifiez l’écart de réputation maximum." : "";
     // Filtre genre : automatique selon le club géré (déduit de club_gere_gender, sinon des joueurs du club)
-    let effectiveGender = rawData.club_gere_gender;
-    if (effectiveGender === undefined || effectiveGender === null) {
-        // Déduire du genre des joueurs du club géré
-        const clubGereUid = rawData.club_gere?.uid;
-        if (clubGereUid) {
-            const clubGerePlayers = rawData.joueurs.filter(p => String(p.club_uid) === String(clubGereUid));
-            const genders = clubGerePlayers.map(p => p.gender).filter(g => g !== undefined && g !== null);
-            if (genders.length > 0) {
-                // Prendre le genre le plus fréquent
-                const counts = {};
-                genders.forEach(g => { counts[g] = (counts[g] || 0) + 1; });
-                effectiveGender = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+    let effectiveGender = null;
+    if (rawData) {
+        effectiveGender = rawData.club_gere_gender;
+        if (effectiveGender === undefined || effectiveGender === null) {
+            // Déduire du genre des joueurs du club géré
+            const clubGereUid = rawData.club_gere?.uid;
+            if (clubGereUid) {
+                const clubGerePlayers = rawData.joueurs.filter(p => String(p.club_uid) === String(clubGereUid));
+                const genders = clubGerePlayers.map(p => p.gender).filter(g => g !== undefined && g !== null);
+                if (genders.length > 0) {
+                    // Prendre le genre le plus fréquent
+                    const counts = {};
+                    genders.forEach(g => { counts[g] = (counts[g] || 0) + 1; });
+                    effectiveGender = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+                }
             }
         }
     }
@@ -4452,6 +4456,7 @@ function estNombre(value) {
 
 function alimenterFiltresStaff() {
     const select = document.getElementById("staff-job-filter");
+    if (!select) return;
     const selected = select.value;
     const seen = new Set();
     const jobs = [];
