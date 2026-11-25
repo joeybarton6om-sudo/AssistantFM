@@ -3684,6 +3684,46 @@ function blocAttributsProfil(stats, highlights, potentialStats = {}) {
     return html;
 }
 
+const famillesAttributsStaff = {
+    "Préparation": ["set_pieces", "defensive", "youngsters", "goalkeeping", "attacking", "possession", "fitness", "tactics", "technique"],
+    "Mental": ["adaptability", "authority", "motivation", "determination", "man_management"],
+    "Connaissances": ["judging_potential", "judging_players", "judging_staff", "negotiation", "tactical_knowledge"],
+    "Recrutement": ["data_analysis"],
+    "Médical": ["physiotherapist", "sports_science"]
+};
+
+function ligneAttributStaff(key, stats, potentialStats = {}) {
+    const rawValue = stats[key];
+    if (!estNombre(rawValue)) return "";
+    const value = Number(rawValue);
+    const rawPotential = potentialStats[key];
+    const potential = estNombre(rawPotential) ? Number(rawPotential) : null;
+    const width = Math.max(0, Math.min(100, value / 20 * 100));
+    const label = attributsStaff[key] || key.replace(/_/g, " ");
+    const explanation = explicationsAttributs[key] || "Attribut Football Manager évalué sur 20.";
+    return `<div class="profile-stat"><div class="profile-stat-line"><span class="profile-stat-label" title="${escapeHtml(explanation)}">${escapeHtml(label)}</span><strong class="profile-stat-values" title="Valeur actuelle / potentiel individuel"><span>${escapeHtml(value)}</span><span class="profile-stat-separator">/</span><span class="profile-stat-potential">${escapeHtml(potential ?? "—")}</span></strong></div><div class="profile-stat-track"><div class="profile-stat-fill" style="width:${width}%"></div></div></div>`;
+}
+
+function blocAttributsStaff(stats, potentialStats = {}) {
+    const shown = new Set();
+    let html = "";
+    Object.entries(famillesAttributsStaff).forEach(([family, keys]) => {
+        const rows = keys.map(key => {
+            if (!Object.hasOwn(stats, key)) return "";
+            shown.add(key);
+            return ligneAttributStaff(key, stats, potentialStats);
+        }).filter(Boolean).join("");
+        if (rows) html += `<section class="profile-section"><h3>${escapeHtml(family)}</h3>${rows}</section>`;
+    });
+    const remaining = Object.keys(stats).filter(key => !shown.has(key) && attributsStaff[key]).sort();
+    if (remaining.length) {
+        const rows = remaining.map(key => ligneAttributStaff(key, stats, potentialStats)).join("");
+        if (rows) html += `<section class="profile-section"><h3>Autres attributs staff</h3>${rows}</section>`;
+    }
+    if (!html) html = `<section class="profile-section"><h3>Attributs disponibles</h3><p class="profile-disclaimer">Aucun attribut n’a été exporté pour ce profil.</p></section>`;
+    return html;
+}
+
 function renderPositionPanel(player, positionKey) {
     const positions = positionsProfil(player);
     const postesTerrain = Object.keys(codesTerrain).filter(position => !["dc", "dm", "mc", "stc"].includes(position)).map(position => ({
@@ -4026,7 +4066,7 @@ function renderPlayerProfile(player) {
 
 function renderStaffProfile(member) {
     const stats = member.stats || {};
-    const allAttributes = blocAttributsProfil(stats, new Set(), attributsPotentiels(member));
+    const allAttributes = blocAttributsStaff(stats, attributsPotentiels(member));
     const ownStaff = rawData.staff.filter(person => person.est_mon_club && person.metier === member.metier);
     const benchmark = ownStaff.reduce((best, person) =>
         !best || Number(person.ca || 0) > Number(best.ca || 0) ? person : best, null);
@@ -4339,10 +4379,8 @@ function alimenterFiltresStaff() {
     const jobs = [];
     rawData.staff.forEach(person => {
         const metier = person.metier;
-        if (!metier) return;
-        const libelle = traduireMetier(metier);
-        if (seen.has(libelle)) return;
-        seen.add(libelle);
+        if (!metier || seen.has(metier)) return;
+        seen.add(metier);
         jobs.push(metier);
     });
     jobs.sort((a, b) => traduireMetier(a).localeCompare(traduireMetier(b), "fr"));
@@ -4653,8 +4691,15 @@ const attributsStaff = {
 };
 
 function traduireMetier(job) {
-    const normalized = String(job || "").replace(/_/g, " ").trim().toLocaleLowerCase("fr");
-    return metiersFrancais[normalized] || String(job || "Fonction non renseignée");
+    if (!job) return "Fonction non renseignée";
+    let normalized = String(job)
+        .replace(/[_-]/g, " ")
+        .toLocaleLowerCase("fr")
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    return metiersFrancais[normalized] || String(job);
 }
 
 function clePosteDepuisNom(position) {
