@@ -1537,8 +1537,22 @@ function filtrerTout() {
     const reputationClub = estNombre(rawData.club_gere?.reputation) ? Number(rawData.club_gere.reputation) : null;
     const erreurReputation = mode === "joueurs" && !Number.isFinite(margeReputation);
     const erreurFiltresRecrutement = erreurReputation ? "Vérifiez l’écart de réputation maximum." : "";
-    // Filtre genre : automatique selon le club géré (si connu)
-    const effectiveGender = rawData.club_gere_gender;
+    // Filtre genre : automatique selon le club géré (déduit de club_gere_gender, sinon des joueurs du club)
+    let effectiveGender = rawData.club_gere_gender;
+    if (effectiveGender === undefined || effectiveGender === null) {
+        // Déduire du genre des joueurs du club géré
+        const clubGereUid = rawData.club_gere?.uid;
+        if (clubGereUid) {
+            const clubGerePlayers = rawData.joueurs.filter(p => String(p.club_uid) === String(clubGereUid));
+            const genders = clubGerePlayers.map(p => p.gender).filter(g => g !== undefined && g !== null);
+            if (genders.length > 0) {
+                // Prendre le genre le plus fréquent
+                const counts = {};
+                genders.forEach(g => { counts[g] = (counts[g] || 0) + 1; });
+                effectiveGender = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+            }
+        }
+    }
     const clubGenderMap = new Map();
     if (rawData.clubs) {
         rawData.clubs.forEach(club => {
@@ -1557,10 +1571,10 @@ function filtrerTout() {
         if (mode !== "staff" && monClub && person.est_mon_club !== true) {
             return false;
         }
-        // Filtre genre : seulement si effectiveGender est défini (0 ou 1)
+        // Filtre genre : appliquer quand le genre du club géré est connu
         if (mode === "joueurs" && effectiveGender !== null && effectiveGender !== undefined) {
-            const clubGender = clubGenderMap.get(person.club_uid);
-            if (clubGender !== undefined && clubGender !== effectiveGender) return false;
+            const personGender = person.gender;
+            if (personGender !== undefined && personGender !== null && String(personGender) !== String(effectiveGender)) return false;
         }
         if (mode === "staff") {
             const metierEl = document.getElementById("staff-job-filter");
