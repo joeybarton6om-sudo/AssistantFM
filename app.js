@@ -309,6 +309,31 @@ const explicationsAttributs = {
     adaptability: "Capacité à s’adapter à de nouvelles situations et à un nouvel environnement."
 };
 
+const explicationsAttributsStaff = {
+    set_pieces: "Qualité dans l’exécution des coups de pied arrêtés (corners, coups francs, penaltys).",
+    defensive: "Compétence dans l’organisation défensive et le travail défensif de l’équipe.",
+    youngsters: "Capacité à travailler avec et faire progresser les jeunes joueurs.",
+    goalkeeping: "Compétence spécifique pour l’entraînement des gardiens de but.",
+    attacking: "Compétence dans l’organisation offensive et le travail de création de buts.",
+    possession: "Capacité à faire garder le ballon à l’équipe et contrôler le jeu.",
+    fitness: "Compétence en préparation physique et conditionnement des joueurs.",
+    tactics: "Compétence en analyse tactique et mise en place de schémas de jeu.",
+    technique: "Compétence technique pour l’amélioration des gestes de base des joueurs.",
+    adaptability: "Capacité à s’adapter à de nouvelles situations et à un nouvel environnement.",
+    authority: "Autorité naturelle et capacité à se faire respecter du groupe.",
+    motivation: "Capacité à motiver et stimuler les joueurs avant et pendant les matchs.",
+    determination: "Détermination et persévérance dans l’atteinte des objectifs.",
+    man_management: "Compétence en gestion des relations humaines et du vestiaire.",
+    judging_potential: "Capacité à évaluer le potentiel futur d’un joueur.",
+    judging_players: "Capacité à évaluer le niveau actuel des joueurs.",
+    judging_staff: "Capacité à évaluer le niveau des autres membres du staff.",
+    negotiation: "Compétence en négociation (contrats, transferts, salaires).",
+    tactical_knowledge: "Connaissance des systèmes tactiques et des principes de jeu.",
+    data_analysis: "Capacité à analyser les données et statistiques de performance.",
+    physiotherapist: "Compétence en rééducation et soins des blessures physiques.",
+    sports_science: "Connaissance des sciences du sport appliquées au football."
+};
+
 const statutsEffectifFrancais = {
     youngster: "Jeune",
     future_prospect: "Espoir à long terme",
@@ -1239,7 +1264,10 @@ function changerOnglet(nouveauMode) {
         document.getElementById("se").value = "";
     }
     mode = nouveauMode;
-    if (mode === "staff") alimenterFiltresStaff();
+    if (mode === "staff") {
+        alimenterFiltresStaff();
+        filtrerTout();
+    }
     const titres = {
         joueurs: "Recrutement", staff: "Staff technique",
         planificateur: "Planificateur d’effectif", mercato: "Copilote mercato", affaires: "Bonnes affaires", "recrutement-poste": "Recruter par poste",
@@ -1535,9 +1563,11 @@ function filtrerTout() {
             if (clubGender !== undefined && clubGender !== effectiveGender) return false;
         }
         if (mode === "staff") {
-            const metier = document.getElementById("staff-job-filter").value;
-            if (metier && person.metier !== metier) return false;
-            const contrat = document.getElementById("staff-contract-filter").value;
+            const metierEl = document.getElementById("staff-job-filter");
+            const contratEl = document.getElementById("staff-contract-filter");
+            const metier = metierEl ? metierEl.value : "";
+            const contrat = contratEl ? contratEl.value : "";
+            if (metier && String(person.metier || "").trim().toLocaleLowerCase("fr") !== String(metier).trim().toLocaleLowerCase("fr")) return false;
             if (contrat && contratStaff(person) !== contrat) return false;
             if (!correspondAuxFiltresStaff(person, filtresAttributsStaff.criteres)) return false;
         }
@@ -3703,7 +3733,7 @@ function ligneAttributStaff(key, stats, potentialStats = {}, comparisonStats = n
     const comparison = estNombre(rawComparison) ? Number(rawComparison) : null;
     const width = Math.max(0, Math.min(100, value / 20 * 100));
     const label = attributsStaff[key] || key.replace(/_/g, " ");
-    const explanation = explicationsAttributs[key] || "Attribut Football Manager évalué sur 20.";
+    const explanation = explicationsAttributsStaff[key] || explicationsAttributs[key] || "Attribut Football Manager évalué sur 20.";
     const secondary = comparisonStats === null ? potential : comparison;
     const difference = comparisonStats !== null && comparison !== null ? value - comparison : null;
     const comparisonClass = difference === null ? "" : difference > 0 ? " comparison-better" : difference < 0 ? " comparison-worse" : " comparison-equal";

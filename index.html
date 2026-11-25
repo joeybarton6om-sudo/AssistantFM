@@ -325,6 +325,26 @@
         .position-map-marker.moyen { background: #80600c; border-color: #f5df8b; }
         .position-map-marker.faible { background: #87392f; border-color: #ffbeb2; }
         .position-map-marker.selected { outline: 2px solid #fff; outline-offset: 1px; }
+
+        /* Bulles staff : badges et métadonnées */
+        .profile-staff-meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 6px; }
+        .profile-metier-badge { align-items: center; background: rgba(255,255,255,.08); border: 1px solid var(--line); border-radius: 6px; color: #d3dce4; display: inline-flex; font-size: 11px; font-weight: 700; gap: 5px; padding: 3px 8px; }
+        .profile-age-badge { align-items: center; background: rgba(91,155,213,.12); border: 1px solid rgba(91,155,213,.28); border-radius: 6px; color: #a8c8ee; display: inline-flex; font-size: 11px; font-weight: 700; gap: 4px; padding: 2px 8px; }
+        .profile-metrics { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 10px 0 6px; }
+        .profile-metrics .profile-metric { background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 7px; padding: 8px 6px; text-align: center; }
+        .profile-grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)) 320px; }
+        .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+        .tag { align-items: center; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 6px; color: #d3dce4; display: inline-flex; font-size: 10px; gap: 4px; padding: 3px 8px; }
+        .tag-val { background: rgba(0,0,0,.2); border-radius: 3px; font-size: 9px; font-weight: 800; padding: 1px 4px; }
+        .tag-good { border-color: rgba(25,135,64,.4); color: #8df0a1; }
+        .tag-bad { border-color: rgba(175,35,45,.4); color: #ff9696; }
+        .badge-ok { color: #8df0a1; }
+        .badge-warn { color: #ffb347; }
+        .section-emoji { font-size: 14px; margin-right: 4px; }
+        .profile-disclaimer { color: var(--muted); font-size: 10px; line-height: 1.4; margin-top: 6px; }
+        @media (max-width: 900px) {
+            .profile-grid { grid-template-columns: 1fr; }
+        }
         button.position-map-marker:hover:not(:disabled) { transform: none; }
         .position-map-legend { color: #d3dce4; display: flex; flex-wrap: wrap; font-size: 10px; gap: 5px 10px; line-height: 1.5; margin: 0; }
         .position-map-legend-item { align-items: center; display: inline-flex; gap: 4px; }
