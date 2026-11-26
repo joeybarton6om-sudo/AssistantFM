@@ -4099,6 +4099,13 @@ function renderPlayerProfile(player) {
     }).join("");
     const goalkeeperAttributes = attributsGardien
         .map(key => ligneAttributProfil(key, stats, highlighted, potentialStats, comparisonStats)).join("");
+    const roleInfo = (() => {
+        const info = rolesStaffAttributs[member.metier || ""] || rolesStaffAttributs[traduireMetier(member.metier || "")] || null;
+        if (!info) return "";
+        const clésHtml = (info.clés || []).map(k => `<span class="staff-attr-key">${escapeHtml(attributsStaffLibelles[k] || k)}</span>`).join("");
+        const secondesHtml = (info.secondaires || []).map(k => `<span class="staff-attr-sec">${escapeHtml(attributsStaffLibelles[k] || k)}</span>`).join("");
+        return `<div class="staff-role-info" style="margin-top:8px;"><div class="staff-role-name" style="color:#ffb74d; font-weight:700; font-size:12px;">Attributs clés pour ce rôle</div><div class="staff-role-keys">${clésHtml}</div><div class="staff-role-secondaires">${secondesHtml}</div></div>`;
+    })();
     return `<div class="profile-tabs">
         ${ongletsProfil()}
             <div class="profile-hero">
@@ -4161,7 +4168,7 @@ function renderStaffProfile(member) {
     const comparison = benchmark
         ? `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(metierLabel)}</h3><p>Meilleur ${escapeHtml(metierLabel)} du club : ${linkStaff(benchmark)} · CA ${escapeHtml(benchmark.ca ?? "—")}</p>${renderComparatifStaff(stats)}</section>`
         : `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(metierLabel)}</h3><p>Aucun personnel de votre club avec ce métier à comparer.</p></section>`;
-    return `<div class="profile-tabs">${ongletsProfil(true)}<section class="profile-tab-panel" id="profile-tab-profile" role="tabpanel" aria-labelledby="profile-tab-button"${profileActiveTab === "profile" ? "" : " hidden"}><div class="profile-hero"><div class="profile-identity"><div class="profile-person-heading">${portraitHtml(member, "profile-avatar")}<div><h2>${lienProfil("staff", member.uid, member.nom || "Membre du staff", member.nom || "Membre du staff", true)}</h2><div class="profile-staff-meta"><span class="profile-metier-badge ${metierBadgeClass(member.metier)}">${metierBadgeIcon(member.metier)} ${escapeHtml(metierLabel)}</span><span class="profile-age-badge">${ageLabel}</span></div><p>Club : ${linkClub(member.club, member.club_uid)}</p></div></div></div><div class="profile-metrics"><div class="profile-metric"><small>Capacité actuelle</small><strong>${escapeHtml(caLabel)}</strong></div><div class="profile-metric"><small>Potentiel</small><strong>${escapeHtml(paLabel)}</strong></div><div class="profile-metric"><small>Statut contrat</small><strong class="${statutClass}">${statutLabel}</strong></div><div class="profile-metric"><small>Salaire hebdomadaire</small><strong>${escapeHtml(wage)}</strong></div></div>${renduVisuelsProfil(staffClub, member)}<div class="profile-grid"><section class="profile-section profile-attrs"><h3>Attributs du staff</h3>${disclaimer}${allAttributes}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">💪</span> Points forts</h3>${fortsHtml}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">⚠️</span> Points faibles</h3>${faiblesHtml}</section>${comparison}<section class="profile-section profile-competences"><h3>Compétences métier</h3><p class="profile-disclaimer">Entraînement, recrutement et compétences médicales : non disponibles dans l’export.</p></section><section class="profile-section profile-contract"><h3>Contrat</h3><div class="stat-row"><span>Fin du contrat</span><strong>${escapeHtml(member.fin_contrat || "Non renseignée")}</strong></div><div class="stat-row"><span>Situation</span><strong class="${statutClass}">${statutLabel}${sousContrat ? ` · fin ${escapeHtml(member.fin_contrat)}` : ""}</strong></div></section></div>${panneauCarriere(member, true)}</div>`;
+    return `<div class="profile-tabs">${ongletsProfil(true)}<section class="profile-tab-panel" id="profile-tab-profile" role="tabpanel" aria-labelledby="profile-tab-button"${profileActiveTab === "profile" ? "" : " hidden"}><div class="profile-hero"><div class="profile-identity"><div class="profile-person-heading">${portraitHtml(member, "profile-avatar")}<div><h2>${lienProfil("staff", member.uid, member.nom || "Membre du staff", member.nom || "Membre du staff", true)}</h2><div class="profile-staff-meta"><span class="profile-metier-badge ${metierBadgeClass(member.metier)}">${metierBadgeIcon(member.metier)} ${escapeHtml(metierLabel)}</span><span class="profile-age-badge">${ageLabel}</span></div><p>Club : ${linkClub(member.club, member.club_uid)}</p></div></div></div><div class="profile-metrics"><div class="profile-metric"><small>Capacité actuelle</small><strong>${escapeHtml(caLabel)}</strong></div><div class="profile-metric"><small>Potentiel</small><strong>${escapeHtml(paLabel)}</strong></div><div class="profile-metric"><small>Statut contrat</small><strong class="${statutClass}">${statutLabel}</strong></div><div class="profile-metric"><small>Salaire hebdomadaire</small><strong>${escapeHtml(wage)}</strong></div></div>${roleInfo}${renduVisuelsProfil(staffClub, member)}<div class="profile-grid"><section class="profile-section profile-attrs"><h3>Attributs du staff</h3>${disclaimer}${allAttributes}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">💪</span> Points forts</h3>${fortsHtml}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">⚠️</span> Points faibles</h3>${faiblesHtml}</section>${comparison}<section class="profile-section profile-competences"><h3>Compétences métier</h3><p class="profile-disclaimer">Entraînement, recrutement et compétences médicales : non disponibles dans l’export.</p></section><section class="profile-section profile-contract"><h3>Contrat</h3><div class="stat-row"><span>Fin du contrat</span><strong>${escapeHtml(member.fin_contrat || "Non renseignée")}</strong></div><div class="stat-row"><span>Situation</span><strong class="${statutClass}">${statutLabel}${sousContrat ? ` · fin ${escapeHtml(member.fin_contrat)}` : ""}</strong></div></section></div>${panneauCarriere(member, true)}</div>`;
 }
 
 function renderClubProfile(club) {
@@ -5254,3 +5261,130 @@ window.addEventListener("focus", () => {
         checkForUpdate();
     }
 });
+
+// ============================================================================
+// Système de recherche intelligent des staff par catégorie et rôle
+// ============================================================================
+
+// Mapping des attributs internes vers leurs libellés français (pour affichage)
+const attributsStaffLibelles = {
+    man_management: "Gestion des personnes",
+    tactical_knowledge: "Notions tactiques",
+    judging_players: "Évaluation joueurs",
+    judging_potential: "Évaluation du potentiel",
+    determination: "Détermination",
+    authority: "Autorité",
+    motivation: "Capacité à motiver",
+    youngsters: "Entraînement des jeunes",
+    attacking: "Offensif",
+    technique: "Technique",
+    tactics: "Tactique",
+    defensive: "Défensif",
+    possession: "Possession",
+    goalkeeping: "Gardien",
+    set_pieces: "Coups de pied arrêtés",
+    fitness: "Préparation physique",
+    data_analysis: "Analyse de données",
+    negotiation: "Négociation",
+    adaptability: "Adaptabilité",
+    judging_staff: "Évaluation niveau du staff",
+    physiotherapist: "Kiné",
+    sports_science: "Sciences du sport"
+};
+
+// Mapping des rôles staff vers leurs attributs clés et secondaires (clés internes)
+const rolesStaffAttributs = {
+    // === Staff technique (Entraînement) ===
+    "Entraîneur adjoint": { clés: ["man_management","tactical_knowledge","judging_players","judging_potential"], secondaires: ["determination","authority","motivation"] },
+    "Responsable de la formation jeunes": { clés: ["youngsters","judging_players","judging_potential"], secondaires: ["man_management","determination"] },
+    "Préparateur général (Attaque)": { clés: ["attacking","technique","tactics"], secondaires: ["determination","authority","motivation"] },
+    "Préparateur général (Défense)": { clés: ["defensive","tactics","technique"], secondaires: ["determination","authority","motivation"] },
+    "Préparateur général (Possession)": { clés: ["possession","technique","tactics"], secondaires: ["determination","authority","motivation"] },
+    "Préparateur des gardiens": { clés: ["goalkeeping"], secondaires: ["determination","authority","motivation"] },
+    "Préparateur physique": { clés: ["fitness"], secondaires: ["determination","authority","motivation"] },
+    "Préparateur aux coups de pied arrêtés": { clés: ["set_pieces","tactical_knowledge"], secondaires: ["technique","determination","authority","motivation"] },
+    "Responsable des analystes des performances": { clés: ["data_analysis"], secondaires: ["tactical_knowledge","man_management"] },
+    "Analyste des performances": { clés: ["data_analysis"], secondaires: ["tactical_knowledge"] },
+
+    // === Cellule de recrutement et direction ===
+    "Directeur sportif": { clés: ["judging_players","judging_potential","negotiation"], secondaires: ["man_management","adaptability"] },
+    "Directeur technique": { clés: ["judging_staff","negotiation"], secondaires: ["man_management","judging_potential"] },
+    "Responsable du recrutement": { clés: ["judging_players","judging_potential"], secondaires: ["adaptability","man_management","negotiation"] },
+    "Recruteur": { clés: ["judging_players","judging_potential"], secondaires: ["adaptability"] },
+    "Analyste du recrutement": { clés: ["data_analysis"], secondaires: ["judging_players","judging_potential"] },
+    "Responsable des prêts": { clés: ["judging_players","judging_potential","negotiation"], secondaires: ["man_management","determination"] },
+
+    // === Staff médical ===
+    "Responsable des kinés": { clés: ["physiotherapist"], secondaires: ["man_management","determination"] },
+    "Kiné": { clés: ["physiotherapist"], secondaires: ["determination"] },
+    "Médecin chef / Médecin": { clés: ["physiotherapist"], secondaires: [] },
+    "Responsable des sciences du sport": { clés: ["sports_science"], secondaires: ["man_management","determination"] },
+    "Chercheur en sciences du sport": { clés: ["sports_science"], secondaires: ["determination"] }
+};
+
+// Mapping des catégories vers leurs rôles
+const categoriesStaff = {
+    "Staff technique (Entraînement)": [
+        "Entraîneur adjoint","Responsable de la formation jeunes","Préparateur général (Attaque)",
+        "Préparateur général (Défense)","Préparateur général (Possession)","Préparateur des gardiens",
+        "Préparateur physique","Préparateur aux coups de pied arrêtés",
+        "Responsable des analystes des performances","Analyste des performances"
+    ],
+    "Cellule de recrutement et direction": [
+        "Directeur sportif","Directeur technique","Responsable du recrutement","Recruteur",
+        "Analyste du recrutement","Responsable des prêts"
+    ],
+    "Staff médical": [
+        "Responsable des kinés","Kiné","Médecin chef / Médecin","Responsable des sciences du sport","Chercheur en sciences du sport"
+    ]
+};
+
+// Recherche intelligent : retourne les rôles d'une catégorie qui correspondent au terme de recherche
+function rechercherStaffParCategorie(categorie, terme) {
+    const roles = categoriesStaff[categorie] || [];
+    const t = String(terme || "").toLocaleLowerCase("fr").trim();
+    if (!t) return roles;
+    return roles.filter(role => {
+        const r = String(role).toLocaleLowerCase("fr");
+        const info = rolesStaffAttributs[role] || {};
+        const clés = (info.clés || []).map(k => attributsStaffLibelles[k] || k).join(" ").toLocaleLowerCase("fr");
+        const secondaires = (info.secondaires || []).map(k => attributsStaffLibelles[k] || k).join(" ").toLocaleLowerCase("fr");
+        return r.includes(t) || clés.includes(t) || secondaires.includes(t);
+    });
+}
+
+// Retourne tous les rôles disponibles pour le filtre intelligent
+function listerRolesStaffParCategorie() {
+    return categoriesStaff;
+}
+
+// Rend le HTML de la liste de recherche intelligent des staff
+function renderListeRechercheStaff(categorie = null, terme = "") {
+    const cats = categorie ? { [categorie]: categoriesStaff[categorie] || [] } : categoriesStaff;
+    let html = "";
+    Object.entries(cats).forEach(([cat, roles]) => {
+        const filtrés = rechercherStaffParCategorie(cat, terme);
+        if (!filtrés.length) return;
+        html += `<div class="staff-cat-section"><div class="staff-cat-title">${escapeHtml(cat)}</div><div class="staff-roles-list">`;
+        filtrés.forEach(role => {
+            const info = rolesStaffAttributs[role] || {};
+            const clésHtml = (info.clés || []).map(k => {
+                const lib = attributsStaffLibelles[k] || k;
+                return `<span class="staff-attr-key">${escapeHtml(lib)}</span>`;
+            }).join("");
+            const secondesHtml = (info.secondaires || []).map(k => {
+                const lib = attributsStaffLibelles[k] || k;
+                return `<span class="staff-attr-sec">${escapeHtml(lib)}</span>`;
+            }).join("");
+            html += `<div class="staff-role-item"><div class="staff-role-name">${escapeHtml(role)}</div><div class="staff-role-keys">${clésHtml}</div><div class="staff-role-secondaires">${secondesHtml}</div></div>`;
+        });
+        html += `</div></div>`;
+    });
+    return html || `<div class="staff-cat-section"><div class="staff-cat-title">Aucun résultat</div></div>`;
+}
+
+// Vérifier si une fonction de bureau est un "chairperson" (non recrutable)
+function estChairperson(metier) {
+    const m = String(metier || "").toLocaleLowerCase("fr");
+    return m.includes("chair");
+}

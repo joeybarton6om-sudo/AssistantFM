@@ -406,6 +406,45 @@
         .tag-good { border-color: rgba(25,135,64,.4); color: #8df0a1; background: rgba(25,135,64,.14); }
         .tag-bad { border-color: rgba(175,35,45,.4); color: #ff9696; background: rgba(175,35,45,.14); }
         .tag-val { font-size: 9px; opacity: .8; }
+
+        /* Recherche intelligent staff */
+        .staff-search-box { margin: 8px 0 12px; }
+        .staff-search-box input { background: #1b1b1b; border: 1px solid var(--line); border-radius: 6px; color: #eee; padding: 6px 8px; font-size: 12px; width: 100%; box-sizing: border-box; }
+        .staff-cat-section { margin-bottom: 12px; }
+        .staff-cat-title { background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 6px; color: #a8c8ee; font-size: 12px; font-weight: 700; padding: 5px 10px; margin-bottom: 6px; }
+        .staff-roles-list { display: flex; flex-wrap: wrap; gap: 6px; }
+        .staff-role-item { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; cursor: pointer; transition: border-color .1s; }
+        .staff-role-item:hover { border-color: var(--accent); }
+        .staff-role-name { color: #d3dce4; font-size: 13px; font-weight: 700; margin-bottom: 5px; display: block; }
+        .staff-role-keys { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+        .staff-role-secondaires { display: flex; flex-wrap: wrap; gap: 4px; }
+        .staff-attr-key { background: rgba(25,135,64,.18); border: 1px solid rgba(25,135,64,.35); color: #8df0a1; border-radius: 4px; font-size: 9px; font-weight: 700; padding: 1px 5px; text-transform: uppercase; letter-spacing: .02em; }
+        .staff-attr-sec { background: rgba(158,158,158,.12); border: 1px solid rgba(158,158,158,.28); color: #a8a8a8; border-radius: 4px; font-size: 9px; padding: 1px 5px; }
+
+        /* Bulles staff : rendu visuel amélioré */
+        .profile-staff-meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 6px; }
+        .profile-metier-badge { align-items: center; background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.04)); border: 1px solid var(--line); border-radius: 8px; color: #d3dce4; display: inline-flex; font-size: 12px; font-weight: 700; gap: 6px; padding: 4px 10px; }
+        .profile-metier-badge.goalkeeper { border-color: rgba(91,155,213,.5); color: #9ecbff; background: rgba(91,155,213,.14); }
+        .profile-metier-badge.coach { border-color: rgba(25,135,64,.5); color: #8df0a1; background: rgba(25,135,64,.14); }
+        .profile-metier-badge.manager { border-color: rgba(255,183,77,.5); color: #ffb74d; background: rgba(255,183,77,.14); }
+        .profile-metier-badge.scout { border-color: rgba(171,134,255,.5); color: #cfa7ff; background: rgba(171,134,255,.14); }
+        .profile-metier-badge.medical { border-color: rgba(255,87,34,.5); color: #ff5722; background: rgba(255,87,34,.14); }
+        .profile-metier-badge.director { border-color: rgba(158,158,158,.5); color: #a8a8a8; background: rgba(158,158,158,.14); }
+        .profile-metier-badge.analyst { border-color: rgba(0,188,212,.5); color: #4dd0e1; background: rgba(0,188,212,.14); }
+        .profile-age-badge { align-items: center; background: rgba(91,155,213,.12); border: 1px solid rgba(91,155,213,.28); border-radius: 6px; color: #a8c8ee; display: inline-flex; font-size: 12px; font-weight: 700; gap: 4px; padding: 3px 8px; }
+        .profile-metrics { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 10px 0 8px; }
+        .profile-metrics .profile-metric { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 10px 6px; text-align: center; transition: transform .1s, border-color .1s; }
+        .profile-metrics .profile-metric:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .profile-metrics .profile-metric small { color: var(--muted); display: block; font-size: 10px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+        .profile-metrics .profile-metric strong { display: block; font-size: clamp(17px, 2vw, 24px); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .profile-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr 340px; }
+        .profile-section { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; }
+        .profile-section h3 { color: #a8c8ee; display: flex; align-items: center; gap: 6px; font-size: 14px; margin: 0 0 12px; }
+        .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+        .tag { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 999px; color: #d3dce4; display: inline-block; font-size: 11px; margin: 2px 4px 2px 0; padding: 2px 8px; }
+        .tag-good { border-color: rgba(25,135,64,.4); color: #8df0a1; background: rgba(25,135,64,.14); }
+        .tag-bad { border-color: rgba(175,35,45,.4); color: #ff9696; background: rgba(175,35,45,.14); }
+        .tag-val { font-size: 9px; opacity: .8; }
         .section-emoji { font-size: 16px; margin-right: 4px; }
         .profile-stat { border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 7px; padding-bottom: 5px; }
         .profile-stat-line { align-items: center; display: flex; font-size: 12px; gap: 6px; justify-content: space-between; }
@@ -1255,6 +1294,11 @@
                 <button type="button" id="add-attribute-filter-staff">Ajouter un attribut</button>
             </div>
         </div>
+        <div class="staff-search-box">
+            <label style="color:var(--muted); font-size:11px; display:block; margin-bottom:4px;">🔍 Recherche intelligent de rôles staff</label>
+            <input type="text" id="staff-search-intelligent" placeholder="Ex: Staff Médical, Entraîneur, Directeur..." oninput="afficherRechercheStaff()">
+        </div>
+        <div id="staff-search-results" style="margin-top:8px;"></div>
         <section id="planner-view"></section>
 <section id="recrutement-poste-view" class="scouting-view"></section>
         <section id="comparateur-view" class="scouting-view"></section>
