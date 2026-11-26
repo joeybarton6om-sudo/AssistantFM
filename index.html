@@ -397,8 +397,8 @@
         .profile-metrics .profile-metric { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 10px 6px; text-align: center; transition: transform .1s, border-color .1s; }
         .profile-metrics .profile-metric:hover { border-color: var(--accent); transform: translateY(-2px); }
         .profile-metrics .profile-metric small { color: var(--muted); display: block; font-size: 10px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
-        .profile-metrics .profile-metric strong { display: block; font-size: clamp(17px, 2vw, 24px); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .profile-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr 340px; }
+        .profile-metrics .profile-metric strong { display: block; font-size: clamp(20px, 2.5vw, 28px); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .profile-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
         .profile-section { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; }
         .profile-section h3 { color: #a8c8ee; display: flex; align-items: center; gap: 6px; font-size: 14px; margin: 0 0 12px; }
         .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
@@ -436,8 +436,8 @@
         .profile-metrics .profile-metric { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 10px 6px; text-align: center; transition: transform .1s, border-color .1s; }
         .profile-metrics .profile-metric:hover { border-color: var(--accent); transform: translateY(-2px); }
         .profile-metrics .profile-metric small { color: var(--muted); display: block; font-size: 10px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
-        .profile-metrics .profile-metric strong { display: block; font-size: clamp(17px, 2vw, 24px); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .profile-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr 340px; }
+        .profile-metrics .profile-metric strong { display: block; font-size: clamp(20px, 2.5vw, 28px); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .profile-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
         .profile-section { background: var(--panel-raised); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; }
         .profile-section h3 { color: #a8c8ee; display: flex; align-items: center; gap: 6px; font-size: 14px; margin: 0 0 12px; }
         .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
@@ -448,8 +448,8 @@
         .section-emoji { font-size: 16px; margin-right: 4px; }
         .profile-stat { border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 7px; padding-bottom: 5px; }
         .profile-stat-line { align-items: center; display: flex; font-size: 12px; gap: 6px; justify-content: space-between; }
-        .profile-stat-label { cursor: help; text-decoration: underline dotted rgba(255,255,255,.35); text-underline-offset: 3px; color: #b7c4d2; font-weight: 600; }
-        .profile-stat-line strong { align-items: center; color: #fff; display: flex; flex: 0 0 auto; font-size: 12px; gap: 4px; justify-content: flex-end; min-width: 48px; text-align: right; }
+        .profile-stat-label { cursor: help; text-decoration: underline dotted rgba(255,255,255,.35); text-underline-offset: 3px; color: #b7c4d2; font-weight: 600; min-width: 160px; }
+        .profile-stat-line strong { align-items: center; color: #fff; display: flex; flex: 0 0 auto; font-size: 13px; gap: 4px; justify-content: flex-end; min-width: 70px; text-align: right; }
         .profile-stat-line .profile-stat-values { background: transparent; padding: 0; }
         .profile-stat-line .profile-stat-values.comparison-better { color: #8df0a1; }
         .profile-stat-line .profile-stat-values.comparison-worse { color: #ff9696; }
@@ -484,20 +484,20 @@
         }
 
         /* Bulles staff : métriques style joueur */
-        .profile-ability-metric { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 10px 6px; text-align: center; }
-        .profile-ability-metric small { color: var(--muted); display: block; font-size: 10px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
-        .profile-ability-metric strong { display: block; font-size: clamp(17px, 2vw, 24px); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .profile-ability-track { background: #10151a; border-radius: 3px; height: 6px; margin-top: 4px; overflow: hidden; }
-        .profile-ability-fill { height: 100%; border-radius: 3px; }
+        .profile-ability-metric { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 14px 12px; text-align: center; min-width: 200px; display: flex; flex-direction: column; gap: 8px; }
+        .profile-ability-metric small { color: var(--muted); font-size: 11px; margin-bottom: 0; text-transform: uppercase; letter-spacing: .04em; }
+        .profile-ability-metric strong { display: block; font-size: clamp(20px, 2.5vw, 28px); font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .profile-ability-track { background: #10151a; border-radius: 4px; height: 8px; margin-top: 6px; overflow: hidden; }
+        .profile-ability-fill { height: 100%; border-radius: 4px; }
         .profile-ability-fill.current { background: linear-gradient(90deg, var(--accent), #ffb74d); }
         .profile-ability-fill.potential { background: linear-gradient(90deg, rgba(255,255,255,.15), rgba(255,255,255,.08)); }
-        .profile-potential-line { margin-top: 6px; font-size: 12px; color: #d3dce4; }
+        .profile-potential-line { margin-top: 8px; font-size: 12px; color: #d3dce4; }
         .profile-potential-line span { font-weight: 600; }
-        .profile-finances { display: flex; gap: 12px; margin-top: 6px; }
-        .profile-finances .profile-metric { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 10px 6px; text-align: center; flex: 1; }
-        .profile-finances .profile-metric small { color: var(--muted); display: block; font-size: 10px; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
-        .profile-finances .profile-metric strong { display: block; font-size: clamp(16px, 2vw, 22px); font-weight: 800; }
-        .profile-contract-summary { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; font-size: 12px; color: #d3dce4; margin-top: 6px; }
+        .profile-finances { display: flex; gap: 14px; margin-top: 10px; }
+        .profile-finances .profile-metric { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 12px 10px; text-align: center; flex: 1; min-width: 180px; }
+        .profile-finances .profile-metric small { color: var(--muted); display: block; font-size: 11px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; }
+        .profile-finances .profile-metric strong { display: block; font-size: clamp(18px, 2.5vw, 26px); font-weight: 800; }
+        .profile-contract-summary { background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #d3dce4; margin-top: 8px; }
         .profile-contract-summary strong { color: #fff; }
         .profile-contract-summary span { color: #a8c8ee; margin-right: 10px; }
 
@@ -1053,6 +1053,7 @@
             .tactical-pitch-layout, .labo-layout { grid-template-columns: minmax(0, 1fr); }
             .decision-controls { grid-template-columns: minmax(0, 1fr); }
         }
+        .profile-section.profile-highlights { grid-column: 1 / -1; }
     </style>
 </head>
 <body>

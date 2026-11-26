@@ -1586,7 +1586,7 @@ function filtrerTout() {
             const contratEl = document.getElementById("staff-contract-filter");
             const metier = metierEl ? metierEl.value : "";
             const contrat = contratEl ? contratEl.value : "";
-            if (String(person.metier || "").toLowerCase().includes("chair")) return false; // non recrutable
+            if (estMetierNonRecrutable(person.metier)) return false; // non recrutable
             if (metier && String(person.metier || "").trim().toLocaleLowerCase("fr") !== String(metier).trim().toLocaleLowerCase("fr")) return false;
             if (contrat && contratStaff(person) !== contrat) return false;
             if (!correspondAuxFiltresStaff(person, filtresAttributsStaff.criteres)) return false;
@@ -4099,13 +4099,6 @@ function renderPlayerProfile(player) {
     }).join("");
     const goalkeeperAttributes = attributsGardien
         .map(key => ligneAttributProfil(key, stats, highlighted, potentialStats, comparisonStats)).join("");
-    const roleInfo = (() => {
-        const info = rolesStaffAttributs[member.metier || ""] || rolesStaffAttributs[traduireMetier(member.metier || "")] || null;
-        if (!info) return "";
-        const clésHtml = (info.clés || []).map(k => `<span class="staff-attr-key">${escapeHtml(attributsStaffLibelles[k] || k)}</span>`).join("");
-        const secondesHtml = (info.secondaires || []).map(k => `<span class="staff-attr-sec">${escapeHtml(attributsStaffLibelles[k] || k)}</span>`).join("");
-        return `<div class="staff-role-info" style="margin-top:8px;"><div class="staff-role-name" style="color:#ffb74d; font-weight:700; font-size:12px;">Attributs clés pour ce rôle</div><div class="staff-role-keys">${clésHtml}</div><div class="staff-role-secondaires">${secondesHtml}</div></div>`;
-    })();
     return `<div class="profile-tabs">
         ${ongletsProfil()}
             <div class="profile-hero">
@@ -4160,6 +4153,7 @@ function renderStaffProfile(member) {
     // Ne garder que les attributs qui ont une valeur dans stats
     const clesWithStats = clesInternes.filter(k => estNombre(stats[k])).map(k => [k, stats[k]]);
     const secondairesWithStats = secondairesInternes.filter(k => estNombre(stats[k])).map(k => [k, stats[k]]);
+    const secondesHtml = secondairesWithStats.map(([key, value]) => ligneAttributStaff(key, stats, potentialStats, compStats)).join("");
 
     // Fallback : si aucun rôle ne correspond, utiliser tous les attributs exportés
     const allWithStats = useAllAttributes
@@ -4521,7 +4515,7 @@ function alimenterFiltresStaff() {
     rawData.staff.forEach(person => {
         const metier = person.metier;
         if (!metier || seen.has(metier)) return;
-        if (String(metier).toLowerCase().includes("chair")) return; // non recrutable
+        if (estMetierNonRecrutable(metier)) return; // non recrutable
         seen.add(metier);
         jobs.push(metier);
     });
@@ -4698,6 +4692,7 @@ function escapeHtml(value) {
 const metiersFrancais = {
     // Direction
     "director of football": "Directeur sportif",
+    "managing director": "Directeur Général",
     "sporting director": "Directeur sportif",
     "technical director": "Directeur technique",
     "chief executive": "Directeur général",
@@ -4748,12 +4743,14 @@ const metiersFrancais = {
     "rehabilitation coach": "Préparateur de réathlétisation",
 
     // Staff médical
-    "physiotherapist": "Kinésithérapeute",
-    "head physiotherapist": "Kinésithérapeute en chef",
+    "physiotherapist": "Kiné",
+    "head physiotherapist": "Responsable des kinés",
     "doctor": "Médecin",
     "chief medical officer": "Médecin en chef",
+    "chief doctor": "Médecin chef (non transférable)",
     "nutritionist": "Nutritionniste",
-    "sports scientist": "Scientifique du sport",
+    "sports scientist": "Chercheur en sciences du sport",
+    "head of sports science": "Responsable des sciences du sport",
     "sports scientist (fitness)": "Scientifique du sport (préparation)",
     "sports scientist (recovery)": "Scientifique du sport (récupération)",
     "sports scientist (rehabilitation)": "Scientifique du sport (réathlétisation)",
@@ -4810,7 +4807,9 @@ const metiersFrancais = {
     // Autres
     "assistant": "Assistant",
     "staff": "Staff",
-    "member": "Membre"
+    "member": "Membre",
+    "unknown": "Médecin",
+    "fonction non renseignée": "Médecin",
 };
 
 const attributsStaff = {
@@ -5386,6 +5385,7 @@ const rolesStaffAttributs = {
 
     // Métiers de base (sans qualificatif)
     "Entraîneur": { clés: ["tactical_knowledge","technique","attacking","defensive"], secondaires: ["man_management","determination","motivation"] },
+    "Préparateur": { clés: ["fitness","attacking","defensive","tactics"], secondaires: ["determination","authority","motivation"] },
     "Entraîneur des jeunes": { clés: ["youngsters","judging_players","judging_potential"], secondaires: ["man_management","determination"] },
     "Kinésithérapeute": { clés: ["physiotherapist"], secondaires: ["determination"] },
     "Médecin": { clés: ["physiotherapist"], secondaires: [] },
@@ -5462,4 +5462,16 @@ function renderListeRechercheStaff(categorie = null, terme = "") {
 function estChairperson(metier) {
     const m = String(metier || "").toLocaleLowerCase("fr");
     return m.includes("chair");
+}
+
+// Vérifier si un metier staff est non recrutable (chairperson, director générique sauf exceptions)
+function estMetierNonRecrutable(metier) {
+    const m = String(metier || "").toLocaleLowerCase("fr");
+    if (m.includes("chair")) return true;
+    // Exclure "director" sauf les métiers de direction valides
+    if (m.includes("director")) {
+        const valides = ["director of football", "managing director", "technical director", "sporting director"];
+        if (!valides.some(v => m.includes(v))) return true;
+    }
+    return false;
 }
