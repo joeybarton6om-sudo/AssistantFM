@@ -1586,6 +1586,7 @@ function filtrerTout() {
             const contratEl = document.getElementById("staff-contract-filter");
             const metier = metierEl ? metierEl.value : "";
             const contrat = contratEl ? contratEl.value : "";
+            if (String(person.metier || "").toLowerCase().includes("chair")) return false; // non recrutable
             if (metier && String(person.metier || "").trim().toLocaleLowerCase("fr") !== String(metier).trim().toLocaleLowerCase("fr")) return false;
             if (contrat && contratStaff(person) !== contrat) return false;
             if (!correspondAuxFiltresStaff(person, filtresAttributsStaff.criteres)) return false;
@@ -4160,7 +4161,7 @@ function renderStaffProfile(member) {
     const comparison = benchmark
         ? `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(metierLabel)}</h3><p>Meilleur ${escapeHtml(metierLabel)} du club : ${linkStaff(benchmark)} · CA ${escapeHtml(benchmark.ca ?? "—")}</p>${renderComparatifStaff(stats)}</section>`
         : `<section class="profile-section profile-contract"><h3>Comparaison · ${escapeHtml(metierLabel)}</h3><p>Aucun personnel de votre club avec ce métier à comparer.</p></section>`;
-    return `<div class="profile-tabs">${ongletsProfil(true)}<section class="profile-tab-panel" id="profile-tab-profile" role="tabpanel" aria-labelledby="profile-tab-button"${profileActiveTab === "profile" ? "" : " hidden"}><div class="profile-hero"><div class="profile-identity"><div class="profile-person-heading">${portraitHtml(member, "profile-avatar")}<div><h2>${lienProfil("staff", member.uid, member.nom || "Membre du staff", member.nom || "Membre du staff", true)}</h2><div class="profile-staff-meta"><span class="profile-metier-badge">${metierBadgeIcon(member.metier)} ${escapeHtml(metierLabel)}</span><span class="profile-age-badge">${ageLabel}</span></div><p>Club : ${linkClub(member.club, member.club_uid)}</p></div></div></div><div class="profile-metrics"><div class="profile-metric"><small>Capacité actuelle</small><strong>${escapeHtml(caLabel)}</strong></div><div class="profile-metric"><small>Potentiel</small><strong>${escapeHtml(paLabel)}</strong></div><div class="profile-metric"><small>Statut contrat</small><strong class="${statutClass}">${statutLabel}</strong></div><div class="profile-metric"><small>Salaire hebdomadaire</small><strong>${escapeHtml(wage)}</strong></div></div>${renduVisuelsProfil(staffClub, member)}<div class="profile-grid"><section class="profile-section profile-attrs"><h3>Attributs du staff</h3>${disclaimer}${allAttributes}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">💪</span> Points forts</h3>${fortsHtml}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">⚠️</span> Points faibles</h3>${faiblesHtml}</section>${comparison}<section class="profile-section profile-competences"><h3>Compétences métier</h3><p class="profile-disclaimer">Entraînement, recrutement et compétences médicales : non disponibles dans l’export.</p></section><section class="profile-section profile-contract"><h3>Contrat</h3><div class="stat-row"><span>Fin du contrat</span><strong>${escapeHtml(member.fin_contrat || "Non renseignée")}</strong></div><div class="stat-row"><span>Situation</span><strong class="${statutClass}">${statutLabel}${sousContrat ? ` · fin ${escapeHtml(member.fin_contrat)}` : ""}</strong></div></section></div>${panneauCarriere(member, true)}</div>`;
+    return `<div class="profile-tabs">${ongletsProfil(true)}<section class="profile-tab-panel" id="profile-tab-profile" role="tabpanel" aria-labelledby="profile-tab-button"${profileActiveTab === "profile" ? "" : " hidden"}><div class="profile-hero"><div class="profile-identity"><div class="profile-person-heading">${portraitHtml(member, "profile-avatar")}<div><h2>${lienProfil("staff", member.uid, member.nom || "Membre du staff", member.nom || "Membre du staff", true)}</h2><div class="profile-staff-meta"><span class="profile-metier-badge ${metierBadgeClass(member.metier)}">${metierBadgeIcon(member.metier)} ${escapeHtml(metierLabel)}</span><span class="profile-age-badge">${ageLabel}</span></div><p>Club : ${linkClub(member.club, member.club_uid)}</p></div></div></div><div class="profile-metrics"><div class="profile-metric"><small>Capacité actuelle</small><strong>${escapeHtml(caLabel)}</strong></div><div class="profile-metric"><small>Potentiel</small><strong>${escapeHtml(paLabel)}</strong></div><div class="profile-metric"><small>Statut contrat</small><strong class="${statutClass}">${statutLabel}</strong></div><div class="profile-metric"><small>Salaire hebdomadaire</small><strong>${escapeHtml(wage)}</strong></div></div>${renduVisuelsProfil(staffClub, member)}<div class="profile-grid"><section class="profile-section profile-attrs"><h3>Attributs du staff</h3>${disclaimer}${allAttributes}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">💪</span> Points forts</h3>${fortsHtml}</section><section class="profile-section profile-highlights"><h3><span class="section-emoji">⚠️</span> Points faibles</h3>${faiblesHtml}</section>${comparison}<section class="profile-section profile-competences"><h3>Compétences métier</h3><p class="profile-disclaimer">Entraînement, recrutement et compétences médicales : non disponibles dans l’export.</p></section><section class="profile-section profile-contract"><h3>Contrat</h3><div class="stat-row"><span>Fin du contrat</span><strong>${escapeHtml(member.fin_contrat || "Non renseignée")}</strong></div><div class="stat-row"><span>Situation</span><strong class="${statutClass}">${statutLabel}${sousContrat ? ` · fin ${escapeHtml(member.fin_contrat)}` : ""}</strong></div></section></div>${panneauCarriere(member, true)}</div>`;
 }
 
 function renderClubProfile(club) {
@@ -4464,6 +4465,7 @@ function alimenterFiltresStaff() {
     rawData.staff.forEach(person => {
         const metier = person.metier;
         if (!metier || seen.has(metier)) return;
+        if (String(metier).toLowerCase().includes("chair")) return; // non recrutable
         seen.add(metier);
         jobs.push(metier);
     });
@@ -4631,6 +4633,7 @@ const metiersFrancais = {
     "chief executive": "Directeur général",
     "chief executive officer": "Directeur général",
     "chairman": "Président",
+    "chairperson": "Président(e)",
     "board member": "Membre du conseil",
     "owner": "Propriétaire",
     "assistant to the director of football": "Assistant du directeur sportif",
@@ -4785,6 +4788,16 @@ function metierBadgeIcon(metier) {
     if (/analyse|analyst|data/.test(m)) return "📊";
     if (/chef|head/.test(m)) return "👔";
     return "👤";
+}
+function metierBadgeClass(metier) {
+    const m = String(metier || "").toLocaleLowerCase("fr");
+    if (/gardien|goalkeeping/.test(m)) return "goalkeeper";
+    if (/entra\u00eeneur|coach|manager/.test(m)) return "coach";
+    if (/directeur|director|chairman|president|owner|chef|head/.test(m)) return "manager";
+    if (/recrut|scout/.test(m)) return "scout";
+    if (/medecin|doctor|kiné|sante|santé|physio|preparateur|fitness|sportif|science/.test(m)) return "medical";
+    if (/analyse|analyst|data/.test(m)) return "analyst";
+    return "";
 }
 function traduireMetier(job) {
     if (!job) return "Fonction non renseignée";
