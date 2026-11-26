@@ -12,8 +12,8 @@ Unicode true
 !endif
 
 ; --- Version / Date ---
-!define VERSION "1.0.63-beta"
-!define VERSION_DATE "2026-11-25"
+!define VERSION "1.0.64-beta"
+!define VERSION_DATE "2026-11-26"
 !define APP_NAME "Assistant FM"
 
 Name "${APP_NAME}"
