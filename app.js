@@ -14,6 +14,7 @@ let programmeCollectifTacticId = "";
 let programmeCollectifHorizon = 56;
 let clubActiveTab = "effectif", clubRosterFilter = "all", clubRosterPositionFilter = "all";
 let clubRosterSort = "poste", clubRosterAscending = true;
+let staffSort = "";
 let clubIndexByName = new Map(), clubIndexById = new Map();
 let leagueNamesByTeam = new Map();
 let portraitIndex = new Map(), portraitIds = new Map(), portraitsReady = false, portraitError = "";
