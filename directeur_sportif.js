@@ -484,7 +484,7 @@ function afficherConfiance() {
 function actualiserColonnes(headers) {
     const panel = document.getElementById("column-options-list");
     if (!panel) return;
-    const key = clePourPartie(`assistantfm-colonnes-v1:${mode}`);
+    const key = clePourPartie(`assistantfm-colonnes-v1:${typeof mode === "undefined" ? "joueurs" : mode}`);
     let hidden = [];
     try {
         const saved = localStorage.getItem(key);

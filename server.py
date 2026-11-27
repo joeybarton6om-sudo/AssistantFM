@@ -31,7 +31,7 @@ GRAPHICS_ROOT = (
     / "Football Manager 27"
     / "graphics"
 )
-FACES_ROOT = GRAPHICS_ROOT / "faces"
+FACES_ROOT = GRAPHICS_ROOT
 _GRAPHIC_INDEX = None
 _GRAPHIC_INDEX_LOCK = threading.Lock()
 _FACE_INDEX = None

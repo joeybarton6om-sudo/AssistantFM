@@ -950,9 +950,15 @@ def extraire_sauvegarde_totale(chemin_save):
 
         try:
             signaler_etape("Extraction du staff")
-            staff = sauvegarde.staff().to_dicts(json_ready=True)
+            staff_table = sauvegarde.staff()
+            codes_job = {
+                membre.uid: (membre.job.raw if membre.job is not None else None)
+                for membre in staff_table
+            }
+            staff = staff_table.to_dicts(json_ready=True)
         except (fmsave.UnsupportedGameError, fmsave.ReaderCheckError) as error:
             staff = []
+            codes_job = {}
             print(f"Staff indisponible : {error}", file=sys.stderr)
 
         try:
@@ -1263,6 +1269,7 @@ def extraire_sauvegarde_totale(chemin_save):
                 "unique_id": membre.get("unique_id"),
                 "nom": membre.get("name") or membre.get("full_name") or "Membre du staff",
                 "metier": str(metier).replace("_", " ").capitalize(),
+                "job_code": codes_job.get(membre.get("uid")),
                 "age": entier(membre.get("age")),
                 "ca": entier(capacite.get("current")),
                 "pa": entier(capacite.get("potential")),
