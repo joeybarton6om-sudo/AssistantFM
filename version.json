@@ -1,6 +1,6 @@
 {
-  "version": "1.0.66-beta",
-  "date": "2026-11-27",
-  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.66-beta/AssistantFM-27-Setup.exe",
-  "changelog": "- Version 1.0.66-beta : optimisation de la recherche de staff (filtres métier et contrat immédiats, recherche par catégorie et rôle). Bulles staff : attributs clés affichés uniquement pour le métier du staff, notes ramenées sur 20, points forts/faibles sur 20, nom du staff de référence affiché à côté des attributs, club et compétition cliquables. Identification des métiers staff non lus par fmsave (Responsable du recrutement, Analyste du recrutement, Responsable des analystes des performances, Responsable des prêts, Préparateur physique, Préparateur aux coups de pied arrêtés). Chargement des visages depuis tous les packs graphiques. Corrections diverses (fiches joueur et staff, filtres, traductions)."
+  "version": "1.0.67-beta",
+  "date": "2026-11-28",
+  "url": "https://github.com/joeybarton6om-sudo/releases/releases/download/v1.0.67-beta/AssistantFM-27-Setup.exe",
+  "changelog": "- Version 1.0.67-beta : optimisation de la recherche de staff (filtres métier et contrat immédiats, recherche par catégorie et rôle). Bulles staff : attributs clés affichés uniquement pour le métier du staff, notes ramenées sur 20, points forts/faibles, nom du staff de référence, club et compétition cliquables. Classements des championnats triés par rang. Correction de l'affichage du salaire qui dépassait de l'encart du header des bulles joueurs. Identification des métiers staff non lus par fmsave. Chargement des visages depuis tous les packs graphiques. Corrections diverses."
 }

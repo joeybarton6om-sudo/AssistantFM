@@ -4257,11 +4257,10 @@ function groupesClassement(rows) {
         const positions = entries.map(row => row.standing.position).filter(value => value != null);
         const teams = entries.map(row => row.standing.equipe_id ?? `${row.club.uid}:${row.standing.equipe_slot ?? ""}`);
         const size = Number(entries[0].standing.nombre_clubs);
-        const ambigu = key !== "table:" + entries[0].standing.table_id
-            && (key === "inconnue"
-                || new Set(positions.map(String)).size !== positions.length
-                || new Set(teams.map(String)).size !== teams.length
-                || entries.length > size);
+        const positionsUniques = new Set(positions.map(String)).size === positions.length;
+        const teamsUniques = new Set(teams.map(String)).size === teams.length;
+        const tailleDepassee = Number.isInteger(size) && size > 0 && entries.length > size;
+        const ambigu = positions.length === 0 || !positionsUniques || !teamsUniques || tailleDepassee;
         entries.sort((a, b) => ambigu
             ? String(a.club.name || "").localeCompare(String(b.club.name || ""), "fr")
             : (a.standing.position ?? Number.MAX_SAFE_INTEGER) - (b.standing.position ?? Number.MAX_SAFE_INTEGER)
@@ -4321,10 +4320,10 @@ function renderCompetitionProfile(standing) {
     const sections = groupes.map((group, index) => {
         const lignes = group.entries.map(({ club, standing: item }) => `<tr><td>${escapeHtml(item.position ?? "—")}</td><td>${linkClub(club.name || "Club non renseigné", club.uid)}${item.equipe_slot ? ` · équipe ${escapeHtml(item.equipe_slot)}` : ""}</td><td>${escapeHtml(item.matches_joues ?? "—")}</td><td>${escapeHtml(item.buts_marques ?? "—")}</td><td>${escapeHtml(item.buts_encaisses ?? "—")}</td><td>${escapeHtml(item.points ?? "—")}</td></tr>`).join("");
         const message = group.ambigu
-            ? "Des groupes ou phases ne peuvent pas être séparés avec cette ancienne extraction : équipes listées par ordre alphabétique, sans classement global."
+            ? "Rangs indisponibles ou ambigus dans cette extraction : équipes listées par ordre alphabétique, sans classement global."
             : group.identifie
                 ? "Table distincte de la sauvegarde ; la liste des équipes peut être incomplète."
-                : "Regroupement par taille de table dans une ancienne extraction : séparation indicative, à confirmer après réextraction.";
+                : "Classement trié par rang (position) issu de la sauvegarde ; la liste des équipes peut être incomplète.";
         return `<section class="profile-section"><h3>Table ${index + 1}${Number.isFinite(group.taille) && group.taille > 0 ? ` · ${escapeHtml(group.taille)} équipes prévues` : ""}</h3><p class="profile-disclaimer">${message}</p><div class="competition-table-wrap"><table class="competition-table"><thead><tr><th>Rang</th><th>Club</th><th>Joués</th><th>Buts marqués</th><th>Buts encaissés</th><th>Points</th></tr></thead><tbody>${lignes}</tbody></table></div></section>`;
     }).join("");
     const teamsCount = new Set(rows.map(({ club, standing: item }) => String(item.equipe_id ?? `${club.uid}:${item.equipe_slot ?? ""}`))).size;
