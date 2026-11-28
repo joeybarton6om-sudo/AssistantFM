@@ -1060,6 +1060,293 @@
             .decision-controls { grid-template-columns: minmax(0, 1fr); }
         }
         .profile-section.profile-highlights { grid-column: 1 / -1; }
+
+        /* ===== Polish visuel global v2 ===== */
+        :root {
+            --bg: #070b16;
+            --panel: #0f1728;
+            --panel-raised: #16213a;
+            --line: #26375a;
+            --accent: #6aa9ff;
+            --accent-strong: #3f6fe0;
+            --accent-soft: rgba(106, 169, 255, .16);
+            --text: #f6f9ff;
+            --muted: #9fb0cc;
+            --shadow: 0 24px 60px rgba(2, 6, 20, .55);
+            --radius: 16px;
+        }
+        body {
+            background:
+                radial-gradient(ellipse 80% 60% at 0% 0%, rgba(106,169,255,.14), transparent 55%),
+                radial-gradient(ellipse 70% 60% at 100% 100%, rgba(63,111,224,.12), transparent 55%),
+                var(--bg);
+        }
+        .panel {
+            background: linear-gradient(160deg, rgba(255,255,255,.05), transparent 40%), var(--panel);
+            border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
+            backdrop-filter: blur(10px);
+        }
+        .club-crest { border-radius: 14px 14px 14px 5px; box-shadow: 0 8px 22px var(--accent-soft); }
+        .club-brand h2 { letter-spacing: -.02em; }
+        input, select {
+            background: #0c1322;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+        }
+        input:focus, select:focus { box-shadow: 0 0 0 3px var(--accent-soft), 0 6px 18px rgba(2,6,20,.4); }
+        button {
+            border-radius: 10px;
+            background: linear-gradient(140deg, var(--accent), var(--accent-strong));
+            box-shadow: 0 6px 16px rgba(63,111,224,.28);
+            transition: filter .18s ease, transform .18s ease, box-shadow .18s ease;
+        }
+        button:hover:not(:disabled) { box-shadow: 0 10px 24px rgba(63,111,224,.4); }
+        .tab-btn { border-radius: 10px; background: #1a2338; border-color: var(--line); transition: background .16s ease, border-color .16s ease, transform .16s ease; }
+        .tab-btn:hover { transform: translateY(-1px); }
+        .tab-btn.active { background: linear-gradient(140deg, var(--accent-soft), rgba(106,169,255,.06)); box-shadow: inset 0 -2px var(--accent), 0 4px 14px rgba(63,111,224,.25); }
+        th { background: linear-gradient(180deg, #1b2740, #16213a); color: #cfe0f7; }
+        tbody tr:hover { background: var(--accent-soft); }
+        .modal-content {
+            background: linear-gradient(155deg, rgba(255,255,255,.06), transparent 42%), linear-gradient(145deg, #16223c, #0d1526);
+            border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+            border-radius: 26px;
+            box-shadow: 0 30px 80px rgba(2,6,20,.7), 0 0 0 1px rgba(106,169,255,.08);
+        }
+        .profile-hero {
+            background: linear-gradient(120deg, var(--accent-soft), rgba(255,255,255,.03) 60%);
+            border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+            border-radius: 18px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+        }
+        .profile-section, .dashboard-card, .mercato-card, .diagnostic-card {
+            background: linear-gradient(150deg, rgba(255,255,255,.045), transparent 65%), var(--panel-raised);
+            border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+            border-radius: 18px;
+            transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+        }
+        .profile-section:hover, .dashboard-card:hover, .mercato-card:hover, .diagnostic-card:hover {
+            border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(2,6,20,.45);
+        }
+        .profile-metrics .profile-metric, .profile-ability-metric, .profile-finances .profile-metric {
+            background: linear-gradient(150deg, rgba(255,255,255,.05), transparent 70%), rgba(255,255,255,.02);
+            border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+            border-radius: 14px;
+        }
+        .profile-visual-card { background: linear-gradient(150deg, rgba(255,255,255,.05), transparent 70%), #16223c; border-radius: 16px; }
+        .profile-metier-badge { border-radius: 999px; box-shadow: 0 4px 12px rgba(2,6,20,.3); }
+        .tag, .staff-attr-key, .staff-attr-sec { border-radius: 999px; }
+        .competition-table tbody tr:hover td, .entrainement-table tbody tr:hover { background: var(--accent-soft); }
+        .competition-table-wrap { border-radius: 12px; }
+        .global-results { background: linear-gradient(160deg, rgba(255,255,255,.05), transparent 50%), #131d33; border-color: var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+        .status { border-radius: 12px; background: linear-gradient(140deg, var(--accent-soft), rgba(106,169,255,.06)); }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #2b3d63, #1b2740); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--accent-strong), #2b3d63); background-clip: padding-box; }
+        ::selection { background: var(--accent); color: #07101f; }
+
+        /* ===== Polish v3 : immersion, lumiere, micro-interactions ===== */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 55% 45% at 12% 8%, rgba(106,169,255,.10), transparent 60%),
+                radial-gradient(ellipse 50% 45% at 88% 92%, rgba(120,90,255,.10), transparent 60%);
+        }
+        .panel { position: relative; z-index: 1; }
+        .panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: linear-gradient(120deg, rgba(255,255,255,.06), transparent 30%);
+            opacity: .5;
+        }
+        .club-crest { box-shadow: 0 10px 26px var(--accent-soft), 0 0 0 1px rgba(255,255,255,.06); }
+        .club-brand h2 { background: linear-gradient(90deg, #fff, #bcd4ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .primary-nav .tab-btn { border-radius: 12px; }
+        .primary-nav .tab-btn.active { box-shadow: inset 0 -3px var(--accent), 0 6px 18px rgba(63,111,224,.22); }
+        button { background-size: 140% 140%; background-position: 0% 0%; transition: filter .2s ease, transform .2s ease, box-shadow .2s ease, background-position .3s ease; }
+        button:hover:not(:disabled) { background-position: 100% 100%; }
+        .tab-btn.active { box-shadow: inset 0 -2px var(--accent), 0 6px 18px rgba(63,111,224,.3); }
+        th { text-transform: uppercase; font-size: 10px; letter-spacing: .05em; }
+        tbody tr { transition: background .15s ease, box-shadow .15s ease; }
+        tbody tr:hover { box-shadow: inset 3px 0 0 var(--accent); }
+        .modal-content { animation: bubbleIn .28s cubic-bezier(.2,.8,.25,1); }
+        @keyframes bubbleIn { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+        .profile-hero { position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 12px 30px rgba(2,6,20,.35); }
+        .profile-hero::after {
+            content: "";
+            position: absolute;
+            top: -40%; right: -10%;
+            height: 200px; width: 200px;
+            background: radial-gradient(circle, rgba(106,169,255,.18), transparent 70%);
+            pointer-events: none;
+        }
+        .profile-section, .dashboard-card, .mercato-card, .diagnostic-card { position: relative; overflow: hidden; }
+        .profile-section::before, .dashboard-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: .5;
+        }
+        .profile-metrics .profile-metric, .profile-ability-metric, .profile-finances .profile-metric {
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 8px 18px rgba(2,6,20,.28);
+            transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+        }
+        .profile-metrics .profile-metric:hover, .profile-ability-metric:hover, .profile-finances .profile-metric:hover {
+            transform: translateY(-2px);
+            border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+            box-shadow: 0 14px 28px rgba(2,6,20,.4), 0 0 18px rgba(106,169,255,.18);
+        }
+        .profile-metier-badge { box-shadow: 0 6px 16px rgba(2,6,20,.35), inset 0 1px 0 rgba(255,255,255,.08); }
+        .profile-metier-badge.goalkeeper { box-shadow: 0 6px 16px rgba(91,155,213,.25); }
+        .profile-metier-badge.coach { box-shadow: 0 6px 16px rgba(25,135,64,.25); }
+        .profile-metier-badge.manager { box-shadow: 0 6px 16px rgba(255,183,77,.22); }
+        .profile-metier-badge.scout { box-shadow: 0 6px 16px rgba(171,134,255,.25); }
+        .profile-metier-badge.medical { box-shadow: 0 6px 16px rgba(255,87,34,.25); }
+        .profile-metier-badge.analyst { box-shadow: 0 6px 16px rgba(0,188,212,.25); }
+        .tag-good, .badge-ok, .comparison-better { box-shadow: 0 0 10px rgba(25,135,64,.25); }
+        .tag-bad, .badge-warn, .comparison-worse { box-shadow: 0 0 10px rgba(175,35,45,.22); }
+        .profile-stat-fill { box-shadow: 0 0 8px rgba(255,183,77,.35); }
+        .competition-table tbody tr, .entrainement-table tbody tr { transition: background .15s ease; }
+        .competition-table th { text-transform: uppercase; font-size: 10px; letter-spacing: .05em; }
+        .global-results { box-shadow: var(--shadow), 0 0 0 1px rgba(106,169,255,.08); animation: bubbleIn .2s ease; }
+        .status { box-shadow: 0 8px 20px rgba(63,111,224,.2); }
+        .note { box-shadow: 0 2px 8px rgba(2,6,20,.3); }
+        .person-avatar { box-shadow: 0 4px 14px rgba(2,6,20,.4), 0 0 0 1px rgba(255,255,255,.08); }
+        .profile-avatar { box-shadow: 0 8px 24px rgba(2,6,20,.45), 0 0 0 1px rgba(255,255,255,.1); }
+
+        /* ===== Polish v4 : theme clair commutable ===== */
+        body.light {
+            color-scheme: light;
+            --bg: #e9eef7;
+            --panel: #ffffff;
+            --panel-raised: #eef3fb;
+            --line: #c3d0e6;
+            --accent: #1f5fd0;
+            --accent-strong: #16479e;
+            --accent-soft: rgba(31, 95, 208, .14);
+            --text: #0a1526;
+            --muted: #44546a;
+            --shadow: 0 18px 44px rgba(22, 71, 158, .18);
+        }
+        body.light { background: radial-gradient(ellipse 80% 60% at 0% 0%, rgba(31,95,208,.10), transparent 55%), var(--bg); color: var(--text); }
+        body.light .panel { background: linear-gradient(160deg, rgba(31,95,208,.05), transparent 40%), var(--panel); box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.6); }
+        body.light label, body.light .profile-disclaimer, body.light .caveat, body.light .profile-control-hint { color: #33445c; }
+        body.light input, body.light select { background: #f6f9ff; color: var(--text); border-color: var(--line); }
+        body.light input::placeholder { color: #8a99b3; }
+        body.light th { background: linear-gradient(180deg, #dfe8f8, #d3def2); color: #16305a; }
+        body.light td { color: #1a2740; }
+        body.light tbody tr:nth-child(even) td { background: #f3f7fe; }
+        body.light tbody tr:hover td { background: #e3ecfd; }
+        body.light .tab-btn { background: #e3ebf9; color: #16305a; border-color: var(--line); }
+        body.light .tab-btn.active { color: #0a1526; }
+        body.light .modal-content { background: linear-gradient(155deg, rgba(31,95,208,.06), transparent 42%), #ffffff; box-shadow: 0 30px 80px rgba(22,71,158,.28); }
+        body.light .profile-section, body.light .dashboard-card, body.light .mercato-card, body.light .diagnostic-card { background: linear-gradient(150deg, rgba(31,95,208,.05), transparent 65%), var(--panel-raised); }
+        body.light .profile-section h3, body.light .dashboard-card h3 { color: #1f4fb8; }
+        body.light .profile-metrics .profile-metric, body.light .profile-ability-metric, body.light .profile-finances .profile-metric { background: #f6f9ff; }
+        body.light .profile-metrics .profile-metric small, body.light .profile-finances .profile-metric small { color: #44546a; }
+        body.light .club-brand h2 { background: linear-gradient(90deg, #0a1526, #1f5fd0); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        body.light .global-results { background: #ffffff; }
+        body.light .status { color: #0a1526; }
+        body.light .tag, body.light .profile-metier-badge { color: #1a2740; }
+        body.light .tag-good, body.light .badge-ok { color: #0f5132; }
+        body.light .tag-bad, body.light .badge-warn { color: #8a1c1c; }
+        body.light ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #b9c9e8, #9db3dd); }
+        body.light .theme-toggle { background: #e3ebf9; color: #16305a; }
+        body.light .nav-label, body.light .primary-nav .tab-btn { color: #16305a; }
+        body.light .primary-nav .tab-btn.active { color: #0a1526; }
+        body.light .sidebar-tools summary, body.light #desktop-paths summary { color: #16305a; }
+        body.light .checkbox-container { color: #1a2740; }
+        body.light .form label, body.light #nom-partie-actuel { color: #33445c; }
+        body.light #nom-partie, body.light #nom-partie-actuel { color: #0a1526; }
+        body.light .caveat, body.light .profile-disclaimer, body.light #discovery-status, body.light #evolution-status { color: #33445c; }
+        body.light .status { color: #0a1526; background: rgba(31,95,208,.14); border-color: rgba(31,95,208,.35); }
+        body.light .note { color: #0a1526; }
+        body.light .elite, body.light .excellent, body.light .moyen, body.light .faible { color: #0a1526; }
+        body.light .staff-role-name, body.light .staff-cat-title, body.light .profile-stat-label { color: #16305a; }
+        body.light .staff-attr-key { color: #0f5132; }
+        body.light .staff-attr-sec { color: #33445c; }
+        body.light .profile-position, body.light .profile-role { color: #1a2740; }
+        body.light .profile-contract-summary { color: #1a2740; background: #f6f9ff; }
+        body.light .profile-contract-summary strong { color: #0a1526; }
+        body.light .profile-contract-summary span { color: #1f4fb8; }
+        body.light .profile-visual-text small { color: #44546a; }
+        body.light .profile-visual-text strong { color: #0a1526; }
+        body.light .competition-table td, body.light .entrainement-table td { color: #1a2740; }
+        body.light .competition-table th, body.light .entrainement-table th { color: #16305a; }
+        body.light .dashboard-item, body.light .club-loan-list, body.light .club-set-pieces-grid { color: #1a2740; }
+        body.light .position-map-legend { color: #33445c; }
+        body.light .profile-stat-line strong { color: #0a1526; }
+        body.light .comparison-delta.comparison-equal { color: #5a4a00; }
+        body.light .tag-val { color: #1a2740; }
+        body.light .extract-progress p, body.light #extract-progress-stage { color: #33445c; }
+        /* Header clair : boutons et recherche lisibles */
+        body.light .workspace-header { background: linear-gradient(105deg, #dbe6fb, #c9d8f4 46%, #c2d2f0); border-bottom-color: #b3c4e6; }
+        body.light .workspace-header h1 { color: #0a1526; }
+        body.light .workspace-header p, body.light .header-save-date { color: #33445c; }
+        body.light .workspace-header input { background: #f6f9ff; color: #0a1526; }
+        body.light .workspace-header input::placeholder { color: #5a6b85; }
+        body.light .donate-link { color: #6b4a00; border-color: #c79a3a; background: #fff6e0; }
+        body.light .donate-link:hover { background: #ffe9b8; color: #4a3200; }
+        body.light .discord-link { color: #16305a; border-color: #9db3dd; background: #eef3fe; }
+        body.light .discord-link:hover { background: #dbe6fb; color: #0a1526; }
+        body.light .update-link { color: #16305a; background: #eef3fe; border-color: #9db3dd; }
+        /* Sections & filtres clairs */
+        body.light .filter-bar summary, body.light .sidebar-tools summary, body.light #player-filters > summary { color: #16305a; }
+        body.light #player-filters { background: #f3f7fe; border-color: var(--line); }
+        body.light #player-filters label, body.light #player-filters .attribute-filters > strong { color: #33445c; }
+        body.light #player-filters input, body.light #player-filters select { background: #ffffff; color: #0a1526; border-color: var(--line); }
+        body.light .player-filter-checkbox, body.light #active-player-filters { color: #1a2740; }
+        body.light #list-toolbar { background: #eef3fe; border-color: var(--line); }
+        body.light #list-toolbar #se { background: #ffffff; color: #0a1526; border-color: var(--line); }
+        body.light #list-toolbar .checkbox-container { color: #1a2740; }
+        /* Sidebar clair */
+        body.light .club-brand p, body.light #managed-club-name { color: #33445c; }
+        body.light .form label, body.light #nom-partie-actuel { color: #33445c; }
+        /* Pastilles CA/PA : chiffres foncés lisibles */
+        body.light .note.elite { color: #0a3d1a; }
+        body.light .note.excellent { color: #1a3d00; }
+        body.light .note.moyen { color: #4a2a00; }
+        body.light .note.faible { color: #5a0000; }
+        body.light .note { text-shadow: none; }
+
+        /* ===== Polish v4 : mode focus sur la bulle active ===== */
+        body:has(#stat-modal[style*="flex"]) .left,
+        body:has(#stat-modal[style*="flex"]) .right { filter: saturate(.85) brightness(.9); transition: filter .3s ease; }
+        body:has(#stat-modal[style*="flex"]) .modal-content { box-shadow: 0 40px 100px rgba(2,6,20,.8), 0 0 0 1px rgba(106,169,255,.14), 0 0 60px rgba(106,169,255,.12); }
+
+        /* ===== Polish v4 : animations en cascade ===== */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        .dashboard-grid > *, .diagnostic-grid > *, .mercato-grid > *, .labo-grid > *,
+        .profile-metrics > *, .club-set-pieces-grid > *, .club-loan-list > *,
+        .competition-table tbody tr, .entrainement-table tbody tr, .recrutement-table tbody tr {
+            animation: fadeUp .34s ease both;
+        }
+        .dashboard-grid > *:nth-child(1), .profile-metrics > *:nth-child(1) { animation-delay: .02s; }
+        .dashboard-grid > *:nth-child(2), .profile-metrics > *:nth-child(2) { animation-delay: .06s; }
+        .dashboard-grid > *:nth-child(3), .profile-metrics > *:nth-child(3) { animation-delay: .10s; }
+        .dashboard-grid > *:nth-child(4), .profile-metrics > *:nth-child(4) { animation-delay: .14s; }
+        .dashboard-grid > *:nth-child(n+5), .profile-metrics > *:nth-child(n+5) { animation-delay: .18s; }
+        .competition-table tbody tr:nth-child(1), .entrainement-table tbody tr:nth-child(1) { animation-delay: .02s; }
+        .competition-table tbody tr:nth-child(2), .entrainement-table tbody tr:nth-child(2) { animation-delay: .05s; }
+        .competition-table tbody tr:nth-child(3), .entrainement-table tbody tr:nth-child(3) { animation-delay: .08s; }
+        .competition-table tbody tr:nth-child(n+4), .entrainement-table tbody tr:nth-child(n+4) { animation-delay: .11s; }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -1097,6 +1384,7 @@
         <div class="club-brand">
             <div class="club-crest" id="club-crest" aria-hidden="true">FM</div>
             <div><h2>Assistant FM27</h2><p id="managed-club-name">Club en attente de chargement</p></div>
+            <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème clair/sombre" title="Thème clair / sombre">🌙</button>
             <button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="Réduire le panneau latéral" aria-expanded="true" title="Réduire le panneau latéral">‹</button>
         </div>
         <nav class="primary-nav" aria-label="Navigation principale">
@@ -1366,7 +1654,24 @@
             <div id="modal-body"></div>
         </div>
     </div>
-    <div class="copyright-joey">Version installée : v<span id="version-installee">1.0.67-beta</span> · Version disponible : v<span id="version-disponible">(?)</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <div class="copyright-joey">Version installée : v<span id="version-installee">1.0.68-beta</span> · Version disponible : v<span id="version-disponible">(?)</span> · <span id="download-count">–</span> téléchargements · © By Joey</div>
+    <script>
+        (function () {
+            var b = document.body, t = document.getElementById("theme-toggle");
+            function appliquer(clair) {
+                b.classList.toggle("light", clair);
+                if (t) t.textContent = clair ? "☀️" : "🌙";
+            }
+            var clair = false;
+            try { clair = localStorage.getItem("afm-theme") === "light"; } catch (e) {}
+            appliquer(clair);
+            if (t) t.addEventListener("click", function () {
+                clair = !b.classList.contains("light");
+                appliquer(clair);
+                try { localStorage.setItem("afm-theme", clair ? "light" : "dark"); } catch (e) {}
+            });
+        })();
+    </script>
     <script src="donnees_locales.js"></script>
     <script src="analyse_tactique.js"></script>
     <script src="app.js"></script>
